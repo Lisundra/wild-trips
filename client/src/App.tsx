@@ -8,13 +8,13 @@
 
 import './App.css';
 import React, { useEffect } from 'react';
-
 import { Box, Button, Center } from '@chakra-ui/react';
 import Form from './components/Form/Form';
 import Post from './components/Post/Post';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { decrement, increment } from './redux/postSlice';
 import { fetchPosts } from './redux/thunkActions';
+import Home from './Pages/Home/Home';
 // import { fetchPosts } from './redux/thunkActions';
 // import { PostsType } from './types';
 
@@ -43,7 +43,8 @@ function App(): JSX.Element {
 
   return (
     <>
-      <div className="main">
+    <Home />
+      {/* <div className="main">
         <Button onClick={() => dispatch(decrement())} size="xs">
           -
         </Button>
@@ -67,7 +68,7 @@ function App(): JSX.Element {
             <Post key={post.id} post={post} />
           ))}
         </div>
-      )}
+      )} */}
     </>
   );
 }
