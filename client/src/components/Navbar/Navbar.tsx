@@ -3,12 +3,24 @@ import { Link } from 'react-router-dom';
 import RegistrationForm from '../RegistrationForm/RegistrationForm';
 import LoginForm from '../LoginForm/LoginForm';
 import LogoutWindow from '../LogoutWindow/LogoutWindow';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 
 const Navbar = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalType, setModalType] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const user = useSelector((state: RootState) => state.user.user);
+    useEffect(() => {
+      console.log(user);
+      if (user?.message) {
+        
+    setTimeout(() => closeModal(), 1500);
+      } else if (user?.err) {
+
+      }
+    }, [user]);
 
     const openModal = (type) => {
         setModalType(type);

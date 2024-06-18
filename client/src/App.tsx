@@ -26,9 +26,9 @@ import Navbar from './components/Navbar/Navbar';
 //! useAppDispatch
 
 function App(): JSX.Element {
-  const posts = useAppSelector((store) => store.postSlice.posts);
-  const count = useAppSelector((store) => store.postSlice.count);
-  const isLoading = useAppSelector((store) => store.postSlice.isLoading);
+  const posts = useAppSelector((store) => store.post.posts);
+  const count = useAppSelector((store) => store.post.count);
+  const isLoading = useAppSelector((store) => store.post.isLoading);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
