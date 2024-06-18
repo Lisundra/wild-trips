@@ -8,6 +8,7 @@
 
 import './App.css';
 import React, { useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 
 import { Box, Button, Center } from '@chakra-ui/react';
 import Form from './components/Form/Form';
@@ -15,6 +16,7 @@ import Post from './components/Post/Post';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { decrement, increment } from './redux/postSlice';
 import { fetchPosts } from './redux/thunkActions';
+import Navbar from './components/Navbar/Navbar';
 // import { fetchPosts } from './redux/thunkActions';
 // import { PostsType } from './types';
 
@@ -43,7 +45,18 @@ function App(): JSX.Element {
 
   return (
     <>
-      <div className="main">
+       <div className="App-page">
+       <Navbar />
+
+      <div className='App-container'>
+    <Routes>
+    {/* <Route index element={<Home />} />   */}
+
+      //? Старый код перенесён в маршрут, чтобы тестить функции редакса. Потом будет удалён
+    <Route path='olderVersionCode'  
+       element={
+              <>
+                  <div className="main">
         <Button onClick={() => dispatch(decrement())} size="xs">
           -
         </Button>
@@ -68,6 +81,14 @@ function App(): JSX.Element {
           ))}
         </div>
       )}
+              </>
+    }>
+
+            </Route>
+      </Routes>
+      </div>
+
+      </div>
     </>
   );
 }
