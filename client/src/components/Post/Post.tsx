@@ -17,7 +17,7 @@ function Post({ post }: PostPropsType): JSX.Element {
   return (
     <Card margin="15px">
       <CardHeader fontSize={22}>
-        <h1>{post.title}</h1>
+        <h1>{post.title}</h1> 
       </CardHeader>
       <CardBody>
         <p>{post.text}</p>
