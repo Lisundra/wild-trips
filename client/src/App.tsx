@@ -52,7 +52,7 @@ function App(): JSX.Element {
     <Routes>
     {/* <Route index element={<Home />} />   */}
 
-      //? Старый код перенесён в маршрут. Потом будет удалён
+      //? Старый код перенесён в маршрут, чтобы тестить функции редакса. Потом будет удалён
     <Route path='olderVersionCode'  
        element={
               <>
