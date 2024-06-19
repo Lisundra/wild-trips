@@ -21,7 +21,7 @@ function HomeCarousel() {
   ];
 
   return (
-    <Carousel autoplay autoplaySpeed={2500} arrows>
+    <Carousel autoplay autoplaySpeed={3500} arrows>
   {images.map((src, index) => (
     <div key={index}>
       <div style={contentStyle}>
