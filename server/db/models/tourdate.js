@@ -14,11 +14,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'tour_id',
       });
       this.belongsToMany(models.User, {
-        through: models.Bookings,
+        through: models.Booking,
         foreignKey: 'tour_date_id',
       });
       this.belongsToMany(models.Tour, {
-        through: models.Bookings,
+        through: models.Booking,
         foreignKey: 'tour_date_id',
       });
     }

@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsToMany(models.Tour, {
-        through: models.TourOptions,
+        through: models.TourOption,
         foreignKey: 'activity_id',
       });
     }

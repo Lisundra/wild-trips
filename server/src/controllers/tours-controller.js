@@ -1,10 +1,23 @@
+const { User } = require('../../db/models');
 const { Tour } = require('../../db/models');
+const { TourDates } = require('../../db/models');
+const { TourOptions } = require('../../db/models');
+const { Op } = require('sequelize');
 
 module.exports = {
   getAllTours: async (req, res) => {
     try {
-      const tours = await Tour.findAll();
-      res.json(tours);
+      const allTours = await Tour.findAll({
+        include: [
+          {
+            model: TourDates,
+          },
+          {
+            model: TourOptions,
+          }
+        ]
+      });
+      res.json(allTours);
     } catch (err) {
       res.status(400).json({ err: err.message });
     }
@@ -12,8 +25,22 @@ module.exports = {
 
   getDiscountedTours: async (req, res) => {
     try {
-      const tours = await Tour.findAll();
-      res.json(tours);
+      const discountedTours = await Tour.findAll({
+        where: {
+          discount: {
+            [Op.ne]: null
+          }
+        },
+        include: [
+          {
+            model: TourDates,
+          },
+          {
+            model: TourOptions,
+          }
+        ]
+      });
+      res.json(discountedTours);
     } catch (err) {
       res.status(400).json({ err: err.message });
     }
@@ -21,7 +48,21 @@ module.exports = {
 
   getEditorsTours: async (req, res) => {
     try {
-      const tours = await Tour.findAll();
+      const tours = await Tour.findAll({
+        where: {
+          editors_choice: {
+            [Op.eq]: true
+          }
+        },
+        include: [
+          {
+            model: TourDates,
+          },
+          {
+            model: TourOptions,
+          }
+        ]
+      });
       res.json(tours);
     } catch (err) {
       res.status(400).json({ err: err.message });
@@ -30,7 +71,9 @@ module.exports = {
 
   getNewTours: async (req, res) => {
     try {
-      const tours = await Tour.findAll();
+      const tours = await Tour.findAll({
+        
+      });
       res.json(tours);
     } catch (err) {
       res.status(400).json({ err: err.message });
