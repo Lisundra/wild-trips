@@ -20,27 +20,27 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'tour_id',
       });
       this.belongsToMany(models.Activity, {
-        through: models.TourOptions,
+        through: models.TourOption,
         foreignKey: 'tour_id',
       });
       this.belongsToMany(models.Accommodation, {
-        through: models.TourOptions,
+        through: models.TourOption,
         foreignKey: 'tour_id',
       });
       this.belongsToMany(models.Facility, {
-        through: models.TourOptions,
+        through: models.TourOption,
         foreignKey: 'tour_id',
       });
       this.belongsToMany(models.User, {
-        through: models.Bookings,
+        through: models.Booking,
         foreignKey: 'tour_id',
       });
       this.belongsToMany(models.TourDate, {
-        through: models.Bookings,
+        through: models.Booking,
         foreignKey: 'tour_id',
       });
       this.belongsToMany(models.User, {
-        through: models.Reviews,
+        through: models.Review,
         foreignKey: 'tour_id',
       });
     }
