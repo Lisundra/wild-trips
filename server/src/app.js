@@ -45,8 +45,6 @@ app.use(session(sessionConfig));
 
 app.use('/api', apiRouter);
 
-
-
 app.listen(PORT, () => {
   console.log(`Сервер запущен на ${PORT} порту`);
 });
