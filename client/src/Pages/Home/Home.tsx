@@ -3,26 +3,21 @@ import React, { useEffect, useState } from 'react';
 import { Button } from "antd";
 import HomeCarousel from '../../components/HomeCarousel/HomeCarousel';
 import EmailSubscription from '../../components/EmailSubscription/EmailSubscription';
+import axios from 'axios';
 
 
 export default function Home() {
+  const [discountedTours, setDiscountedTours] = useState([]);
+  const [editorsTours, setEditorsTours] = useState([]);
+  const [newTours, setNewTours] = useState([]);
 
-// const [tours, setTours] = useState([]);
+  useEffect(() => {
+    axios.get('http://localhost:3100/api/discounted').then((res) => {
+      console.log(res)
+      setDiscountedTours(res.data)
+    })
+  }, [])
 
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       const response = await fetch('/api/tours');
-//       const data = await response.json();
-//       setTours(data);
-//     };
-
-//     fetchData();
-//   }, []);
-
-//   const discountedTours = tours.filter(tour => tour.discount !== null);
-//   const editorsChoiceTours = tours.filter(tour => tour.editors_choice === true);
-  // Отсортировать по createdAt
-//   const recentTrips = tours.filter(tour => moment(tour.dateAdded).isAfter(moment().subtract(1, 'weeks')));
 
   return (
     <div className='homeContainer'>

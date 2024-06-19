@@ -51,7 +51,7 @@ function App(): JSX.Element {
 
       <div className='App-container'>
     <Routes>
-    {/* <Route index element={<Home />} />   */}
+    <Route index element={<Home />} />  
 
       //? Старый код перенесён в маршрут, чтобы тестить функции редакса. Потом будет удалён
     <Route path='olderVersionCode'  

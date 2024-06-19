@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 .env
+
+# Ignore output.css in client folder
+client/output.css

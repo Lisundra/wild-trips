@@ -49,10 +49,9 @@ export default HomeCarousel;
 //             cover={<img alt={tour.name} src={tour.images[0]?.image_path} />}
 //           >
 //             <h3>{tour.name}</h3>
-//             <p>{tour.description}</p>
 //             <div>
 //               <p>
-//                 {tour.discount ? (
+//                 {tour.discount !== null ? (
 //                   <>
 //                     <span className="line-through mr-2">{tour.price}</span>
 //                     <span>{tour.price - tour.discount}</span>
