@@ -3,11 +3,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 //! import ваших слайсов
 import postSlice from './postSlice';
+import userSlice from './userSlice';
 
 const storeOptions = {
   reducer: {
-    postSlice, //! слайс под сущность
-    // userSlice, //! слайс под сущность
+    post: postSlice, //! слайс под сущность
+    user: userSlice, //! слайс под сущность
     // someSlice, //! слайс под сущность
     // basketSlice, //! слайс под сущность
     // postSlice, //! слайс под сущность
