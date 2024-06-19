@@ -40,24 +40,44 @@ export const fetchCreateUser = createAsyncThunk('users', async (inputs: InputsTy
   const response = await axios.post<InputsTypeAuth, AxiosResponse<UserType>>(
     `${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/users`,
     inputs,
+    {withCredentials:true}
   );
+
+  console.log(response.data);
+  
+
   return response.data;
 });
 
 export const fetchLoginUser = createAsyncThunk('users/login', async (inputs: InputsTypeAuth) => {
   const response = await axios.post<InputsTypeAuth, AxiosResponse<UserType>>(
-    `${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/users`,
+    `${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/users/login`,
     inputs,
+    {withCredentials:true}
   );
   return response.data;
 });
 
-export const fetchLogoutUser = createAsyncThunk('users', async (id: number) => {
+export const fetchLogoutUser = createAsyncThunk('users/', async () => {
   const response = await axios.delete(
     `${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/users`,
-
+    {withCredentials:true}
   );
   if (response.status === 200) {
-    return id;
+    return response.data;
   }
+});
+
+export const fetchCheckUser = createAsyncThunk('users/check', async () => {
+  const response = await axios.post(
+    `${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/users/check`,
+    {},
+   { withCredentials:true}
+  );
+
+
+console.log(response.data);
+
+    return response.data;
+  
 });

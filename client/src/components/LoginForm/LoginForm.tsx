@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchLoginUser } from '../../redux/thunkActions';
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
+
+
   const [formData, setFormData] = useState({
     login: '',
     password: ''
@@ -16,6 +21,7 @@ const LoginForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle login logic here
+    dispatch(fetchLoginUser(formData))
     console.log('Login data:', formData);
   };
 

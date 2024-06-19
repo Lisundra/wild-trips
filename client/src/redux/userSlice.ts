@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { UserType, UsersType, UserSliceType } from '../types';
-import { fetchCreateUser, fetchLoginUser, fetchLogoutUser } from './thunkActions';
+import { fetchCheckUser, fetchCreateUser, fetchLoginUser, fetchLogoutUser } from './thunkActions';
 
 const initialState: UserSliceType = {
   count: 0,
@@ -41,9 +41,14 @@ const userSlice = createSlice({
       // .addCase(fetchLogoutUser.pending, (state) => {
       //   state.isLoading = true;
       // })
-      // .addCase(fetchLogoutUser.rejected, (state) => {
-      //   state.isLoading = false;
-      // });
+      .addCase(fetchLogoutUser.fulfilled, (state, action: PayloadAction<UserType>) => {
+        state.user = action.payload;
+        state.isLoading = true;
+      })
+      .addCase(fetchCheckUser.fulfilled, (state, action: PayloadAction<UserType>) => {
+        state.user = action.payload;
+        state.isLoading = true;
+      });
   },
 });
 

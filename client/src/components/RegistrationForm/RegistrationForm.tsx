@@ -75,7 +75,7 @@ const RegistrationForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(formData.role!=='traveler'|| formData.role!=='admin' ||formData.role!=='organizer')
+    if(formData.role!=='traveler'|| formData.role!=='admin' || formData.role!=='organizer')
     formData.role='traveler'
 
     void dispatch(fetchCreateUser(formData));
