@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.static(path.join(process.cwd(), 'public/')));
 app.use(cors());
 
-app.use('/api/v1', apiRouter);
+app.use('/api', apiRouter);
 
 app.listen(PORT, () => {
   console.log(`Сервер запущен на ${PORT} порту`);
