@@ -37,6 +37,7 @@ const userSlice = createSlice({
       })
       .addCase(fetchLoginUser.rejected, (state) => {
         state.isLoading = false;
+        
       })
       // .addCase(fetchLogoutUser.pending, (state) => {
       //   state.isLoading = true;

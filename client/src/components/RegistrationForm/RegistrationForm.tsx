@@ -32,16 +32,6 @@ const RegistrationForm = () => {
   
       // Очистка таймаута при размонтировании компонента или изменении зависимостей
       return () => clearTimeout(timeoutId);
-    } else if (user?.err) {
-
-      setRegistrationMessage('Такой пользователь уже существует')
-      console.error('Error creating user:');
-      const timeoutId = setTimeout(() => {
-        setRegistrationMessage('');
-      }, 1500);
-  
-      // Очистка таймаута при размонтировании компонента или изменении зависимостей
-      return () => clearTimeout(timeoutId);
     }
   }, [user]);
 
@@ -75,12 +65,34 @@ const RegistrationForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(formData.role!=='traveler'|| formData.role!=='admin' || formData.role!=='organizer')
-    formData.role='traveler'
-
-    void dispatch(fetchCreateUser(formData));
-
-    // console.log('Registration data:', formData);
+    if (formData.role !== 'traveler' && formData.role !== 'admin' && formData.role !== 'organizer') {
+      formData.role = 'traveler';
+    }
+  
+    const formDataToSend = new FormData();
+    formDataToSend.append('login', formData.login);
+    formDataToSend.append('email', formData.email);
+    formDataToSend.append('password', formData.password);
+    formDataToSend.append('full_name', formData.full_name);
+    formDataToSend.append('role', formData.role);
+    formDataToSend.append('bio', formData.bio);
+    if (formData.profile_picture) {
+      formDataToSend.append('profile_picture', formData.profile_picture);
+    }
+  
+    void dispatch(fetchCreateUser(formDataToSend));
+    if (!user) {
+      console.log(user);
+      
+      setRegistrationMessage('Такой пользователь уже существует')
+      console.error('Error creating user:');
+      const timeoutId = setTimeout(() => {
+        setRegistrationMessage('');
+      }, 2500);
+  
+      // Очистка таймаута при размонтировании компонента или изменении зависимостей
+      return () => clearTimeout(timeoutId);
+    }
   };
 
   return (
@@ -189,7 +201,8 @@ const RegistrationForm = () => {
           >
             Register
           </button>
-          <div className="text-sm m-4 text-gray-600">{registrationMessage}</div>
+          <div className="text-sm m-4 text-gray-600" style={{ minHeight: '40px', visibility: registrationMessage ? 'visible' : 'hidden' }}>
+            {registrationMessage}</div>
         </div>
       </form>
     </div>

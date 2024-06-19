@@ -12,14 +12,18 @@ const Navbar = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalType, setModalType] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const user = useSelector((state: RootState) => state.user.user);
+    let user = useSelector((state: RootState) => state.user.user);
     const dispatch = useDispatch();
     
     useEffect(() => {
+
         console.log(user);
+        
+        
         if (user?.message) {
             setTimeout(() => closeModal(), 1500);
-        } else if (user?.err) {
+        }
+        if (user?.err) {
             // Handle error if needed
         }else setTimeout(() => closeModal(), 1500);
 
@@ -76,7 +80,7 @@ const Navbar = () => {
                                     Подбор тура
                                 </Link>
                             </button>
-                            {!user && (
+                            {(!user ) && (
                                 <>
                                     <button onClick={() => openModal('registration')} className="text-white">
                                         Регистрация
@@ -86,7 +90,7 @@ const Navbar = () => {
                                     </button>
                                 </>
                             )}
-                            {user && (
+                            {(user) && (
                                 <>
                                     <button className="text-white">
                                         <Link to="/profile" className="text-white">
@@ -100,7 +104,7 @@ const Navbar = () => {
                                     </button>
                                     <Link to="/profile" className="text-white">
                                         <button className="flex items-center">
-                                            <img src="src/assets/avatars/ava.png" alt="Avatar" className="w-8 h-8 rounded-full" />
+                                            <img src={user.src?user.src.replace(/\\/g, '/').replace(/^.*?src\//, 'src/'):'src/assets/avatars/ava.png'} alt="Avatar" className="w-8 h-8 rounded-full" />
                                         </button>
                                     </Link>
                                     <button onClick={() => openModal('logout')} className="text-white">

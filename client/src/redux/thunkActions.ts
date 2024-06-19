@@ -36,16 +36,19 @@ export const fetchDelete = createAsyncThunk('posts/del', async (id: number) => {
 //   return response.data;
 // });
 
-export const fetchCreateUser = createAsyncThunk('users', async (inputs: InputsTypeAuth) => {
-  const response = await axios.post<InputsTypeAuth, AxiosResponse<UserType>>(
+export const fetchCreateUser = createAsyncThunk('users/createUser', async (formData: FormData) => {
+  const response = await axios.post<UserType>(
     `${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/users`,
-    inputs,
-    {withCredentials:true}
+    formData,
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'multipart/form-data', // Важно для отправки файлов
+      },
+    }
   );
 
   console.log(response.data);
-  
-
   return response.data;
 });
 

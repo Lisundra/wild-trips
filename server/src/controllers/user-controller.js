@@ -1,5 +1,6 @@
 const { User } = require('../../db/models');
 const bcrypt = require('bcrypt'); 
+const path = require('path')
 
 
 module.exports = {
@@ -26,9 +27,8 @@ module.exports = {
   createUser: async (req, res) => { //! Добавить возможность загрузки аватара
     const { login, email, password, full_name, role, bio } = req.body;
     console.log( req.body);
-    const profile_picture = req.file ? req.file.filename : 'src/assets/avatars/ava.png';
+    const profile_picture = req.file ? path.join(__dirname, '../../../client/src/assets/avatars/',req.file.filename) : 'src/assets/avatars/ava.png';
     console.log("🚀 ~ createUser: ~ profile_picture:", profile_picture)
-    
 
     try {
       console.log(login, email, password, full_name, role, bio );
@@ -44,7 +44,7 @@ module.exports = {
             full_name, 
             role,   
             ...(bio && { bio }),
-            profile_picture:'src/assets/avatars/ava.png' 
+            profile_picture
         }
 
         
@@ -58,7 +58,7 @@ module.exports = {
         if(err)
         console.log('err saving', err);
 
-          res.status(200).json({ message: `Registration succes ${login}`, login: user.login }); // для fetch-a
+          res.status(200).json({ message: `Registration succes ${login}`, login: user.login, src:profile_picture }); // для fetch-a
           // res.redirect('/');
 
         });
@@ -66,7 +66,7 @@ module.exports = {
         console.log("🚀 ~ CREATED: ~ req.session.role :", req.session.role )
 
       }else{
-      res.status(400).json({ err: `User with login ${login} already exists` }); 
+      res.status(200).json(null); 
       }
 
     } catch (err) {
@@ -98,12 +98,12 @@ module.exports = {
             req.session.save(() => {
               console.log('Password correct. Session saved');
             });
-          return  res.json({ message: `Password is correct`}) 
+          return  res.json({ message: `Добро пожаловать!`, src:userInDb.profile_picture}) 
           }else{
-            return   res.json({ message: `Password is incorrect`}) 
+            return   res.json({ message: `Пароль введён неверно`, err:'err password'}) 
           } 
         }else{
-          return  res.json({ message: `Login is incorrect`}) 
+          return  res.json({ message: `Такого аккаунта не найдено`, err:'err login'}) 
         }
     } catch (err) {
       res.status(400).json({ err: err.message });
@@ -133,8 +133,13 @@ module.exports = {
   
         console.log("🚀 ~ checkSession: ~ req.session:", req.session)
         console.log("🚀 ~ checkSession: ~ req.session.role :", req.session.role )
-        if(req.session.login)
-        res.json({login:req.session.login, role:req.session.role})
+        if(req.session.login){   
+          const {login}= req.session
+          const user = await User.findOne({ where: { login } });
+
+          res.json({login:req.session.login, role:req.session.role, src:user.profile_picture})
+
+        }
         else res.json(null)
       // // console.log('In checkSession');
       // console.log("🚀 ~ checkSession:", req.session)

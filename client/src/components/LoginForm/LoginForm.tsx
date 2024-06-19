@@ -1,9 +1,26 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { fetchLoginUser } from '../../redux/thunkActions';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCheckUser, fetchLoginUser } from '../../redux/thunkActions';
+import { RootState } from '../../redux/store';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const[ loginMessage, setLoginMessage ]= useState('')
+  const user = useSelector((state: RootState) => state.user.user);
+
+  useEffect(() => {
+    
+       dispatch(fetchCheckUser());
+
+    if(user?.message){
+      setLoginMessage(user?.message)
+      const timeoutId = setTimeout(() => {
+        setLoginMessage('');
+      }, 2500);
+      return () => clearTimeout(timeoutId);
+    }
+
+  }, [user]);
 
 
   const [formData, setFormData] = useState({
@@ -21,8 +38,11 @@ const LoginForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle login logic here
-    dispatch(fetchLoginUser(formData))
-    console.log('Login data:', formData);
+   void dispatch(fetchLoginUser(formData))
+
+
+   console.log('Login data:', formData);
+
   };
 
   return (
@@ -63,6 +83,8 @@ const LoginForm = () => {
           >
             Sign In
           </button>
+          <div className="text-sm m-4 text-gray-600" style={{ minHeight: '40px',minWidth:'60px', visibility: loginMessage ? 'visible' : 'hidden' }}>
+            {loginMessage}</div>
         </div>
       </form>
     </div>
