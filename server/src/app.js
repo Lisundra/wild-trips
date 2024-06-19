@@ -43,7 +43,7 @@ app.use(session(sessionConfig));
 //   next();
 // });
 
-app.use('/api/v1', apiRouter);
+app.use('/api', apiRouter);
 
 
 
