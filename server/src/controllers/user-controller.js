@@ -69,6 +69,8 @@ module.exports = {
       }
 
     } catch (err) {
+    console.log("🚀 ~ createUser: ~ err:", err)
+    
       res.status(400).json({ err: err.message });
     }
   },

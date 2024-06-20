@@ -19,6 +19,7 @@ import { fetchPosts } from './redux/thunkActions';
 import Navbar from './components/Navbar/Navbar';
 import Home from './Pages/Home/Home';
 import CardDetails from './Pages/CardDetails/CardDetails';
+import MyTours from './Pages/MyTours/MyTours';
 // import { fetchPosts } from './redux/thunkActions';
 // import { PostsType } from './types';
 
@@ -53,6 +54,9 @@ function App(): JSX.Element {
       <div className='App-container'>
     <Routes>
     <Route index element={<Home />} />  
+
+    <Route path='MyTours' element={<MyTours />}> </Route>
+
 
       //? Старый код перенесён в маршрут, чтобы тестить функции редакса. Потом будет удалён
     <Route path='olderVersionCode'  
