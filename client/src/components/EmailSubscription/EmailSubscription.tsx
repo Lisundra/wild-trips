@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './EmailSubscription.module.css';
-import { Button, Input } from 'antd';
+import { Button, Input } from 'antd'; 
 
 export default function EmailSubscription() {
   return (
