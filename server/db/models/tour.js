@@ -46,7 +46,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Tour.init({
-    name: DataTypes.STRING,
     title: DataTypes.STRING,
     subtitle: DataTypes.STRING,
     average_rating: DataTypes.REAL,

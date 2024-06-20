@@ -1,4 +1,32 @@
-const nodemailer = require('nodemailer');
+const sendEmail = require("../../sendEmail");
+
+
+
+
+module.exports = {
+  // sendSubscriptionConfirmation: async (req, res) => {
+  //   const { email } = req.body;
+  //   try {
+  //     await sendEmail({
+  //       email,
+  //       subject: 'Успешная подписка на новые туры',
+  //       message: 'Мы рады, что вам интересна тема путешествий — теперь мы сможем делиться с вами самыми интересными предложениями.',
+  //     });
+  //     res.status(200).json({ message: 'Subscription successful' });
+  //   } catch (err) {
+  //     res.status(400).json({ err: err.message });
+  //   }
+  // },
+
+  sendRequest: (req, res) => {
+    console.log('Маршрут на сервер работает');
+    const { email } = req.body;
+    console.log(email);
+    res.send('Hello!');
+  },
+}; 
+
+
 
 // async function sendEmail({ email, subject, message }) {
 //   return new Promise((resolve, reject) => {
@@ -27,24 +55,3 @@ const nodemailer = require('nodemailer');
 //   });
 // }
 
-module.exports = {
-  sendSubscriptionConfirmation: async (req, res) => {
-    const { email } = req.body;
-    try {
-      await sendEmail({
-        email,
-        subject: 'Успешная подписка на новые туры',
-        message: 'Мы рады, что вам интересна тема путешествий — теперь мы сможем делиться с вами самыми интересными предложениями.',
-      });
-      res.status(200).json({ message: 'Subscription successful' });
-    } catch (err) {
-      res.status(400).json({ err: err.message });
-    }
-  },
-
-
-//   sendSubscriptionConfirmation: (req, res) => {
-//     res.send('Hello!');
-//     console.log('-________________-');
-//   },
-}; 

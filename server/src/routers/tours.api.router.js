@@ -7,8 +7,8 @@ const {
   getEditorsTours,
   getNewTours,
   createTour,
-  deleteTour,
-  editTour,
+  // deleteTour,
+  // editTour,
 } = require('../controllers/tours-controller');
 
 router
@@ -18,7 +18,7 @@ router
   .get('/editors', getEditorsTours)
   .get('/new', getNewTours)
   .post('/', createTour)
-  .patch('/:id', editTour)
-  .delete('/:id', deleteTour);
+  // .patch('/:id', editTour)
+  // .delete('/:id', deleteTour);
   
 module.exports = router;

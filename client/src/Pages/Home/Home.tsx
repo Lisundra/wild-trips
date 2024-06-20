@@ -7,16 +7,19 @@ import axios from 'axios';
 
 
 export default function Home() {
-  const [discountedTours, setDiscountedTours] = useState([]);
-  const [editorsTours, setEditorsTours] = useState([]);
-  const [newTours, setNewTours] = useState([]);
+  // const [discountedTours, setDiscountedTours] = useState([]);
+  // const [editorsTours, setEditorsTours] = useState([]);
+  // const [newTours, setNewTours] = useState([]);
 
-  useEffect(() => {
-    axios.get('http://localhost:3100/api/discounted').then((res) => {
-      console.log(res)
-      setDiscountedTours(res.data)
-    })
-  }, [])
+  // useEffect(() => {
+  //   axios.get(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/discounted`)
+  //     .then((res) => {
+  //       setDiscountedTours(res.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching discounted tours:', error);
+  //     });
+  // }, []);
 
 
   return (

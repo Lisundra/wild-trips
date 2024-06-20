@@ -7,6 +7,7 @@ const { Op } = require('sequelize');
 module.exports = {
   getAllTours: async (req, res) => {
     try {
+      console.log('Попали сюда');
       const allTours = await Tour.findAll({
         include: [
           {

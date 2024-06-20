@@ -6,37 +6,24 @@ import axios from 'axios';
 export default function EmailSubscription() {
   const [email, setEmail] = useState('');
 
-  const handleSubmit = (event) => {
+  const submitFormHandler = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
-    // Логика для отправки email
-    console.log('Отправить запрос с email:', email);
-  };
-
-
-  const sendMail = () => {
-    axios
-      .get("http://localhost:5000/", {
-        params: {
-          email,
-          subject,
-          message,
-        },
-      })
-      .then(() => {
-        //success
-        console.log("success");
-      })
-      .catch(() => {
-        console.log("failure");
+    try {
+      await axios.post(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/subscribe`, {
+        email,
       });
-  };
+      setEmail(''); // Зачищаем поле
+    } catch (error) {
+      console.log('Sending error on form submit', error);
+    }
+  }
 
   return (
     <div className={styles.subscriptionContainer}>
       <h3 className='text-4xl font-bold text-gray-800'>Делимся лучшим</h3>
       <p className='text-lg'>Подпишитесь на рассылку, чтобы увидеть новые туры первым!</p>
       <div className="signUpContainer flex items-center mt-4">
-        <form onSubmit={handleSubmit} className="flex">
+        <form onSubmit={submitFormHandler} className="flex">
           <Input
             name="email"
             type='text'
