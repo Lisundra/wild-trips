@@ -150,6 +150,7 @@ module.exports = {
       // :
       // res.status(400).json(null)
     } catch (err) {
+      console.log("🚀 ~ checkSession: ~ err:", err)
       res.status(400).json({ err: err.message });
     }
   },

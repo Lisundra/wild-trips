@@ -7,8 +7,9 @@ const {
   getEditorsTours,
   getNewTours,
   createTour,
-  deleteTour,
-  editTour,
+  getAllOptions,
+  // deleteTour,
+  // editTour,
 } = require('../controllers/tours-controller');
 
 router
@@ -17,8 +18,9 @@ router
   .get('/discounted', getDiscountedTours)
   .get('/editors', getEditorsTours)
   .get('/new', getNewTours)
-  .post('/', createTour)
-  .patch('/:id', editTour)
-  .delete('/:id', deleteTour);
+  .post('/checkBox', getAllOptions)
+  .post('/', createTour);
+  // .patch('/:id', editTour)
+  // .delete('/:id', deleteTour);
   
 module.exports = router;
