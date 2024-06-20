@@ -105,7 +105,14 @@ const Navbar = () => {
                                     <Link to="/profile" className="text-white m-0">
                                         <button className="flex items-center">
                                             <div className='m-3'>{user.login}</div>
-                                            <img src={user.src?user.src.replace(/\\/g, '/').replace(/^.*?src\//, 'src/'):'src/assets/avatars/ava.png'} alt="Avatar" className="w-8 h-8 rounded-full" />
+                                            <img src={user.src?user.src.replace(/\\/g, '/').replace(/^.*?src\//, 'src/'):'src/assets/avatars/ava.png'} 
+                                            alt="Avatar" 
+                                            className="w-8 h-8 rounded-full"
+                                            onError={(e) => {
+                                                const target = e.target as HTMLImageElement;
+                                                target.src = 'src/assets/avatars/ava.png';
+                                              }}
+                                             />
                                         </button>
                                     </Link>
                                     <button onClick={() => openModal('logout')} className="text-white">
