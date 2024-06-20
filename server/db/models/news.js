@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.NewsComment, {
         foreignKey: 'news_id',
       });
-      this.belongsToMany(models.News, {
-        through: models.NewsTags,
+      this.belongsToMany(models.Tag, {
+        through: models.NewsTag,
         foreignKey: 'news_id',
       });
       this.hasOne(models.Image, {

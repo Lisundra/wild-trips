@@ -1,8 +1,9 @@
 const { Post } = require('../../db/models');
 
 module.exports = {
-  getAllPosts: async (_, res) => {
+  getAllPosts: async (req, res) => {
     try {
+      // console.log('getpost', req.session);
       const posts = await Post.findAll();
       res.json(posts);
     } catch (err) {

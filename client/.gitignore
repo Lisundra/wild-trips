@@ -25,5 +25,5 @@ dist-ssr
 
 .env
 
-# Ignore output.css in client folder
-client/output.css
+# Builder resolve css for Tale wind
+output.css

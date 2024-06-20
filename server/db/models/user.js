@@ -14,15 +14,15 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'organizer_id',
       });
       this.belongsToMany(models.Tour, {
-        through: models.Bookings,
+        through: models.Booking,
         foreignKey: 'user_id',
       });
       this.belongsToMany(models.TourDate, {
-        through: models.Bookings,
+        through: models.Booking,
         foreignKey: 'user_id',
       });
       this.belongsToMany(models.Tour, {
-        through: models.Reviews,
+        through: models.Review,
         foreignKey: 'user_id',
       });
       this.hasMany(models.Message, {
