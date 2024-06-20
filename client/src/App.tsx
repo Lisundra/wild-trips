@@ -17,6 +17,8 @@ import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { decrement, increment } from './redux/postSlice';
 import { fetchPosts } from './redux/thunkActions';
 import Navbar from './components/Navbar/Navbar';
+import Home from './Pages/Home/Home';
+import CardDetails from './Pages/CardDetails/CardDetails';
 // import { fetchPosts } from './redux/thunkActions';
 // import { PostsType } from './types';
 
@@ -26,9 +28,9 @@ import Navbar from './components/Navbar/Navbar';
 //! useAppDispatch
 
 function App(): JSX.Element {
-  const posts = useAppSelector((store) => store.postSlice.posts);
-  const count = useAppSelector((store) => store.postSlice.count);
-  const isLoading = useAppSelector((store) => store.postSlice.isLoading);
+  const posts = useAppSelector((store) => store.post.posts);
+  const count = useAppSelector((store) => store.post.count);
+  const isLoading = useAppSelector((store) => store.post.isLoading);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -50,7 +52,7 @@ function App(): JSX.Element {
 
       <div className='App-container'>
     <Routes>
-    {/* <Route index element={<Home />} />   */}
+    <Route index element={<Home />} />  
 
       //? Старый код перенесён в маршрут, чтобы тестить функции редакса. Потом будет удалён
     <Route path='olderVersionCode'  
@@ -85,6 +87,7 @@ function App(): JSX.Element {
     }>
 
             </Route>
+            <Route path="card-details" element={<CardDetails />} />
       </Routes>
       </div>
 

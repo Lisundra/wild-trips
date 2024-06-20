@@ -20,27 +20,27 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'tour_id',
       });
       this.belongsToMany(models.Activity, {
-        through: models.TourOptions,
+        through: models.TourOption,
         foreignKey: 'tour_id',
       });
       this.belongsToMany(models.Accommodation, {
-        through: models.TourOptions,
+        through: models.TourOption,
         foreignKey: 'tour_id',
       });
       this.belongsToMany(models.Facility, {
-        through: models.TourOptions,
+        through: models.TourOption,
         foreignKey: 'tour_id',
       });
       this.belongsToMany(models.User, {
-        through: models.Bookings,
+        through: models.Booking,
         foreignKey: 'tour_id',
       });
       this.belongsToMany(models.TourDate, {
-        through: models.Bookings,
+        through: models.Booking,
         foreignKey: 'tour_id',
       });
       this.belongsToMany(models.User, {
-        through: models.Reviews,
+        through: models.Review,
         foreignKey: 'tour_id',
       });
     }
@@ -57,8 +57,8 @@ module.exports = (sequelize, DataTypes) => {
     discount: DataTypes.INTEGER,
     country: DataTypes.STRING,
     region: DataTypes.STRING,
-    season: DataTypes.ENUM,
-    difficulty: DataTypes.ENUM,
+    season: DataTypes.ENUM('весна', 'лето', 'осень', 'зима'),
+    difficulty: DataTypes.ENUM('низкая', 'средняя', 'высокая'),
     family_friendly: DataTypes.BOOLEAN,
     coordinates: DataTypes.JSON,
     organizer_id: DataTypes.INTEGER,

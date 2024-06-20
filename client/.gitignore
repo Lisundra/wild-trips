@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 .env
+
+# Builder resolve css for Tale wind
+output.css
