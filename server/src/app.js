@@ -12,7 +12,6 @@ const app = express();
 const logger = require('morgan');
 
 const apiRouter = require('./routers/api.router.js');
-const userCheckRouter = require('./routers/checkUser.router')
 const PORT = process.env.PORT;
 
 const corsOptions = {
@@ -22,6 +21,14 @@ const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
 app.use(cors(corsOptions));
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5174',);
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//   res.setHeader('Access-Control-Allow-Credentials', 'true');
+//   next();
+// });
+
 const sessionConfig = {
   name: 'LogTrip', // не забудь указать то же имя и при удалении куки
   store: new FileStore(),

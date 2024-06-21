@@ -8,5 +8,6 @@ const apiRouter = require('express').Router();
 apiRouter.use('/tours', toursRouter);
 apiRouter.use('/subscribe', subscribeRouter);
 apiRouter.use('/users', userRouter);
+// apiRouter.use('/checkBoxOptions', userRouter);
 
 module.exports = apiRouter;

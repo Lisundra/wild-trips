@@ -17,7 +17,8 @@ router
   .get('/discounted', getDiscountedTours)
   .get('/editors', getEditorsTours)
   .get('/new', getNewTours)
-  .post('/', createTour)
+  .post('/checkBox', getAllOptions)
+  .post('/', createTour);
   // .patch('/:id', editTour)
   // .delete('/:id', deleteTour);
   
