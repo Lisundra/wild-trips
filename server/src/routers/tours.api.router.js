@@ -6,6 +6,7 @@ const {
   getDiscountedTours,
   getEditorsTours,
   getNewTours,
+  getAllOptions,
   createTour,
   // deleteTour,
   // editTour,

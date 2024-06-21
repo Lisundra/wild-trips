@@ -1,66 +1,48 @@
 const { User } = require('../../db/models');
 const { Tour } = require('../../db/models');
-const { TourDates } = require('../../db/models');
-const { TourOption } = require('../../db/models');
-const {Housing, Facility, Activity} = require('../../db/models')
+const { Activity } = require('../../db/models');
+const { Housing } = require('../../db/models');
+const { Facility } = require('../../db/models');
 const { Op } = require('sequelize');
 
 module.exports = {
   getAllTours: async (req, res) => {
     try {
-      console.log('Попали сюда');
-      const allTours = await Tour.findAll({
-        include: [
-          {
-            model: TourDates,
-          },
-          {
-            model: TourOption,
-          }
-        ]
-      });
-      res.json(allTours);
+      const allTours = await Tour.findAll();
+      const allToursPlain = allTours.map((tour) => tour.get({ plain: true }));
+      res.json(allToursPlain);
     } catch (err) {
-      console.log("🚀 ~ getAllTours: ~ err:", err)
-      
       res.status(400).json({ err: err.message });
     }
   },
-  getAllOptions: async (req, res) => {
-    try {
-      const allOptions = {
-        facility: (await Facility.findAll()).map(item => item.get({ plain: true })),
-        activity: (await Activity.findAll()).map(item => item.get({ plain: true })),
-        housing: (await Housing.findAll()).map(item => item.get({ plain: true })),
-      }
-      
 
-      res.json(allOptions);
-    } catch (err) {
-      console.log("🚀 ~ getAllTours: ~ err:", err)
-      
-      res.status(400).json({ err: err.message });
-    }
-  },
   getOneTour: async (req, res) => {
     const { id } = req.params;
     try {
-      const oneTour = await Tour.findOne({ 
-        where: { id }, 
+      const oneTour = await Tour.findOne({
+        where: { id },
         include: [
-        {
-          model: TourDates,
-        },
-        {
-          model: TourOption,
-        }
-      ]});
-      res.json(oneTour);
+          {
+            model: Activity,
+          },
+          {
+            model: Housing,
+          },
+          {
+            model: Facility,
+          },
+        ],
+      });
+      const oneTourPlain = oneTour.get({ plain: true });
+      //console.log('------------------------', oneTourPlain);
+      //console.log('++++++++++++++++++++++++', oneTourPlain.Facilities[0].TourOption.type);
+      res.json(oneTourPlain);
     } catch (err) {
       res.status(400).json({ err: err.message });
+      console.log('ошибка в ручке getOneTour', err);
     }
   },
-
+  
   getDiscountedTours: async (req, res) => {
     try {
       const discountedTours = await Tour.findAll({
@@ -68,17 +50,10 @@ module.exports = {
           discount: {
             [Op.ne]: null
           }
-        },
-        include: [
-          {
-            model: TourDates,
-          },
-          {
-            model: TourOption,
-          }
-        ]
+        }
       });
-      res.json(discountedTours);
+      const discountedToursPlain = discountedTours.map((tour) => tour.get({ plain: true }));
+      res.json(discountedToursPlain);
     } catch (err) {
       res.status(400).json({ err: err.message });
     }
@@ -86,22 +61,15 @@ module.exports = {
 
   getEditorsTours: async (req, res) => {
     try {
-      const tours = await Tour.findAll({
+      const editorsTours = await Tour.findAll({
         where: {
           editors_choice: {
             [Op.eq]: true
           }
-        },
-        include: [
-          {
-            model: TourDates,
-          },
-          {
-            model: TourOption,
-          }
-        ]
+        }
       });
-      res.json(tours);
+      const editorsToursPlain = editorsTours.map((tour) => tour.get({ plain: true }));
+      res.json(editorsToursPlain);
     } catch (err) {
       res.status(400).json({ err: err.message });
     }
@@ -112,17 +80,26 @@ module.exports = {
       const newTours = await Tour.findAll({
         order: [['createdAt', 'DESC']],
         limit: 5,
-        include: [
-          {
-            model: TourDates,
-          },
-          {
-            model: TourOption,
-          }
-        ]
       });
-      res.json(newTours);
+      const newToursPlain = newTours.map((tour) => tour.get({ plain: true }));
+      res.json(newToursPlain);
     } catch (err) {
+      res.status(400).json({ err: err.message });
+    }
+  },
+
+  getAllOptions: async (req, res) => {
+    try {
+      const allOptions = {
+        facility: (await Facility.findAll()).map(item => item.get({ plain: true })),
+        activity: (await Activity.findAll()).map(item => item.get({ plain: true })),
+        housing: (await Housing.findAll()).map(item => item.get({ plain: true })),
+      }
+      
+      res.json(allOptions);
+    } catch (err) {
+      console.log("🚀 ~ getAllTours: ~ err:", err)
+      
       res.status(400).json({ err: err.message });
     }
   },
@@ -156,6 +133,8 @@ module.exports = {
         title,
         subtitle,
         description,
+        start_date,
+        end_date,
         duration,
         price,
         discount,
@@ -165,12 +144,6 @@ module.exports = {
         difficulty,
         family_friendly,
         organizer_id: user.id,
-      });
-
-      await TourDates.create({
-        tour_id: createdTour.id,
-        start_date,
-        end_date,
       });
 
       for (let activity_id of activities) {
@@ -215,3 +188,4 @@ module.exports = {
   //   }
   // },
 };
+      
