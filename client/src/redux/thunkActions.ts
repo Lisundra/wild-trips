@@ -4,12 +4,12 @@ import axios from 'axios';
 import type { AxiosResponse } from 'axios';
 import type { InputsType, InputsTypeAuth, PostsType, PostType, UserType } from '../types';
 
-export const fetchPosts = createAsyncThunk('posts/all', async () => {
-  const response = await axios.get<PostsType>(
-    `${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/posts`,
-  );
-  return response.data;
-});
+// export const fetchPosts = createAsyncThunk('posts/all', async () => {
+//   const response = await axios.get<PostsType>(
+//     `${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/posts`,
+//   );
+//   return response.data;
+// });
 
 export const fetchAdd = createAsyncThunk('posts/add', async (inputs: InputsType) => {
   const response = await axios.post<InputsType, AxiosResponse<PostType>>(

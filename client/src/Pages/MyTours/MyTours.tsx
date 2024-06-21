@@ -4,17 +4,20 @@ import { fetchCheckUser } from '../../redux/thunkActions';
 import { RootState } from '../../redux/store';
 import { AnyAction } from '@reduxjs/toolkit';
 import axios from 'axios';
+import DifficultyClue from '../../components/DifficultyClue/DifficultyClue';
 
 
 
 
 const ParallaxPage = () => {
   const [showForm, setShowForm] = useState(false);
+  const [showImages, setShowImages] = useState(false);
+  const [imagePreviews, setImagePreviews] = useState([]);
   const [facilitiesPaid, setFacilitiesPaid] = useState({});
   const [facilitiesFree, setFacilitiesFree] = useState({});
   const [activities, setActivities] = useState({});
   const [housings, setHousings] = useState({});
-  const [inputs, setInputs] = useState({});
+  const [inputs, setInputs] = useState({family_friendly:true, season:'весна', difficulty:'низкая'});
 
   const [arraysCheckBox, setArraysCheckBox] = useState( {facility: Array(), activity: Array(), housing: Array()} )
 
@@ -62,7 +65,16 @@ const filterObjFalse = (obj)=>{
   };
 
   const handleInputsChange = (event)=>{
-    const { name, value } = event.target;
+    const { name, value, files } = event.target;
+    if(name==='imageUpload')
+    {
+      setInputs((prevInputs) => (
+      {
+        ...prevInputs,
+        [name]: files,
+      }
+      ))
+    }else
     setInputs((prevInputs) => (
       name==='family_friendly'?
     {
@@ -90,6 +102,32 @@ const filterObjFalse = (obj)=>{
       housings: filterObjFalse(housings)}
      )
   }
+  const handleImageUpload = (event) => {
+    const files = event.target.files;
+    const previews = [];
+    setInputs((prevInputs) => (
+      {
+        ...prevInputs,
+        ['images']: files,
+      }
+      ))
+
+    for (let i = 0; i < files.length; i++) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        previews.push(e.target.result);
+        if (previews.length === files.length) {
+          setImagePreviews(previews);
+        }
+      };
+      reader.readAsDataURL(files[i]);
+    }
+  };
+
+  const handleClickImages = () => {
+    setShowImages(!showImages);
+  };
+
 
   return (
     <div className="relative bg-cover bg-center min-h-screen"  style={{ backgroundImage: `url('./src/assets/images/minimalizm-montains-1.jpg')` }}>
@@ -155,7 +193,10 @@ const filterObjFalse = (obj)=>{
                 </select>
               </div>
               <div className="mb-4">
+                <div className='flex'>
                 <label className="block text-sm font-bold mb-2">Сложность</label>
+                <DifficultyClue difficulty={inputs['difficulty']?inputs['difficulty']:'низкая' } />
+                </div>
                 <select className="w-full p-2 border rounded" name='difficulty' onChange={handleInputsChange} required>
                   <option value={'низкая'}>низкая</option>
                   <option value={'средняя'}>средняя</option>
@@ -169,7 +210,25 @@ const filterObjFalse = (obj)=>{
                   <option value={0}> Нет</option>
                 </select>
               </div>
-
+            <div className="mb-4 flex flex-col">
+                <label htmlFor="imageUpload" className="block text-sm font-bold mb-2">Загрузить фото тура:</label>
+                <input type="file" id="imageUpload" name="imageUpload" accept=".jpg, .jpeg, .png" multiple onChange={handleImageUpload} required />
+                <span className="mt-4 px-4 py-2 bg-cyan-500 hover:bg-cyan-700 rounded" onClick={handleClickImages}>{showImages ? 'Скрыть загруженные фотографии' : 'Показать загруженные фотографии'}</span>
+                    
+                    {showImages && (
+                      <div>
+                        {imagePreviews.map((src, index) => (
+                          <img
+                            key={index}
+                            src={src}
+                            alt={`preview ${index}`}
+                            className="w-fukk h-full object-cover m-2"
+                          />
+                        ))}
+                      </div>      
+                    )}
+           
+              </div>
             </div>
             <div className="map-container min-w-full">
                 Карта маршрута:
