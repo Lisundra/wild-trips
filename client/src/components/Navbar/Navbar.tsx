@@ -93,7 +93,7 @@ const Navbar = () => {
                             {(user) && (
                                 <>
                                     <button className="text-white">
-                                        <Link to="/profile" className="text-white">
+                                        <Link to="/MyTours" className="text-white">
                                             Мои туры
                                         </Link>
                                     </button>
