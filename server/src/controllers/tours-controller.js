@@ -1,7 +1,8 @@
 const { User } = require('../../db/models');
 const { Tour } = require('../../db/models');
 const { TourDates } = require('../../db/models');
-const { TourOptions } = require('../../db/models');
+const { TourOption } = require('../../db/models');
+const {Housing, Facility, Activity} = require('../../db/models')
 const { Op } = require('sequelize');
 
 module.exports = {
@@ -13,16 +14,33 @@ module.exports = {
             model: TourDates,
           },
           {
-            model: TourOptions,
+            model: TourOption,
           }
         ]
       });
       res.json(allTours);
     } catch (err) {
+      console.log("🚀 ~ getAllTours: ~ err:", err)
+      
       res.status(400).json({ err: err.message });
     }
   },
+  getAllOptions: async (req, res) => {
+    try {
+      const allOptions = {
+        facility: (await Facility.findAll()).map(item => item.get({ plain: true })),
+        activity: (await Activity.findAll()).map(item => item.get({ plain: true })),
+        housing: (await Housing.findAll()).map(item => item.get({ plain: true })),
+      }
+      
 
+      res.json(allOptions);
+    } catch (err) {
+      console.log("🚀 ~ getAllTours: ~ err:", err)
+      
+      res.status(400).json({ err: err.message });
+    }
+  },
   getOneTour: async (req, res) => {
     const { id } = req.params;
     try {
@@ -33,7 +51,7 @@ module.exports = {
           model: TourDates,
         },
         {
-          model: TourOptions,
+          model: TourOption,
         }
       ]});
       res.json(oneTour);
@@ -55,7 +73,7 @@ module.exports = {
             model: TourDates,
           },
           {
-            model: TourOptions,
+            model: TourOption,
           }
         ]
       });
@@ -78,7 +96,7 @@ module.exports = {
             model: TourDates,
           },
           {
-            model: TourOptions,
+            model: TourOption,
           }
         ]
       });
@@ -98,7 +116,7 @@ module.exports = {
             model: TourDates,
           },
           {
-            model: TourOptions,
+            model: TourOption,
           }
         ]
       });
@@ -125,7 +143,7 @@ module.exports = {
       difficulty,
       family_friendly,
       activities, //! здесь нужен массив выбранных активностей
-      accommodations, //! здесь нужен массив выбранных типов размещения в туре
+      housings, //! здесь нужен массив выбранных типов размещения в туре
       facilities, //! здесь нужен массив выбранных удобств
     } = req.body;
 
@@ -161,10 +179,10 @@ module.exports = {
         });
       }
 
-      for (let accommodation_id of accommodations) {
+      for (let housing_id of housings) {
         await TourOption.create({
           tour_id: createdTour.id,
-          accommodation_id,
+          housing_id,
         });
       }
 
