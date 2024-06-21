@@ -23,7 +23,7 @@ module.exports = {
       },
       activity_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: {
             tableName: 'Activities',
@@ -33,12 +33,12 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      accommodation_id: {
+      housing_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: {
-            tableName: 'Accommodations',
+            tableName: 'Housings',
           },
           key: 'id',
         },
@@ -47,7 +47,7 @@ module.exports = {
       },
       facility_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: {
             tableName: 'Facilities',
@@ -56,6 +56,10 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
+      },
+      type: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,

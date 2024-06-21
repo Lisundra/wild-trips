@@ -39,6 +39,11 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true,
       },
+      email_subscription: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

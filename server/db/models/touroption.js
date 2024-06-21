@@ -16,8 +16,9 @@ module.exports = (sequelize, DataTypes) => {
   TourOption.init({
     tour_id: DataTypes.INTEGER,
     activity_id: DataTypes.INTEGER,
-    accommodation_id: DataTypes.INTEGER,
+    housing_id: DataTypes.INTEGER,
     facility_id: DataTypes.INTEGER,
+    type: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'TourOption',

@@ -17,10 +17,6 @@ module.exports = (sequelize, DataTypes) => {
         through: models.Booking,
         foreignKey: 'user_id',
       });
-      this.belongsToMany(models.TourDate, {
-        through: models.Booking,
-        foreignKey: 'user_id',
-      });
       this.belongsToMany(models.Tour, {
         through: models.Review,
         foreignKey: 'user_id',
@@ -30,9 +26,6 @@ module.exports = (sequelize, DataTypes) => {
       });
       this.hasMany(models.Message, {
         foreignKey: 'receiver_id',
-      });
-      this.hasOne(models.Subscription, {
-        foreignKey: 'user_id',
       });
       this.hasMany(models.News, {
         foreignKey: 'author_id',
@@ -49,7 +42,8 @@ module.exports = (sequelize, DataTypes) => {
     full_name: DataTypes.STRING,
     role: DataTypes.ENUM('admin', 'traveler', 'organizer'),
     profile_picture: DataTypes.STRING,
-    bio: DataTypes.TEXT
+    bio: DataTypes.TEXT,
+    email_subscription: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'User',

@@ -13,18 +13,6 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      tour_date_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: {
-            tableName: 'TourDates',
-          },
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
       tour_id: {
         type: Sequelize.INTEGER,
         allowNull: false,

@@ -35,6 +35,14 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
+      start_date: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
+      end_date: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
       duration: {
         type: Sequelize.INTEGER,
         allowNull: true,

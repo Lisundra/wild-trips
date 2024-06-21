@@ -16,14 +16,11 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Image, {
         foreignKey: 'tour_id',
       });
-      this.hasMany(models.TourDate, {
-        foreignKey: 'tour_id',
-      });
       this.belongsToMany(models.Activity, {
         through: models.TourOption,
         foreignKey: 'tour_id',
       });
-      this.belongsToMany(models.Accommodation, {
+      this.belongsToMany(models.Housing, {
         through: models.TourOption,
         foreignKey: 'tour_id',
       });
@@ -32,10 +29,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'tour_id',
       });
       this.belongsToMany(models.User, {
-        through: models.Booking,
-        foreignKey: 'tour_id',
-      });
-      this.belongsToMany(models.TourDate, {
         through: models.Booking,
         foreignKey: 'tour_id',
       });
@@ -52,6 +45,8 @@ module.exports = (sequelize, DataTypes) => {
     average_rating: DataTypes.REAL,
     editors_choice: DataTypes.BOOLEAN,
     description: DataTypes.TEXT,
+    start_date: DataTypes.DATE,
+    end_date: DataTypes.DATE,
     duration: DataTypes.INTEGER,
     price: DataTypes.INTEGER,
     discount: DataTypes.INTEGER,
