@@ -15,11 +15,12 @@ import Form from './components/Form/Form';
 import Post from './components/Post/Post';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { decrement, increment } from './redux/postSlice';
-import { fetchPosts } from './redux/thunkActions';
+// import { fetchPosts } from './redux/thunkActions';
 import Navbar from './components/Navbar/Navbar';
 import Home from './Pages/Home/Home';
 import CardDetails from './Pages/CardDetails/CardDetails';
 import MyTours from './Pages/MyTours/MyTours';
+import withAuth from './components/WithAuth/WithAuth';
 // import { fetchPosts } from './redux/thunkActions';
 // import { PostsType } from './types';
 
@@ -28,15 +29,18 @@ import MyTours from './Pages/MyTours/MyTours';
 //! useAppSelector
 //! useAppDispatch
 
+const ProtectedMyTours = withAuth(MyTours);
+ 
 function App(): JSX.Element {
   const posts = useAppSelector((store) => store.post.posts);
   const count = useAppSelector((store) => store.post.count);
   const isLoading = useAppSelector((store) => store.post.isLoading);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    void dispatch(fetchPosts());
-  }, []);
+
+  // useEffect(() => {
+  //   void dispatch(fetchPosts());
+  // }, []);
 
   const incrementHandler = (): void => {
     dispatch(increment());
@@ -55,8 +59,7 @@ function App(): JSX.Element {
     <Routes>
     <Route index element={<Home />} />  
 
-    <Route path='MyTours' element={<MyTours />}> </Route>
-
+    <Route path='MyTours' element={<ProtectedMyTours />}> </Route>
 
       //? Старый код перенесён в маршрут, чтобы тестить функции редакса. Потом будет удалён
     <Route path='olderVersionCode'  
