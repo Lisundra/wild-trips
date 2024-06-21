@@ -19,7 +19,6 @@ function App(): JSX.Element {
   
 
   return (
-    
     <div className="App-page">
       <Navbar />
       <div className='App-container'>
@@ -30,7 +29,6 @@ function App(): JSX.Element {
         </Routes>
       </div>
     </div>
-
   );
 }
 
