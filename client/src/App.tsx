@@ -26,7 +26,7 @@ function App(): JSX.Element {
       <div className='App-container'>
         <Routes>
           <Route index element={<Home />} />  
-          <Route path="my-tours" element={<ProtectedMyTours />} />
+          <Route path="MyTours" element={<ProtectedMyTours />} />
           <Route path="tours/:id" element={<OneTour />} />
         </Routes>
       </div>
