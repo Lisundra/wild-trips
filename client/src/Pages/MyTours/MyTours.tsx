@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCheckUser } from '../../redux/thunkActions';
-import { RootState } from '../../redux/store';
 import { AnyAction } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { fetchCheckUser } from '../../redux/thunkActions';
+import type { RootState } from '../../redux/store';
 import DifficultyClue from '../../components/DifficultyClue/DifficultyClue';
 
 
 
 
-const ParallaxPage = () => {
+function ParallaxPage() {
   const [showForm, setShowForm] = useState(false);
   const [showImages, setShowImages] = useState(false);
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -19,23 +19,23 @@ const ParallaxPage = () => {
   const [housings, setHousings] = useState({});
   const [inputs, setInputs] = useState({family_friendly:true, season:'весна', difficulty:'низкая'});
 
-  const [arraysCheckBox, setArraysCheckBox] = useState( {facility: Array(), activity: Array(), housing: Array()} )
+  const [arraysCheckBox, setArraysCheckBox] = useState( {facility: [], activity: [], housing: []} )
 
   const user = useSelector((state: RootState) => state.user.user);
 //   const dispatch = useDispatch();
-const filterObjFalse = (obj)=>{
-  return  Object.fromEntries(
+const filterObjFalse = (obj)=>Object.fromEntries(
     Object.entries(obj).filter(([key, value]) => value === true)
-);
-}
+)
 
   useEffect(() => {
       console.log('MyTours user: ', housings);
+      fetchCheckUser()
       axios.post('http://localhost:3100/api/tours/checkBox', {
         withCredentials: true
       }).then((res) => {
         console.log('data check ', res.data);
         setArraysCheckBox(res.data);
+        
       });
 
   }, []);
@@ -45,7 +45,8 @@ const filterObjFalse = (obj)=>{
   // }, [arraysCheckBox]);
 
   const handleFacilityChange = (type: string, facility: string) => {
-
+        console.log(arraysCheckBox.facility[2].name);
+        
     if (type === 'paid') {
       setFacilitiesPaid((prev) => ({ ...prev, [facility]: !prev[facility] }));
       setFacilitiesFree((prev) => ({ ...prev, [facility]: false }));
@@ -79,7 +80,7 @@ const filterObjFalse = (obj)=>{
       name==='family_friendly'?
     {
       ...prevInputs,
-      [name]: value==='0'?false:true,
+      [name]: value!=='0',
     }
     :
     {
@@ -103,12 +104,12 @@ const filterObjFalse = (obj)=>{
      )
   }
   const handleImageUpload = (event) => {
-    const files = event.target.files;
+    const {files} = event.target;
     const previews = [];
     setInputs((prevInputs) => (
       {
         ...prevInputs,
-        ['images']: files,
+        'images': files,
       }
       ))
 
@@ -131,7 +132,7 @@ const filterObjFalse = (obj)=>{
 
   return (
     <div className="relative bg-cover bg-center min-h-screen"  style={{ backgroundImage: `url('./src/assets/images/minimalizm-montains-1.jpg')` }}>
-      <div className="absolute inset-0 bg-black opacity-50" ></div>
+      <div className="absolute inset-0 bg-black opacity-50"  />
      <br /> <br /> <br />
       <div  onClick={handleContainerClick} className="relative mt-10 z-9 flex flex-col items-center justify-center min-h-screen text-white">
         <h1 className="text-4xl font-bold">Личный кабинет {user?.login}</h1>
@@ -163,7 +164,7 @@ const filterObjFalse = (obj)=>{
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Подробное описание</label>
-                <textarea className="w-full p-2 border rounded" name='description' onChange={handleInputsChange} required></textarea>
+                <textarea className="w-full p-2 border rounded" name='description' onChange={handleInputsChange} required />
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Цена тура</label>
@@ -186,21 +187,21 @@ const filterObjFalse = (obj)=>{
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Сезон</label>
                 <select className="w-full p-2 border rounded" name='season' value={inputs.season} onChange={handleInputsChange} required>
-                  <option value={'весна'}>весна</option>
-                  <option value={'лето'}>лето</option>
-                  <option value={'осень'}>осень</option>
-                  <option value={'зима'}>зима</option>
+                  <option value="весна">весна</option>
+                  <option value="лето">лето</option>
+                  <option value="осень">осень</option>
+                  <option value="зима">зима</option>
                 </select>
               </div>
               <div className="mb-4">
                 <div className='flex'>
                 <label className="block text-sm font-bold mb-2">Сложность</label>
-                <DifficultyClue difficulty={inputs['difficulty']?inputs['difficulty']:'низкая' } />
+                <DifficultyClue difficulty={inputs.difficulty?inputs.difficulty:'низкая' } />
                 </div>
                 <select className="w-full p-2 border rounded" name='difficulty' onChange={handleInputsChange} required>
-                  <option value={'низкая'}>низкая</option>
-                  <option value={'средняя'}>средняя</option>
-                  <option value={'высокая'}>высокая</option>
+                  <option value="низкая">низкая</option>
+                  <option value="средняя">средняя</option>
+                  <option value="высокая">высокая</option>
                 </select>
               </div>
               <div className="mb-4">
@@ -232,8 +233,7 @@ const filterObjFalse = (obj)=>{
             </div>
             <div className="map-container min-w-full">
                 Карта маршрута:
-                <div id="map" className="map min-h-96 min-w-full bg-gray-300">
-                </div>
+                <div id="map" className="map min-h-96 min-w-full bg-gray-300" />
             </div>
             <div className="w-full p-2 flex justify-around">
                
@@ -311,6 +311,6 @@ const filterObjFalse = (obj)=>{
       </div>
     </div>
   );
-};
+}
 
 export default ParallaxPage;
