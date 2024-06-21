@@ -30,24 +30,22 @@ export default function Home() {
         </div>
         <div className="toursContainer">
         <h2 className="text-5xl font-bold text-center text-gray-800 my-4">Найдите путешествие вашей мечты!</h2>
-        <h3 className='text-3xl font-semibold text-rose-600'>Горящие предложения</h3>
+        <h3 className='text-4xl font-semibold text-rose-600'>Горящие предложения</h3>
 
-<div className="mt-8"> 
+        <div className="mt-8"> 
           <HomeCarousel />
         </div>
 
-        
-        <div className="mt-20"> 
-          <HomeCarousel />
-        </div>
-
-        
         <div className="mt-20"> 
           <HomeCarousel />
         </div>
 
         <EmailSubscription/>
 
+        <h3 className='text-4xl font-bold text-gray-800'>Наши новинки</h3>
+        <div className="mt-20"> 
+          <HomeCarousel />
+        </div>
 
         {/* <HomeCarousel tours={discountedTours}/>
 
