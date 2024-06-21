@@ -11,13 +11,12 @@ const app = express();
 const logger = require('morgan');
 
 const apiRouter = require('./routers/api.router.js');
-const userCheckRouter = require('./routers/checkUser.router')
 const PORT = process.env.PORT;
 
 const corsOptions = {
   origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
   credentials: true,
-  methods: ['GET', 'POST', 'DELETE'],
+  methods: ['GET', 'POST', 'DELETE', 'PUT', 'PUTCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
 app.use(cors(corsOptions));

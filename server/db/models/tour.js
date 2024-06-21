@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         through: models.TourOption,
         foreignKey: 'tour_id',
       });
-      this.belongsToMany(models.Accommodation, {
+      this.belongsToMany(models.Housing, {
         through: models.TourOption,
         foreignKey: 'tour_id',
       });
@@ -46,7 +46,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Tour.init({
-    name: DataTypes.STRING,
     title: DataTypes.STRING,
     subtitle: DataTypes.STRING,
     average_rating: DataTypes.REAL,
