@@ -23,7 +23,7 @@ export default function EmailSubscription() {
       <h3 className='text-4xl font-bold text-gray-800'>Делимся лучшим</h3>
       <p className='text-lg'>Подпишитесь на рассылку, чтобы увидеть новые туры первым!</p>
       <div className="signUpContainer flex items-center mt-4">
-        <form onSubmit={submitFormHandler} className="flex">
+        <form onSubmit={submitFormHandler} className={styles.submitForm}>
           <Input
             name="email"
             type='text'

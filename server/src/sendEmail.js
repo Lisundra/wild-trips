@@ -2,17 +2,17 @@ const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport(
     {
-    host: 'smtp.mail.ru',
+    host: 'smtp.yandex.ru',
     port: 465,
-    secure: false,
+    secure: true,
     auth: {
-        user: 'mkdeutsch2016@mail.ru',
-        pass: 'mknpeople',
+        user: 'adm1n-account-testing@yandex.ru',
+        pass: 'wqxcaquzroiiqdkf',
     },
 },
 
 {
-    from: 'Wild Tours <mkdeutsch2016@mail.ru>',
+    from: 'Wild Tours adm1n-account-testing@yandex.ru',
   },
 );
 
@@ -23,8 +23,8 @@ const transporter = nodemailer.createTransport(
         } else {
             console.log('Email sent successfully', info);
         }
-        smtpTransport.close();
+        transporter.close();
     });
 }
 
-export default sendEmail;
+module.exports = sendEmail;
