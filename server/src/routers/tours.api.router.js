@@ -6,8 +6,8 @@ const {
   getDiscountedTours,
   getEditorsTours,
   getNewTours,
-  createTour,
   getAllOptions,
+  createTour,
   // deleteTour,
   // editTour,
 } = require('../controllers/tours-controller');

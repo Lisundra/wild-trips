@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const nodemailer = require('nodemailer');
 const session = require('express-session');  
 const multer = require('multer');
 
@@ -14,9 +15,9 @@ const apiRouter = require('./routers/api.router.js');
 const PORT = process.env.PORT;
 
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  origin: ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:5174', 'http://127.0.0.1:5174'],
   credentials: true,
-  methods: ['GET', 'POST', 'DELETE', 'PUT', 'PUTCH'],
+  methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
 app.use(cors(corsOptions));
@@ -40,6 +41,7 @@ const sessionConfig = {
   },
 };
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

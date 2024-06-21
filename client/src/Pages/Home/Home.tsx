@@ -7,16 +7,19 @@ import axios from 'axios';
 
 
 export default function Home() {
-  const [discountedTours, setDiscountedTours] = useState([]);
-  const [editorsTours, setEditorsTours] = useState([]);
-  const [newTours, setNewTours] = useState([]);
+  // const [discountedTours, setDiscountedTours] = useState([]);
+  // const [editorsTours, setEditorsTours] = useState([]);
+  // const [newTours, setNewTours] = useState([]);
 
-  useEffect(() => {
-    axios.get('http://localhost:3100/api/discounted').then((res) => {
-      console.log(res)
-      setDiscountedTours(res.data)
-    })
-  }, [])
+  // useEffect(() => {
+  //   axios.get(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/discounted`)
+  //     .then((res) => {
+  //       setDiscountedTours(res.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching discounted tours:', error);
+  //     });
+  // }, []);
 
 
   return (
@@ -27,24 +30,22 @@ export default function Home() {
         </div>
         <div className="toursContainer">
         <h2 className="text-5xl font-bold text-center text-gray-800 my-4">Найдите путешествие вашей мечты!</h2>
-        <h3 className='text-3xl font-semibold text-rose-600'>Горящие предложения</h3>
+        <h3 className='text-4xl font-semibold text-rose-600'>Горящие предложения</h3>
 
-<div className="mt-8"> 
+        <div className="mt-8"> 
           <HomeCarousel />
         </div>
 
-        
-        <div className="mt-20"> 
-          <HomeCarousel />
-        </div>
-
-        
         <div className="mt-20"> 
           <HomeCarousel />
         </div>
 
         <EmailSubscription/>
 
+        <h3 className='text-4xl font-bold text-gray-800'>Наши новинки</h3>
+        <div className="mt-20"> 
+          <HomeCarousel />
+        </div>
 
         {/* <HomeCarousel tours={discountedTours}/>
 
