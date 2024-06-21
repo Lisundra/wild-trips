@@ -2,29 +2,33 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
-const session = require('express-session');
+const nodemailer = require('nodemailer');
+const session = require('express-session');  
 const multer = require('multer');
+
+
 const FileStore = require('session-file-store')(session);
 const app = express();
-
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5174');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  next();
-});
-
 const logger = require('morgan');
+
 const apiRouter = require('./routers/api.router.js');
 const PORT = process.env.PORT;
+
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  origin: ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:5174', 'http://127.0.0.1:5174'],
   credentials: true,
-  methods: ['GET', 'POST', 'DELETE'],
+  methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
 app.use(cors(corsOptions));
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5174',);
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//   res.setHeader('Access-Control-Allow-Credentials', 'true');
+//   next();
+// });
+
 const sessionConfig = {
   name: 'LogTrip', // не забудь указать то же имя и при удалении куки
   store: new FileStore(),
@@ -36,6 +40,8 @@ const sessionConfig = {
     httpOnly: true, // секьюрность, оставляем true
   },
 };
+
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -45,6 +51,7 @@ app.use(session(sessionConfig));
 //   console.log('Содержимое сессии:', req.session);
 //   next();
 // });
+
 app.use('/api', apiRouter);
 app.listen(PORT, () => {
   console.log(`Сервер запущен на ${PORT} порту`);

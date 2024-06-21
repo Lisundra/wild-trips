@@ -10,18 +10,27 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Home from './Pages/Home/Home';
 import OneTour from './Pages/OneTour/OneTour';
+import MyTours from './Pages/MyTours/MyTours';
+import withAuth from './components/WithAuth/WithAuth';
 
+const ProtectedMyTours = withAuth(MyTours);
+ 
 function App(): JSX.Element {
+  
 
   return (
+    <div className="App-page">
+      <Navbar />
     <div className="App-page">
       <Navbar />
       <div className='App-container'>
         <Routes>
           <Route index element={<Home />} />  
+          <Route path="my-tours" element={<ProtectedMyTours />} />
           <Route path="tours/:id" element={<OneTour />} />
         </Routes>
       </div>
+    </div>
     </div>
   );
 }

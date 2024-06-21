@@ -1,6 +1,8 @@
 //! #3 => go hooks.ts
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchAdd, fetchDelete, fetchPosts } from './thunkActions';
+import { fetchAdd, fetchDelete,
+  //  fetchPosts 
+  } from './thunkActions';
 import type { PostSliceType } from '../types';
 
 const initialState: PostSliceType = {
@@ -22,13 +24,13 @@ const rtkSlice = createSlice({
   },
   extraReducers: (builder) => {
     //! action.payload === return response.data
-    builder.addCase(fetchPosts.fulfilled, (state, action) => {
-      state.posts = action.payload;
-      state.isLoading = false;
-    });
-    builder.addCase(fetchPosts.rejected, () => {
-      console.log('no answer 505');
-    });
+    // builder.addCase(fetchPosts.fulfilled, (state, action) => {
+    //   state.posts = action.payload;
+    //   state.isLoading = false;
+    // });
+    // builder.addCase(fetchPosts.rejected, () => {
+    //   console.log('no answer 505');
+    // });
     //! action.payload === return response.data
     builder.addCase(fetchAdd.fulfilled, (state, action) => {
       state.posts.push(action.payload);
