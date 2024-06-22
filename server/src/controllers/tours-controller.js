@@ -144,7 +144,8 @@ module.exports = {
   } = req.body;
   console.log('----------------------------------', coordinates);
 
-  const images = req.files.map((file) => `/src/assets/images/${file.originalname}`);
+  const images = req.files.map((file) => `/src/assets/images/${file.filename}`);
+
   const duration = Math.ceil((new Date(end_date) - new Date(start_date)) / (1000 * 60 * 60 * 24));
 //   const testData = {
 //     title, 
