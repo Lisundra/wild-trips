@@ -27,9 +27,9 @@ function OneTourCarousel({ Images }) {
         slidesToScroll={1}
         waitForAnimate
         arrows
-        draggable // включаем возможность перетаскивания мышью
+        draggable
         className={styles.carousel}
-        ref={(ref) => (carouselRef = ref)} // сохраняем ссылку на компонент Carousel
+        ref={(ref) => (carouselRef = ref)}
       >
         {images.map((src, index) => (
           <div key={index} className={styles.carouselItem}>
