@@ -5,6 +5,7 @@ import axios from 'axios';
 import { fetchCheckUser } from '../../redux/thunkActions';
 import type { RootState } from '../../redux/store';
 import DifficultyClue from '../../components/DifficultyClue/DifficultyClue';
+import MiniCardTour from '../../components/MiniCardTour/MiniCardTour';
 
 
 
@@ -12,6 +13,8 @@ import DifficultyClue from '../../components/DifficultyClue/DifficultyClue';
 function ParallaxPage() {
   const [showForm, setShowForm] = useState(false);
   const [showImages, setShowImages] = useState(false);
+  const [tourCreated, setTourCreated] = useState(false);
+  const [dataTours, setDataTours] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [facilitiesPaid, setFacilitiesPaid] = useState({});
   const [facilitiesFree, setFacilitiesFree] = useState({});
@@ -36,14 +39,49 @@ const filterObjFalse = (obj)=>Object.fromEntries(
       }).then((res) => {
         console.log('data check ', res.data);
         setArraysCheckBox(res.data);
-        
       });
 
+      axios.get('http://localhost:3100/api/tours/org', {
+        withCredentials: true
+      }).then((res) => {
+        console.log('data org tours ', res.data);
+
+        const formattedData = res.data.map(card=>{
+         const newObj = {
+          ...card,
+          'Images': (JSON.parse(card.Images[0].image_path)).map(el=>el.replace(/^.*?src/, 'src'),)
+         }
+          return newObj
+        })
+
+        console.log("🚀 ~ useEffect ~ formattedData:", formattedData)      
+        setDataTours(formattedData)
+      });
   }, []);
 
-  // useEffect(() => {
-  //   console.log('arraysCheckBox updated:', arraysCheckBox['facility'][0]);
-  // }, [arraysCheckBox]);
+
+  useEffect(() => {
+
+      axios.get('http://localhost:3100/api/tours/org', {
+        withCredentials: true
+      }).then((res) => {
+        console.log('data org tours ', res.data);
+
+        const formattedData = res.data.map(card=>{
+         const newObj = {
+          ...card,
+          'Images': (JSON.parse(card.Images[0].image_path)).map(el=>el.replace(/^.*?src/, 'src'),)
+         }
+          return newObj
+        })
+
+        console.log("🚀 ~ useEffect ~ formattedData:", formattedData)      
+        setDataTours(formattedData)
+      });
+    
+
+  }, [tourCreated]);
+
 
   const handleFacilityChange = (type: string, facility: string) => {
         console.log(arraysCheckBox.facility[2].name);
@@ -123,7 +161,10 @@ const filterObjFalse = (obj)=>Object.fromEntries(
       console.log("🚀 ~ handleSubmitForm ~ formData:", formData.getAll('images'))
 
 
-     axios.post('http://localhost:3100/api/tours/',formData,{withCredentials:true})
+     axios.post('http://localhost:3100/api/tours/',formData,{withCredentials:true}).then(res=>{
+      res?setTourCreated(true):setTourCreated(false)
+     }).catch(err=>setTourCreated(false))
+
      formData = new FormData()
   }
 
@@ -334,6 +375,15 @@ const filterObjFalse = (obj)=>Object.fromEntries(
               </div>
           </form>
         )}
+        <div className='allTours flex flex-wrap justify-around'>
+                  {
+                    dataTours.map(el=>(
+                    <div className='Card m-5'>
+                    <MiniCardTour {...el}  />
+                    </div>
+                    ))
+                  }
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const multer = require('multer');
 const path = require('path')
-console.log(path.join(__dirname, '../../../client/src/assets/images/'));
+console.log('Все картинки туров хранятся по адресу:',path.join(__dirname, '../../../client/src/assets/images/'));
 
 // const upload = multer({ dest: '../client/src/assets/images' }); // Укажите путь, куда будут загружаться файлы
 const storageToursImages = multer.diskStorage({
@@ -17,6 +17,7 @@ const upload = multer({ storage: storageToursImages });
 
 const {
   getAllTours,
+  getAllToursByUser,
   getOneTour,
   getDiscountedTours,
   getEditorsTours,
@@ -29,6 +30,7 @@ const {
 
 router
   .get('/', getAllTours)
+  .get('/org', getAllToursByUser)
   .get('/:id', getOneTour)
   .get('/discounted', getDiscountedTours)
   .get('/editors', getEditorsTours)

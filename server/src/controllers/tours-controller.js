@@ -5,7 +5,7 @@ const { Housing } = require('../../db/models');
 const { Facility } = require('../../db/models');
 const { Image } = require('../../db/models');
 const { TourOption } = require('../../db/models');
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 
 module.exports = {
   getAllTours: async (req, res) => {
@@ -17,7 +17,28 @@ module.exports = {
       res.status(400).json({ err: err.message });
     }
   },
+  getAllToursByUser: async (req, res) => {
+    try {
+      const { login } = req.session;
+      const user = await User.findOne({ where: { login } });
+      const organizer_id = user.id
 
+      const allToursByUser = await Tour.findAll({
+          where: {organizer_id}, 
+          order: [['id', 'DESC']],
+          include:[{
+            model:Image,
+          }],
+        });
+
+
+      const allToursByUserPlain = allToursByUser.map((tour) => tour.get({ plain: true }));
+      res.json(allToursByUserPlain);
+    } catch (err) {
+      console.log("🚀 ~ getAllToursByUser: ~ err:", err)
+      res.status(400).json({ err: err.message });
+    }
+  },
   getOneTour: async (req, res) => {
     const { id } = req.params;
     try {
