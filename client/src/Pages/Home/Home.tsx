@@ -52,20 +52,20 @@ useEffect(() => {
         </div>
         <div className="toursContainer">
         <h2 className="text-5xl font-bold text-center text-gray-800 my-4">Найдите путешествие вашей мечты!</h2>
-        <h3 className='text-4xl font-semibold text-rose-600 ml-8 my-8'>Горящие предложения</h3>
+        <h3 className='text-4xl font-semibold text-rose-600 ml-24 my-8'>Горящие предложения</h3>
 
         <div className="mt-8"> 
           <HomeCarousel tours={discountedTours}/>
         </div>
 
-        <div className="mt-20"> 
+        <div className="mt-10"> 
           <HomeCarousel tours={editorsTours}/>
         </div>
 
         <EmailSubscription/>
 
-        <h3 className='text-4xl font-bold text-gray-800 ml-8 mt-8'>Наши новинки</h3>
-        <div className="mt-20"> 
+        <h3 className='text-4xl font-bold text-center text-gray-800 ml-8 mt-8'>Наши новинки</h3>
+        <div className="mt-10"> 
           <NewCarousel tours={newTours}/>
         </div>
         </div>

@@ -1,18 +1,9 @@
 import React from 'react';
-import { Carousel, Card, Button } from 'antd';
+import { Carousel, Card } from 'antd';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import styles from './HomeCarousel.module.css';
-
-const contentStyle = {
-  margin: 0,
-  height: '500px',
-  color: '#fff',
-  lineHeight: '160px',
-  textAlign: 'center',
-  background: '#364d79',
-};
 
 export default function HomeCarousel({ tours }) {
   return (
@@ -31,7 +22,9 @@ export default function HomeCarousel({ tours }) {
                 hoverable
                 // cover={<img alt={tour.name} src={tour.images[0]?.image_path} />}
               >
+                <Link to={`/tours/${tour.id}`} className={styles.link}>
                 <h3 className={`${styles.tourName} text-custom-background`}>{tour.name}</h3>
+              </Link>
                 <div>
                   <p className={styles.tourPrice}>
                     {tour.discount !== null ? (
@@ -44,7 +37,6 @@ export default function HomeCarousel({ tours }) {
                     )}
                   </p>
                   <p className={styles.tourDates}>{formattedStartDate} — {formattedEndDate}</p>
-                  {/* Используем Link вместо Button и указываем to */}
                   <Link to={`/tours/${tour.id}`} className="bg-emerald-500 hover:bg-emerald-400 text-white py-2 px-4 rounded inline-block mt-2">
                     Посмотреть программу
                   </Link>
