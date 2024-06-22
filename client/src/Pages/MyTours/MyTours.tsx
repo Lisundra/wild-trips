@@ -18,8 +18,8 @@ function ParallaxPage() {
   const [activities, setActivities] = useState({});
   const [housings, setHousings] = useState({});
   const [inputs, setInputs] = useState({family_friendly:true, season:'весна', difficulty:'низкая'});
-
   const [arraysCheckBox, setArraysCheckBox] = useState( {facility: [], activity: [], housing: []} )
+  let formData = new FormData()
 
   const user = useSelector((state: RootState) => state.user.user);
 //   const dispatch = useDispatch();
@@ -28,6 +28,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
 )
 
   useEffect(() => {
+    console.log('');
       console.log('MyTours user: ', housings);
       fetchCheckUser()
       axios.post('http://localhost:3100/api/tours/checkBox', {
@@ -69,12 +70,6 @@ const filterObjFalse = (obj)=>Object.fromEntries(
     const { name, value, files } = event.target;
     if(name==='imageUpload')
     {
-      setInputs((prevInputs) => (
-      {
-        ...prevInputs,
-        [name]: files,
-      }
-      ))
     }else
     setInputs((prevInputs) => (
       name==='family_friendly'?
@@ -102,18 +97,48 @@ const filterObjFalse = (obj)=>Object.fromEntries(
       activities: filterObjFalse(activities),
       housings: filterObjFalse(housings)}
      )
+    
+      for (const key in inputs) {
+        if (inputs.hasOwnProperty(key)) {
+           if(key==='images'){
+           console.log("🚀 ~ handleSubmitForm ~ inputs[key]:", inputs[key])
+           Object.values(inputs[key]).forEach(value => {
+            console.log(value);
+            formData.append('images', value);
+          });
+
+          }
+            else
+            formData.append(key, inputs[key]);
+        }
+      }
+
+      formData.append( 'facilitiesPaid', JSON.stringify(filterObjFalse(facilitiesPaid))) 
+      formData.append( 'facilitiesFree', JSON.stringify(filterObjFalse(facilitiesFree))) 
+      formData.append( 'activities', JSON.stringify(filterObjFalse(activities)))
+      formData.append( 'housings', JSON.stringify(filterObjFalse(housings)))
+      //Формируем данные для ручки на создание
+   
+        
+      console.log("🚀 ~ handleSubmitForm ~ formData:", formData.getAll('images'))
+
+
+     axios.post('http://localhost:3100/api/tours/',formData,{withCredentials:true})
+     formData = new FormData()
   }
+
   const handleImageUpload = (event) => {
     const {files} = event.target;
+
+    setInputs((prev) => ({ ...prev, ['images']: files }));
+
+
     const previews = [];
-    setInputs((prevInputs) => (
-      {
-        ...prevInputs,
-        'images': files,
-      }
-      ))
+ 
 
     for (let i = 0; i < files.length; i++) {
+      formData.append('images', files[i]);
+    
       const reader = new FileReader();
       reader.onload = (e) => {
         previews.push(e.target.result);
@@ -123,6 +148,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
       };
       reader.readAsDataURL(files[i]);
     }
+      console.log("🚀 ~ handleImageUpload ~ formData:", formData.getAll('images'))
   };
 
   const handleClickImages = () => {
@@ -255,7 +281,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Проживание</label>
-                {[...Array(10).keys()].map(i => (
+                {[...Array(arraysCheckBox.housing.length).keys()].map(i => (
                   <div key={i}>
                     <label>
                       <input
@@ -272,7 +298,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
           
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Оплатить дополнительно</label>
-                {[...Array(20).keys()].map(i => (
+                {[...Array(arraysCheckBox.facility.length).keys()].map(i => (
                   <div key={i}>
                     <label>
                       <input
@@ -288,7 +314,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Включено в стоимость</label>
-                {[...Array(20).keys()].map(i => (
+                {[...Array(arraysCheckBox.facility.length).keys()].map(i => (
                   <div key={i}>
                     <label>
                       <input

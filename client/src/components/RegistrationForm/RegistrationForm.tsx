@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { InputsTypeAuth } from '../../types';
 import { useAppDispatch } from '../../redux/hooks';
-import { fetchCreateUser } from '../../redux/thunkActions';
+import { fetchCheckUser, fetchCreateUser } from '../../redux/thunkActions';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
@@ -92,7 +92,7 @@ const RegistrationForm = () => {
   
       // Очистка таймаута при размонтировании компонента или изменении зависимостей
       return () => clearTimeout(timeoutId);
-    }
+    }else fetchCheckUser()
   };
 
   return (
