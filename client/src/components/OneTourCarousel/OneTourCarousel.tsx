@@ -2,14 +2,10 @@ import React from 'react';
 import { Carousel } from 'antd';
 import styles from './OneTourCarousel.module.css';
 
-function OneTourCarousel() {
-  const images = [
-    '/src/assets/images/oti1.png',
-    '/src/assets/images/oti2.png',
-    '/src/assets/images/oti3.png',
-    '/src/assets/images/oti4.png',
-    '/src/assets/images/oti5.png',
-  ];
+function OneTourCarousel({ Images }) {
+  
+  const images = (JSON.parse(Images[0].image_path))
+  console.log(images);
 
   let carouselRef = null;
 

@@ -44,7 +44,7 @@ function initMap() {
     map.addChild(listener);
 
     function onClickListenerHandler(object, event) {
-      console.log('click', lineCoordinates);
+      //! console.log('click', lineCoordinates);
       lineCoordinates.push(event.coordinates);
       line.update({
         geometry: {
@@ -101,7 +101,7 @@ function initMap() {
           coordinates: lineCoordinates,
         },
       });
-      console.log('++++++++++++++++++++++', lineCoordinates);
+      //! console.log('++++++++++++++++++++++', lineCoordinates);
       coordinatesInput.value = JSON.stringify({ lineCoordinates });
       if (!lineCoordinates.length) {
         bottomControls.removeChild(clearLineBtn);

@@ -4,13 +4,24 @@ const path = require('path')
 console.log(path.join(__dirname, '../../../client/src/assets/images/'));
 
 // const upload = multer({ dest: '../client/src/assets/images' }); // Укажите путь, куда будут загружаться файлы
+// const storageToursImages = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, path.join(__dirname, '../../../client/src/assets/images') );
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, Date.now() + '-[Tour-Image]-' + file.originalname);
+//   }
+// });
 const storageToursImages = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../../../client/src/assets/images') );
+  destination(req, file, callback) {
+    const uploadPath = `${__dirname}../../../../client/src/assets/images`;
+    callback(null, uploadPath);
   },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-[Tour-Image]-' + file.originalname);
-  }
+  filename(req, file, callback) {
+    const filename = Date.now() + `-[Tour-Image]-${file.originalname}`;
+    //req.savedImagePath = path.join('src/assets/images', Date.now() + '-[Tour-Image]-' + filename);
+    callback(null, filename);
+  },
 });
 const upload = multer({ storage: storageToursImages });
 

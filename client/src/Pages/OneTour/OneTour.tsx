@@ -53,7 +53,7 @@ function OneTour() {
       <br />
       <br />
       <div className="mt-8"> 
-        <OneTourCarousel />
+        <OneTourCarousel { ...tour }/>
       </div>
       <p className='m-3'>{tour.name}</p>
       <button className='m-3' type='button'>
@@ -94,9 +94,9 @@ function OneTour() {
           </span>
         ))}
       </p>
-      {/* <div className="map-container m-3">
+      <div className="map-container m-3">
         <DrawnTourMap />
-      </div> */}
+      </div>
     </div>
   );
 }

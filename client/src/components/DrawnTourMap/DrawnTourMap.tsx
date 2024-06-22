@@ -29,8 +29,8 @@ function DrawnTourMap() {
 
   return (
     <>
-    <input hidden name="coordinates" id="coordinates" type="text" />
-    <div id="map" className="map" style={{ width: "500px", height: "500px", backgroundColor: "#333" }} />
+      {/* <input name="coordinates" id="coordinates" type="text" style={{ width: "1300px" }}/> */}
+      <div id="map" className="map" style={{ width: "1300px", height: "500px", backgroundColor: "#333" }} />
     </>
   );
 }
