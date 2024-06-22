@@ -1,2 +1,3 @@
 # Ignore macOS .DS_Store file
 .DS_Store
+client/output.css
