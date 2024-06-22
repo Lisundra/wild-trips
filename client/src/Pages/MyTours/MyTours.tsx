@@ -102,7 +102,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
   };
   const handleContainerClick = (e) => {
     if (e.target === e.currentTarget) {
-      setShowForm(true);
+                    //! удалить
     }
   };
 
@@ -216,8 +216,9 @@ const filterObjFalse = (obj)=>Object.fromEntries(
     <div className="relative bg-cover bg-center min-h-screen"  style={{ backgroundImage: `url('./src/assets/images/minimalizm-montains-1.jpg')` }}>
       <div className="absolute inset-0 bg-black opacity-50"  />
      <br /> <br /> <br />
-      <div  onClick={handleContainerClick} className="relative mt-10 z-9 flex flex-col items-center justify-center min-h-screen text-white">
+      <div className="relative mt-10 z-9 flex flex-col items-center justify-start min-h-screen text-white">
         <h1 className="text-4xl font-bold">Личный кабинет {user?.login}</h1>
+
         <button
           className="mt-6 px-4 py-2 bg-blue-600 hover:bg-blue-800 rounded"
           onClick={() => setShowForm(!showForm)}
