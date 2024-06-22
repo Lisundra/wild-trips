@@ -8,7 +8,7 @@ import styles from './HomeCarousel.module.css';
 export default function HomeCarousel({ tours }) {
   return (
     <div className={styles.carouselContainer}>
-      <Carousel className={styles.carouselFromAnt} autoplay autoplaySpeed={5000} arrows>
+      <Carousel className={styles.carouselFromAnt} autoplay draggable autoplaySpeed={5000} arrows>
         {tours.map((tour) => {
           const startDate = new Date(tour.start_date);
           const endDate = new Date(tour.end_date);

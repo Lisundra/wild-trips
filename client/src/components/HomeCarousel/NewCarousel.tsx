@@ -9,6 +9,7 @@ export default function NewCarousel({ tours }) {
       <Carousel
         className={styles.carouselFromAnt}
         autoplay
+        draggable
         autoplaySpeed={5000}
         arrows
         slidesToShow={3}
