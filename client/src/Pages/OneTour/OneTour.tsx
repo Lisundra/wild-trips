@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { format, differenceInDays } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import OneTourCarousel from '../../components/OneTourCarousel/OneTourCarousel';
+import DrawnTourMap from '../../components/DrawnTourMap/DrawnTourMap';
 
 function getDaysWordForm(days) {
   const lastDigit = days % 10;
@@ -50,8 +52,9 @@ function OneTour() {
     <div>
       <br />
       <br />
-      <br />
-      <br />
+      <div className="mt-8"> 
+        <OneTourCarousel { ...tour }/>
+      </div>
       <p className='m-3'>{tour.name}</p>
       <button className='m-3' type='button'>
         Отправить заявку
@@ -92,7 +95,7 @@ function OneTour() {
         ))}
       </p>
       <div className="map-container m-3">
-        <div id="map" className="map" style={{ width: "500px", height: "500px", backgroundColor: "#333"}}></div>
+        <DrawnTourMap />
       </div>
     </div>
   );
