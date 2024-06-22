@@ -1,0 +1,29 @@
+.tourName {
+    font-weight: 700;
+    font-size: x-large;
+}
+
+.tourPrice, .tourDates, .tourCountry {
+    font-size: medium;
+}
+
+.originalPrice {
+    color: black;
+  }
+  
+.discountedPrice {
+    text-decoration: line-through;
+    color: red;
+}
+
+.carouselFromAnt {
+    margin: 0 40px;
+    width: 1400px;
+}
+
+.carouselContainer {
+    display: flex;
+  justify-content: center;
+  
+}
+  

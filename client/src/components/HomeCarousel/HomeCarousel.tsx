@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Card, Carousel } from 'antd';
-import Meta from 'antd/es/card/Meta';
+import React from 'react';
+import { Carousel, Card, Button } from 'antd';
+import { Link } from 'react-router-dom';
+import { format } from 'date-fns';
+import { ru } from 'date-fns/locale';
+import styles from './HomeCarousel.module.css';
 
-// Стиль для контента слайда
 const contentStyle = {
   margin: 0,
   height: '500px',
@@ -12,65 +14,46 @@ const contentStyle = {
   background: '#364d79',
 };
 
-function HomeCarousel() {
-  const images = [
-    '/src/assets/images/tigers.png',
-    '/src/assets/images/fjord.png',
-    '/src/assets/images/arctic.png',
-    '/src/assets/images/rainforest.png',
-  ];
-
+export default function HomeCarousel({ tours }) {
   return (
-    <Carousel autoplay autoplaySpeed={3500} arrows>
-  {images.map((src, index) => (
-    <div key={index}>
-      <div style={contentStyle}>
-        <img src={src} alt={`Slide ${index}`} style={{ width: '100%', height: 'auto' }} />
-      </div>
+    <div className={styles.carouselContainer}>
+      <Carousel className={styles.carouselFromAnt} autoplay autoplaySpeed={5000} arrows>
+        {tours.map((tour) => {
+          const startDate = new Date(tour.start_date);
+          const endDate = new Date(tour.end_date);
+          const formattedStartDate = format(startDate, 'dd MMM', { locale: ru });
+          const formattedEndDate = format(endDate, 'dd MMM', { locale: ru });
+
+          return (
+            <div key={tour.id}>
+              <Card
+                className={styles.cardContainer}
+                hoverable
+                // cover={<img alt={tour.name} src={tour.images[0]?.image_path} />}
+              >
+                <h3 className={`${styles.tourName} text-custom-background`}>{tour.name}</h3>
+                <div>
+                  <p className={styles.tourPrice}>
+                    {tour.discount !== null ? (
+                      <>
+                        <span className={`${styles.discountedPrice} ${styles.originalPrice} mr-2`}>{tour.price} ₽</span>
+                        <span>{tour.price - tour.discount} ₽</span>
+                      </>
+                    ) : (
+                      <span className={styles.originalPrice}>{tour.price}₽</span>
+                    )}
+                  </p>
+                  <p className={styles.tourDates}>{formattedStartDate} — {formattedEndDate}</p>
+                  {/* Используем Link вместо Button и указываем to */}
+                  <Link to={`/tours/${tour.id}`} className="bg-emerald-500 hover:bg-emerald-400 text-white py-2 px-4 rounded inline-block mt-2">
+                    Посмотреть программу
+                  </Link>
+                </div>
+              </Card>
+            </div>
+          );
+        })}
+      </Carousel>
     </div>
-  ))}
-</Carousel>
   );
 }
-
-export default HomeCarousel;
-
-
-// import React from 'react';
-// import { Carousel, Card, Button } from 'antd';
-
-// export default function HomeCarousel({ tours }) {
-//   return (
-//     <Carousel autoplay autoplaySpeed={2500} arrows>
-//       {tours.map((tour) => (
-//         <div key={tour.id}>
-//           <Card
-//             hoverable
-//             cover={<img alt={tour.name} src={tour.images[0]?.image_path} />}
-//           >
-//             <h3>{tour.name}</h3>
-//             <div>
-//               <p>
-//                 {tour.discount !== null ? (
-//                   <>
-//                     <span className="line-through mr-2">{tour.price}</span>
-//                     <span>{tour.price - tour.discount}</span>
-//                   </>
-//                 ) : (
-//                   tour.price
-//                 )}
-//               </p>
-//               <p>{tour.start_date} - {tour.end_date}</p>
-//               <Button type="primary" href={`/tour/${tour.id}`}>
-//                 Посмотреть программу
-//               </Button>
-//             </div>
-//           </Card>
-//         </div>
-//       ))}
-//     </Carousel>
-//   );
-// }
-
-
-

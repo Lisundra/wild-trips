@@ -13,11 +13,11 @@ const {
 } = require('../controllers/tours-controller');
 
 router
-  .get('/', getAllTours)
-  .get('/:id', getOneTour)
   .get('/discounted', getDiscountedTours)
   .get('/editors', getEditorsTours)
   .get('/new', getNewTours)
+  .get('/', getAllTours)
+  .get('/:id', getOneTour)
   .post('/checkBox', getAllOptions)
   .post('/', createTour);
   // .patch('/:id', editTour)
