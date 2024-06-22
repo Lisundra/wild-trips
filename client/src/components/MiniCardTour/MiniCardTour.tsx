@@ -58,17 +58,6 @@ const MiniCardTour = ({
           </div>
         }
       />
-      <div className="mt-4 flex justify-between">
-        <Button type="primary" danger>
-          удалить
-        </Button>
-        <Button type="primary">
-          Изменить
-        </Button>
-        <Button type="primary">
-          Выгрузка заявок
-        </Button>
-      </div>
     </Card>
   );
 };

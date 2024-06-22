@@ -7,6 +7,7 @@ import type { RootState } from '../../redux/store';
 import DifficultyClue from '../../components/DifficultyClue/DifficultyClue';
 import MiniCardTour from '../../components/MiniCardTour/MiniCardTour';
 import DrawnTourMap from '../../components/DrawnTourMap/DrawnTourMap';
+import { Button, Card } from 'antd';
 
 
 
@@ -14,6 +15,7 @@ function ParallaxPage() {
   const [showForm, setShowForm] = useState(false);
   const [showImages, setShowImages] = useState(false);
   const [tourCreated, setTourCreated] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
   const [dataTours, setDataTours] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [facilitiesPaid, setFacilitiesPaid] = useState({});
@@ -100,7 +102,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
   };
   const handleContainerClick = (e) => {
     if (e.target === e.currentTarget) {
-      setShowForm(false);
+      setShowForm(true);
     }
   };
 
@@ -165,6 +167,9 @@ const filterObjFalse = (obj)=>Object.fromEntries(
       res?setTourCreated(true):setTourCreated(false)
      }).catch(err=>setTourCreated(false))
 
+     setTimeout(() => {
+      setTourCreated(false);
+    }, 1500);
      formData = new FormData()
   }
 
@@ -196,6 +201,15 @@ const filterObjFalse = (obj)=>Object.fromEntries(
     setShowImages(!showImages);
   };
 
+
+  const deleteHandler = (id) => {
+    axios.delete(`http://localhost:3100/api/tours/${id}`,{
+    withCredentials:true
+    })
+    setDataTours(dataTours.filter(card => card.id !== id));
+
+    setIsDelete(true)
+  };
 
   return (
     
@@ -296,13 +310,14 @@ const filterObjFalse = (obj)=>Object.fromEntries(
                         ))}
                       </div>      
                     )}
-           
               </div>
             </div>
+
             <div className="map-container min-w-full">
               Карта маршрута:
               <DrawnTourMap />
             </div>
+
             <div className="w-full p-2 flex justify-around">
                
               <div className="mb-4">
@@ -372,16 +387,31 @@ const filterObjFalse = (obj)=>Object.fromEntries(
               </div>
             </div>
                     <div className='flex justify-center flex-1'>
-              <button className="mt-4 px-4 py-2 bg-green-600 hover:bg-green-800 rounded" >Сохранить тур</button>
+              <button className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-800 rounded text-white" >Сохранить тур</button>
+                  <div className={`absolute -mt-5 rounded p-1 bg-green-600 transition-opacity duration-1000
+                   ${tourCreated ? 'opacity-100' : 'opacity-0'}`}>
+                          Ваш тур успешно создан!
+                  </div>
               </div>
           </form>
         )}
         <div className='allTours flex flex-wrap justify-around'>
                   {
-                    dataTours.map(el=>(
-                    <div className='Card m-5'>
-                    <MiniCardTour {...el}  />
-                    </div>
+                    dataTours.map(tour=>(
+                      <Card key={tour.id} className="mt-4 -p-3 flex justify-between">
+                  <MiniCardTour {...tour}  />
+                    <div className="mt-4 flex justify-between">
+                   <Button type="primary" onClick={()=>deleteHandler(tour.id)} danger>
+                     удалить
+                   </Button>
+                  <Button type="primary">
+                  Изменить
+                  </Button>
+                   <Button type="primary">
+                     Выгрузка заявок
+                   </Button>
+                  </div>
+                    </Card>
                     ))
                   }
         </div>
