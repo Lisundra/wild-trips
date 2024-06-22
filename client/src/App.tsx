@@ -20,19 +20,17 @@ function App(): JSX.Element {
   
 
   return (
-    
     <div className="App-page">
       <Navbar />
       <div className='App-container'>
         <Routes>
           <Route index element={<Home />} />  
           <Route path="MyTours" element={<ProtectedMyTours />} />
-          <Route path="/:id" element={<OneTour />} />
+          <Route path=":id" element={<OneTour />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
     </div>
-
   );
 }
 

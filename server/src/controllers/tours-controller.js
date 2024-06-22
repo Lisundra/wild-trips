@@ -10,7 +10,13 @@ const { Op, where } = require('sequelize');
 module.exports = {
   getAllTours: async (req, res) => {
     try {
-      const allTours = await Tour.findAll();
+      const allTours = await Tour.findAll({
+        include: [
+          {
+            model: Image,
+          },
+        ],
+      });
       const allToursPlain = allTours.map((tour) => tour.get({ plain: true }));
       res.json(allToursPlain);
     } catch (err) {
@@ -54,6 +60,9 @@ module.exports = {
           {
             model: Facility,
           },
+          {
+            model: Image,
+          },
         ],
       });
       const oneTourPlain = oneTour.get({ plain: true });
@@ -77,6 +86,7 @@ module.exports = {
       });
       const discountedToursPlain = discountedTours.map((tour) => tour.get({ plain: true }));
       res.json(discountedToursPlain);
+      // console.log('*__________________*', discountedToursPlain);
     } catch (err) {
       res.status(400).json({ err: err.message });
     }
@@ -129,8 +139,7 @@ module.exports = {
 
   createTour: async (req, res) => {
 
-    const { login } = req.session;
-    
+    const { login } = req.session;    
     let user = await User.findOne({ where: { login } });
     if(!user){
       user={id:1}
@@ -151,9 +160,13 @@ module.exports = {
       facilitiesFree,
       facilitiesPaid,
       activities,
-      housings
+      housings,
+      coordinates,
   } = req.body;
-  const images = req.files.map(file => file.path);
+  console.log('----------------------------------', coordinates);
+
+  const images = req.files.map((file) => `/src/assets/images/${file.filename}`);
+
   const duration = Math.ceil((new Date(end_date) - new Date(start_date)) / (1000 * 60 * 60 * 24));
 //   const testData = {
 //     title, 
@@ -194,6 +207,7 @@ module.exports = {
         difficulty,
         family_friendly:family_friendly.toLowerCase() === 'false' ? false : true,
         organizer_id: user.id,
+        coordinates,
       });
       // console.log(createdTour);
       const jsonImages = JSON.stringify(images);

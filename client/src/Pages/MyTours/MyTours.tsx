@@ -6,7 +6,7 @@ import { fetchCheckUser } from '../../redux/thunkActions';
 import type { RootState } from '../../redux/store';
 import DifficultyClue from '../../components/DifficultyClue/DifficultyClue';
 import MiniCardTour from '../../components/MiniCardTour/MiniCardTour';
-
+import DrawnTourMap from '../../components/DrawnTourMap/DrawnTourMap';
 
 
 
@@ -198,6 +198,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
 
 
   return (
+    
     <div className="relative bg-cover bg-center min-h-screen"  style={{ backgroundImage: `url('./src/assets/images/minimalizm-montains-1.jpg')` }}>
       <div className="absolute inset-0 bg-black opacity-50"  />
      <br /> <br /> <br />
@@ -299,8 +300,8 @@ const filterObjFalse = (obj)=>Object.fromEntries(
               </div>
             </div>
             <div className="map-container min-w-full">
-                Карта маршрута:
-                <div id="map" className="map min-h-96 min-w-full bg-gray-300" />
+              Карта маршрута:
+              <DrawnTourMap />
             </div>
             <div className="w-full p-2 flex justify-around">
                
