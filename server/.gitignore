@@ -130,3 +130,6 @@ dist
 .pnp.*
 
 sessions
+
+# Ignore macOS .DS_Store file
+.DS_Store
