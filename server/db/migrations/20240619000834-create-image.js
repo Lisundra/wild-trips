@@ -15,7 +15,7 @@ module.exports = {
       },
       tour_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: {
             tableName: 'Tours',
@@ -27,7 +27,7 @@ module.exports = {
       },
       news_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: {
             tableName: 'News',

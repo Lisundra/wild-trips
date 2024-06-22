@@ -27,3 +27,6 @@ dist-ssr
 
 # Builder resolve css for Tale wind
 src/output.css
+
+# Ignore macOS .DS_Store file
+.DS_Store

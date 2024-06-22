@@ -1,0 +1,104 @@
+.carouselContainer {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  border-color: #fff;
+}
+
+.carousel {
+  width: 3100px;
+  margin-top: 45px;
+  margin-left: 40px;
+  height: 500px;
+  background-color: #fff;
+  border-color: #fff;
+}
+
+.carouselImage {
+  border-radius: 25px;
+  border-color: #fff;
+  width: 1000px;
+  height: 500px;
+  object-fit: cover;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  /* cursor: pointer; */
+}
+
+button.prevButton {
+  z-index: 1;
+	width: 50px;
+	height: 50px;
+	position: absolute;
+	left: 15.5%;
+	top: 50%;
+	transform: rotate(-135deg);
+	
+	&::before {
+		content: '';
+		width: 100%;
+		height: 100%;
+		border-width: 7.5px 7.5px 0 0;
+		border-color: rgba(255, 255, 255, 0.7);
+		display: block;
+	}
+
+  &:hover::before {
+    border-color: rgba(255, 255, 255, 1.0); /* Цвет при наведении */
+  }
+}
+
+button.nextButton {
+  z-index: 1;
+	width: 50px;
+	height: 50px;
+	position: absolute;
+	left: 82%;
+	top: 50%;
+	transform: rotate(45deg);
+	
+	&::before {
+		content: '';
+		width: 100%;
+		height: 100%;
+		border-width: 7.5px 7.5px 0 0;
+		border-color: rgba(255, 255, 255, 0.7);
+		display: block;
+	}
+
+  &:hover::before {
+    border-color: rgba(255, 255, 255, 1.0); /* Цвет при наведении */
+  }
+}
+.slick-dots {
+  position: absolute;
+  bottom: 20px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.slick-dots li {
+  margin: 0 5px;
+}
+
+.slick-dots li button {
+  width: 10px;
+  height: 10px;
+  border: none;
+  border-radius: 50%;
+  background-color: #ccc;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.3s;
+}
+
+.slick-dots li.slick-active button {
+  background-color: #333;
+  opacity: 1;
+}

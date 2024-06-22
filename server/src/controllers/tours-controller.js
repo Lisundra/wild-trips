@@ -3,12 +3,20 @@ const { Tour } = require('../../db/models');
 const { Activity } = require('../../db/models');
 const { Housing } = require('../../db/models');
 const { Facility } = require('../../db/models');
+const { Image } = require('../../db/models');
+const { TourOption } = require('../../db/models');
 const { Op } = require('sequelize');
 
 module.exports = {
   getAllTours: async (req, res) => {
     try {
-      const allTours = await Tour.findAll();
+      const allTours = await Tour.findAll({
+        include: [
+          {
+            model: Image,
+          },
+        ],
+      });
       const allToursPlain = allTours.map((tour) => tour.get({ plain: true }));
       res.json(allToursPlain);
     } catch (err) {
@@ -30,6 +38,9 @@ module.exports = {
           },
           {
             model: Facility,
+          },
+          {
+            model: Image,
           },
         ],
       });
@@ -106,8 +117,12 @@ module.exports = {
   },
 
   createTour: async (req, res) => {
-    const { login } = req.session;
-    const user = await User.findOne({ where: { login } });
+
+    const { login } = req.session;    
+    let user = await User.findOne({ where: { login } });
+    if(!user){
+      user={id:1}
+    }
     const { 
       title, 
       subtitle,
@@ -121,55 +136,102 @@ module.exports = {
       season,
       difficulty,
       family_friendly,
-      activities, //! здесь нужен массив выбранных активностей
-      housings, //! здесь нужен массив выбранных типов размещения в туре
-      facilities, //! здесь нужен массив выбранных удобств
-    } = req.body;
+      facilitiesFree,
+      facilitiesPaid,
+      activities,
+      housings,
+      coordinates,
+  } = req.body;
+  console.log('----------------------------------', coordinates);
 
-    const duration = Math.ceil((new Date(end_date) - new Date(start_date)) / (1000 * 60 * 60 * 24));
+  const images = req.files.map((file) => `/src/assets/images/${file.filename}`);
+
+  const duration = Math.ceil((new Date(end_date) - new Date(start_date)) / (1000 * 60 * 60 * 24));
+//   const testData = {
+//     title, 
+//     subtitle,
+//     start_date,
+//     end_date,
+//     description,
+//     price,
+//     discount,
+//     country,
+//     region,
+//     season,
+//     difficulty,
+//     family_friendly,
+//     facilitiesFree,
+//     facilitiesPaid,
+//     activities,
+//     housings,
+//     duration,
+//     images
+//   }
+//  console.log(testData);
 
     try {
-
       const createdTour = await Tour.create({ 
+        name:title,
         title,
         subtitle,
         description,
-        start_date,
-        end_date,
+        start_date:new Date(start_date),
+        end_date:new Date(end_date),
         duration,
-        price,
-        discount,
+        price:Number(price),
+        discount:Number(discount),
         country,
         region,
         season,
         difficulty,
-        family_friendly,
+        family_friendly:family_friendly.toLowerCase() === 'false' ? false : true,
         organizer_id: user.id,
+        coordinates,
       });
+      // console.log(createdTour);
+      const jsonImages = JSON.stringify(images);
 
-      for (let activity_id of activities) {
-        await TourOption.create({
-          tour_id: createdTour.id,
-          activity_id,
-        });
-      }
-
-      for (let housing_id of housings) {
-        await TourOption.create({
-          tour_id: createdTour.id,
-          housing_id,
-        });
-      }
-
-      for (let facility_id of facilities) {
-        await TourOption.create({
-          tour_id: createdTour.id,
-          facility_id,
-        });
-      }
+  Image.create({image_path:jsonImages,tour_id:createdTour.id})
       
-      res.json({ status: 'success', createdTour });
+const activityIds = JSON.parse(activities);
+const housingIds = JSON.parse(housings);
+const facilitiesFreeIds = JSON.parse(facilitiesFree);
+const facilitiesPaidIds = JSON.parse(facilitiesPaid);
+
+for (let activity_id of Object.keys(activityIds)) {
+  console.log("🚀 ~ createTour: ~ activity_id:", Object.keys(activityIds))
+  
+  await TourOption.create({
+    tour_id: createdTour.id,
+    activity_id: parseInt(activity_id),
+  });
+}
+
+for (let housing_id of Object.keys(housingIds)) {
+  await TourOption.create({
+    tour_id: createdTour.id,
+    housing_id: parseInt(housing_id),
+  });
+}
+
+for (let facility_id of Object.keys(facilitiesFreeIds)) {
+  await TourOption.create({
+    tour_id: createdTour.id,
+    facility_id: parseInt(facility_id),
+    type: false
+  });
+}
+
+for (let facility_id of Object.keys(facilitiesPaidIds)) {
+  await TourOption.create({
+    tour_id: createdTour.id,
+    facility_id: parseInt(facility_id),
+    type: true
+  });
+}
+     res.status(200).json({ status: 'success'});
     } catch (err) {
+      console.log("🚀 ~ createTour: ~ err:", err)
       res.status(400).json({ err: err.message });
     }
   },
