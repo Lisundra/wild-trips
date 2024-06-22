@@ -14,11 +14,12 @@ const Navbar = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     let user = useSelector((state: RootState) => state.user.user);
     const dispatch = useDispatch();
-    
+    const checkedUser= () => {
+        dispatch(fetchCheckUser())
+        console.log('Проверка пользователя');
+      };
     useEffect(() => {
-
         console.log(user);
-        
         
         if (user?.message) {
             setTimeout(() => closeModal(), 1500);
@@ -92,7 +93,7 @@ const Navbar = () => {
                             )}
                             {(user) && (
                                 <>
-                                    <button className="text-white">
+                                    <button className="text-white" onClick={checkedUser}>
                                         <Link to="/MyTours" className="text-white">
                                             Мои туры
                                         </Link>

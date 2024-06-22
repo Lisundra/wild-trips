@@ -1,0 +1,42 @@
+.tourName {
+    font-weight: 700;
+    font-size: x-large;
+}
+
+.tourPrice, .tourDates, .tourCountry {
+    font-size: medium;
+}
+
+.originalPrice {
+    color: black;
+}
+
+.discountedPrice {
+    text-decoration: line-through;
+    color: red;
+}
+
+.carouselFromAnt {
+    margin: 0 40px;
+    width: 1400px;
+    position: relative; /* Чтобы стрелки позиционировались относительно карусели */
+}
+
+.carouselContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.carouselSlide {
+    padding: 15px; /* Половина расстояния между карточками */
+    box-sizing: border-box; /* Учитываем padding в общей ширине */
+}
+
+.cardContainer {
+    width: 100%;
+    height: 400px; /* Фиксированная высота для создания квадратного контейнера */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
