@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import styles from './EmailSubscription.module.css';
 import { Button, Input } from 'antd';
 import axios from 'axios';
+import styles from './EmailSubscription.module.css';
 
 export default function EmailSubscription() {
   const [email, setEmail] = useState('');

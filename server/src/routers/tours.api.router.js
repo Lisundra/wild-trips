@@ -28,11 +28,11 @@ const {
 } = require('../controllers/tours-controller');
 
 router
-  .get('/', getAllTours)
-  .get('/:id', getOneTour)
   .get('/discounted', getDiscountedTours)
   .get('/editors', getEditorsTours)
   .get('/new', getNewTours)
+  .get('/', getAllTours)
+  .get('/:id', getOneTour)
   .post('/checkBox', getAllOptions)
   .post('/',upload.array('images',10), createTour);
   // .patch('/:id', editTour)

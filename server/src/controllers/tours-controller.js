@@ -56,6 +56,7 @@ module.exports = {
       });
       const discountedToursPlain = discountedTours.map((tour) => tour.get({ plain: true }));
       res.json(discountedToursPlain);
+      // console.log('*__________________*', discountedToursPlain);
     } catch (err) {
       res.status(400).json({ err: err.message });
     }
