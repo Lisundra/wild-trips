@@ -21,8 +21,6 @@ function App(): JSX.Element {
   return (
     <div className="App-page">
       <Navbar />
-    <div className="App-page">
-      <Navbar />
       <div className='App-container'>
         <Routes>
           <Route index element={<Home />} />  
@@ -30,7 +28,6 @@ function App(): JSX.Element {
           <Route path="tours/:id" element={<OneTour />} />
         </Routes>
       </div>
-    </div>
     </div>
   );
 }

@@ -106,6 +106,7 @@ module.exports = {
 
   createTour: async (req, res) => {
     const { login } = req.session;
+    const { coordinates } = req.body; //! добавить логику
     const user = await User.findOne({ where: { login } });
     const { 
       title, 
