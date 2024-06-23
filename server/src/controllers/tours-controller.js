@@ -163,7 +163,8 @@ module.exports = {
       housings,
       coordinates,
   } = req.body;
-  console.log('----------------------------------', coordinates);
+
+  console.log('\n\n\n----------------------------------',typeof coordinates);
 
   const images = req.files.map((file) => `/src/assets/images/${file.filename}`);
 
@@ -207,7 +208,7 @@ module.exports = {
         difficulty,
         family_friendly:family_friendly.toLowerCase() === 'false' ? false : true,
         organizer_id: user.id,
-        coordinates,
+        coordinates:JSON.parse(coordinates),
       });
       // console.log(createdTour);
       const jsonImages = JSON.stringify(images);
