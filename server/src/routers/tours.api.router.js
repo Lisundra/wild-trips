@@ -32,13 +32,11 @@ const {
 
 router
   .get('/', getAllTours)
-  .get('/org', getAllToursByUser)
-  .get('/:id', getOneTour)
   .get('/discounted', getDiscountedTours)
   .get('/editors', getEditorsTours)
   .get('/new', getNewTours)
-  .get('/', getAllTours)
   .get('/:id', getOneTour)
+  .get('/org', getAllToursByUser)
   .post('/checkBox', getAllOptions)
   .post('/',upload.array('images',10), createTour)
   // .patch('/:id', editTour)

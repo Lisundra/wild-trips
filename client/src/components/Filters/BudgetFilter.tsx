@@ -4,7 +4,7 @@ import { Col, InputNumber, Row, Slider, Space } from 'antd';
 import styles from './Filters.module.css';
 
 const BudgetRangeSlider: React.FC = () => {
-  const [inputValue, setInputValue] = useState<[number, number]>([0, 1000]);
+  const [inputValue, setInputValue] = useState<[number, number]>([1, 2000000]);
 
   const onChange = (newValue: [number, number]) => {
     setInputValue(newValue);
@@ -15,23 +15,23 @@ const BudgetRangeSlider: React.FC = () => {
       <Col span={12}>
         <Slider
           range
-          min={0}
-          max={1000}
+          min={1}
+          max={2000000}
           onChange={onChange}
           value={inputValue}
         />
       </Col>
       <Col span={4}>
         <InputNumber
-          min={0}
-          max={1000}
+          min={1}
+          max={2000000}
           value={inputValue[0]}
           onChange={(value) => onChange([value as number, inputValue[1]])}
           style={{ margin: '0 16px' }}
         />
         <InputNumber
-          min={0}
-          max={1000}
+          min={1}
+          max={2000000}
           value={inputValue[1]}
           onChange={(value) => onChange([inputValue[0], value as number])}
           style={{ margin: '0 16px' }}

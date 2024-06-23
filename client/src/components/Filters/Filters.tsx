@@ -9,16 +9,16 @@ import DifficultyFilter from './DifficultyFilter';
 import HousingsFilter from './HousingsFilter';
 import ChildrenFilter from './ChildrenFilter';
 
-export default function Filters() {
+export default function Filters({ setFilters }) {
   return (
     <div className={styles.filtersContainer}>
         <h4 className={styles.filtersHeading}>Фильтры</h4>
         <DateFilter />
         <DurationSlider />
         <BudgetFilter />
-        <SeasonFilter />
+        <SeasonFilter setFilters={setFilters} />
         <ActivitiesFilter />
-        <DifficultyFilter />
+        <DifficultyFilter setFilters={setFilters} />
         <HousingsFilter />
         <ChildrenFilter />
     </div>
