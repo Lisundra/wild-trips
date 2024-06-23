@@ -1,7 +1,9 @@
 function initMap() {
   const mapContainer = document.getElementById('map');
   const coordinatesInput = document.getElementById('coordinates');
+  const markerTitleInput = document.getElementById('markerTitle');
   const lineCoordinates = [];
+  const markers = [];
 
   ymaps3.ready.then(() => {
     const {
@@ -38,12 +40,22 @@ function initMap() {
     });
     map.addChild(line);
 
+    ymaps3.import('@yandex/ymaps3-controls@0.0.1').then((res) => {
+      const { YMapZoomControl } = res;
+      map.addChild(
+        new YMapControls({ position: 'right' })
+          .addChild(new YMapZoomControl({}))
+      );
+    });
+
     const listener = new YMapListener({
       onClick: onClickListenerHandler,
     });
     map.addChild(listener);
 
     function onClickListenerHandler(object, event) {
+      const markerTitle = markerTitleInput.value.trim(); // Убираем лишние пробелы
+
       //  console.log('click', lineCoordinates);
       lineCoordinates.push(event.coordinates);
       line.update({
@@ -53,6 +65,24 @@ function initMap() {
         },
       });
       coordinatesInput.value = JSON.stringify({ lineCoordinates });
+
+      //! Добавляем маркер только если поле ввода не пустое
+      if (markerTitle) {
+        ymaps3.import('@yandex/ymaps3-markers@0.0.1').then((res) => {
+          const { YMapDefaultMarker } = res;
+          const newMarker = new YMapDefaultMarker({
+            coordinates: event.coordinates,
+            color: '#01BBEA',
+            title: markerTitle,
+            iconLayout: 'default#image',
+            iconImageHref: '../src/assets/avatars/1719151273810-1534058.png',
+            iconImageSize: [20, 20] //! задаем размер изображения маркера
+          });
+          map.addChild(newMarker);
+          markers.push(newMarker); //! Сохраняем маркер в массив
+        });
+      }
+
       bottomControls.addChild(clearLineBtn);
       bottomControls.addChild(clearLastLineBtn);
     }
