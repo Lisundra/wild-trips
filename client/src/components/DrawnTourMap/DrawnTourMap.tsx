@@ -30,7 +30,7 @@ function DrawnTourMap() {
   return (
     <>
       {/* <input name="coordinates" id="coordinates" type="text" style={{ width: "1300px" }}/> */}
-      <div id="map" className="map" style={{ width: "1300px", height: "500px", backgroundColor: "#333" }} />
+      <div id="map" className="map" style={{ width: "100%", height: "400px", backgroundColor: "#333" }} />
     </>
   );
 }
