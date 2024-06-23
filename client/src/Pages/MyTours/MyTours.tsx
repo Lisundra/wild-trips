@@ -106,11 +106,23 @@ const filterObjFalse = (obj)=>Object.fromEntries(
     }
   };
 
+  const handleCoordinatesChange = (coordinates) => {
+    console.log("🚀 ~ handleCoordinatesChange ~ coordinates:", coordinates.lineCoordinates)
+
+    setInputs((prevInputs) => (
+      {
+      ...prevInputs,
+      'coordinates':coordinates.lineCoordinates,
+      }
+    ))
+  }
+
   const handleInputsChange = (event)=>{
     const { name, value, files } = event.target;
-    if(name==='imageUpload')
-    {
-    }else
+
+
+    
+
     setInputs((prevInputs) => (
       name==='family_friendly'?
     {
@@ -149,6 +161,10 @@ const filterObjFalse = (obj)=>Object.fromEntries(
 
           }
             else
+            if(key==='coordinates'){
+              const jsonString = JSON.stringify(inputs[key]);
+              formData.append(key, jsonString);
+            }else
             formData.append(key, inputs[key]);
         }
       }
@@ -315,8 +331,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
             </div>
 
             <div className="map-container min-w-full">
-              Карта маршрута:
-              <DrawnTourMap />
+            <DrawnTourMap onInputChange={handleCoordinatesChange} />
             </div>
 
             <div className="w-full p-2 flex justify-around">

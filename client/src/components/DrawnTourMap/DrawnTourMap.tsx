@@ -1,6 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-function DrawnTourMap() {
+function DrawnTourMap({ onInputChange }) {
+  const inputRef = useRef(null);
+  const [coordinates,setCoordinates] = useState('')
+
   useEffect(() => {
     const scriptYandexMap = document.createElement('script');
     scriptYandexMap.src = "https://api-maps.yandex.ru/v3/?apikey=87ed632f-c0e8-449d-bbea-679b283fdda3&lang=ru_RU";
@@ -25,12 +28,25 @@ function DrawnTourMap() {
         document.head.removeChild(existingScriptAddTrail);
       }
     };
-  }, []); //! пустой массив зависимостей
+  }, []);
+
+  const handleClickMap = (event) => {
+    const inputValue = inputRef.current.value;
+    // console.log('Input value:', JSON.parse(inputValue));
+    onInputChange(  JSON.parse(inputValue) )
+  };
 
   return (
     <>
-      {/* <input name="coordinates" id="coordinates" type="text" style={{ width: "1300px" }}/> */}
-      <div id="map" className="map" style={{ width: "100%", height: "400px", backgroundColor: "#333" }} />
+      <input
+        name="coordinates"
+        id="coordinates"
+        style={{ width: "1300px" }}
+        ref={inputRef}
+        // onInput={handleInputChange}
+
+      />
+      <div id="map" className="map" onClick={handleClickMap} style={{ width: "100%", height: "400px", backgroundColor: "#333" }} />
     </>
   );
 }
