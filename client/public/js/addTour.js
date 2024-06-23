@@ -3,7 +3,7 @@ function initMap() {
   const coordinatesInput = document.getElementById('coordinates');
   const markerTitleInput = document.getElementById('markerTitle');
   const lineCoordinates = [];
-  const markers = []; // Массив для хранения маркеров
+  const markers = [];
 
   ymaps3.ready.then(() => {
     const {
@@ -36,7 +36,7 @@ function initMap() {
         type: 'LineString',
         coordinates: lineCoordinates,
       },
-      style: { stroke: [{ color: '#01BBEA', width: 4 }] },
+      style: { stroke: [{ color: '#007afce6', width: 4 }] },
     });
     map.addChild(line);
 
@@ -54,6 +54,8 @@ function initMap() {
     map.addChild(listener);
 
     function onClickListenerHandler(object, event) {
+      const markerTitle = markerTitleInput.value.trim(); // Убираем лишние пробелы
+
       //  console.log('click', lineCoordinates);
       lineCoordinates.push(event.coordinates);
       line.update({
@@ -62,7 +64,7 @@ function initMap() {
           coordinates: lineCoordinates,
         },
       });
-      coordinatesInput.value = JSON.stringify(lineCoordinates);
+      coordinatesInput.value = JSON.stringify({ lineCoordinates });
 
       //! Добавляем маркер только если поле ввода не пустое
       if (markerTitle) {
@@ -103,9 +105,7 @@ function initMap() {
           coordinates: lineCoordinates,
         },
       });
-      coordinatesInput.value = JSON.stringify(lineCoordinates);
-      markers.forEach(marker => map.removeChild(marker));
-      markers.length = 0;
+      coordinatesInput.value = JSON.stringify({ lineCoordinates });
       if (!lineCoordinates.length) {
         bottomControls.removeChild(clearLineBtn);
         bottomControls.removeChild(clearLastLineBtn);
@@ -120,28 +120,24 @@ function initMap() {
     });
 
     function onClickBtnLineHandler() {
-      if (lineCoordinates.length > 0) {
-        lineCoordinates.pop();
-        line.update({
-          geometry: {
-            type: 'LineString',
-            coordinates: lineCoordinates,
-          },
-        });
-        coordinatesInput.value = JSON.stringify(lineCoordinates);
+      if (lineCoordinates.length > 2) {
+        lineCoordinates.length -= 1;
+      } else if (lineCoordinates.length === 2) {
+        lineCoordinates.length = 0;
       }
-      if (markers.length > 0) {
-        const lastMarker = markers.pop();
-        map.removeChild(lastMarker);
-      }
+      line.update({
+        geometry: {
+          type: 'LineString',
+          coordinates: lineCoordinates,
+        },
+      });
+      //! console.log('++++++++++++++++++++++', lineCoordinates);
+      coordinatesInput.value = JSON.stringify({ lineCoordinates });
       if (!lineCoordinates.length) {
         bottomControls.removeChild(clearLineBtn);
         bottomControls.removeChild(clearLastLineBtn);
       }
     }
-
-    bottomControls.addChild(clearLineBtn);
-    bottomControls.addChild(clearLastLineBtn);
   });
 }
 

@@ -22,7 +22,7 @@ function ParallaxPage() {
   const [facilitiesFree, setFacilitiesFree] = useState({});
   const [activities, setActivities] = useState({});
   const [housings, setHousings] = useState({});
-  const [inputs, setInputs] = useState({family_friendly:true, season:'весна', difficulty:'низкая', coordinates: ''});
+  const [inputs, setInputs] = useState({family_friendly:true, season:'весна', difficulty:'низкая'});
   const [arraysCheckBox, setArraysCheckBox] = useState( {facility: [], activity: [], housing: []} )
   let formData = new FormData()
 
@@ -173,7 +173,6 @@ const filterObjFalse = (obj)=>Object.fromEntries(
       formData.append( 'facilitiesFree', JSON.stringify(filterObjFalse(facilitiesFree))) 
       formData.append( 'activities', JSON.stringify(filterObjFalse(activities)))
       formData.append( 'housings', JSON.stringify(filterObjFalse(housings)))
-      formData.append('coordinates', coordinates);
       //Формируем данные для ручки на создание
    
         
