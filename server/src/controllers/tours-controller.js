@@ -15,6 +15,12 @@ module.exports = {
           {
             model: Image,
           },
+          {
+            model: Activity,
+          },
+          {
+            model: Housing,
+          },
         ],
       });
       const allToursPlain = allTours.map((tour) => tour.get({ plain: true }));
