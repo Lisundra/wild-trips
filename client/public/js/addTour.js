@@ -44,7 +44,7 @@ function initMap() {
     map.addChild(listener);
 
     function onClickListenerHandler(object, event) {
-      //! console.log('click', lineCoordinates);
+      //  console.log('click', lineCoordinates);
       lineCoordinates.push(event.coordinates);
       line.update({
         geometry: {
