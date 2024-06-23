@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const multer = require('multer');
 const path = require('path')
-console.log(path.join(__dirname, '../../../client/src/assets/images/'));
+console.log('Все картинки туров хранятся по адресу:',path.join(__dirname, '../../../client/src/assets/images/'));
 
 
 const storageToursImages = multer.diskStorage({
@@ -19,25 +19,27 @@ const upload = multer({ storage: storageToursImages });
 
 const {
   getAllTours,
+  getAllToursByUser,
   getOneTour,
   getDiscountedTours,
   getEditorsTours,
   getNewTours,
   getAllOptions,
   createTour,
-  // deleteTour,
+  deleteTour,
   // editTour,
 } = require('../controllers/tours-controller');
 
 router
+  .get('/', getAllTours)
   .get('/discounted', getDiscountedTours)
   .get('/editors', getEditorsTours)
   .get('/new', getNewTours)
-  .get('/', getAllTours)
   .get('/:id', getOneTour)
+  .get('/org', getAllToursByUser)
   .post('/checkBox', getAllOptions)
-  .post('/',upload.array('images',10), createTour);
+  .post('/',upload.array('images',10), createTour)
   // .patch('/:id', editTour)
-  // .delete('/:id', deleteTour);
+  .delete('/:id', deleteTour);
   
 module.exports = router;

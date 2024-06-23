@@ -54,9 +54,7 @@ function initMap() {
     map.addChild(listener);
 
     function onClickListenerHandler(object, event) {
-      const markerTitle = markerTitleInput.value.trim(); // Убираем лишние пробелы
-      
-      //! Всегда добавляем координаты клика в линию
+      //  console.log('click', lineCoordinates);
       lineCoordinates.push(event.coordinates);
       line.update({
         geometry: {

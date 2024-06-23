@@ -6,12 +6,14 @@
 
 import './App.css';
 import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Home from './Pages/Home/Home';
 import OneTour from './Pages/OneTour/OneTour';
 import MyTours from './Pages/MyTours/MyTours';
 import withAuth from './components/WithAuth/WithAuth';
+import Catalog from './Pages/Catalog/Catalog';
+
 
 const ProtectedMyTours = withAuth(MyTours);
  
@@ -24,8 +26,10 @@ function App(): JSX.Element {
       <div className='App-container'>
         <Routes>
           <Route index element={<Home />} />  
+          <Route path="catalog" element={<Catalog />} />
           <Route path="MyTours" element={<ProtectedMyTours />} />
           <Route path=":id" element={<OneTour />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
     </div>

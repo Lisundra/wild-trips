@@ -127,28 +127,14 @@ module.exports = {
   },
   checkSession: async (req, res) => { //? Может быть, не нужна проверка куки на сервере
     try {
-      // console.log(req.session.login);
-      // res.send('ok')
-      // const sessionAsync = await req.session.login
-      // console.log("🚀 ~ checkSession: ~ sessionAsync:", sessionAsync)
-  
         console.log("🚀 ~ checkSession: ~ req.session:", req.session)
         console.log("🚀 ~ checkSession: ~ req.session.role :", req.session.role )
         if(req.session.login){   
           const {login}= req.session
           const user = await User.findOne({ where: { login } });
-
           res.json({login:req.session.login, role:req.session.role, src:user.profile_picture})
-
         }
         else res.json(null)
-      // // console.log('In checkSession');
-      // console.log("🚀 ~ checkSession:", req.session)
-      // console.log("🚀 ~ checkSession: login", req.session.login)
-      // req.session.login?
-      // res.status(200).json({ message: 'session working'})
-      // :
-      // res.status(400).json(null)
     } catch (err) {
       console.log("🚀 ~ checkSession: ~ err:", err)
       res.status(400).json({ err: err.message });

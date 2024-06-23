@@ -5,13 +5,18 @@ import axios from 'axios';
 import { fetchCheckUser } from '../../redux/thunkActions';
 import type { RootState } from '../../redux/store';
 import DifficultyClue from '../../components/DifficultyClue/DifficultyClue';
+import MiniCardTour from '../../components/MiniCardTour/MiniCardTour';
 import DrawnTourMap from '../../components/DrawnTourMap/DrawnTourMap';
+import { Button, Card } from 'antd';
 
 
 
 function ParallaxPage() {
   const [showForm, setShowForm] = useState(false);
   const [showImages, setShowImages] = useState(false);
+  const [tourCreated, setTourCreated] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+  const [dataTours, setDataTours] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [facilitiesPaid, setFacilitiesPaid] = useState({});
   const [facilitiesFree, setFacilitiesFree] = useState({});
@@ -36,14 +41,49 @@ const filterObjFalse = (obj)=>Object.fromEntries(
       }).then((res) => {
         console.log('data check ', res.data);
         setArraysCheckBox(res.data);
-        
       });
 
+      axios.get('http://localhost:3100/api/tours/org', {
+        withCredentials: true
+      }).then((res) => {
+        console.log('data org tours ', res.data);
+
+        const formattedData = res.data.map(card=>{
+         const newObj = {
+          ...card,
+          'Images': (JSON.parse(card.Images[0].image_path)).map(el=>el.replace(/^.*?src/, 'src'),)
+         }
+          return newObj
+        })
+
+        console.log("🚀 ~ useEffect ~ formattedData:", formattedData)      
+        setDataTours(formattedData)
+      });
   }, []);
 
-  // useEffect(() => {
-  //   console.log('arraysCheckBox updated:', arraysCheckBox['facility'][0]);
-  // }, [arraysCheckBox]);
+
+  useEffect(() => {
+
+      axios.get('http://localhost:3100/api/tours/org', {
+        withCredentials: true
+      }).then((res) => {
+        console.log('data org tours ', res.data);
+
+        const formattedData = res.data.map(card=>{
+         const newObj = {
+          ...card,
+          'Images': (JSON.parse(card.Images[0].image_path)).map(el=>el.replace(/^.*?src/, 'src'),)
+         }
+          return newObj
+        })
+
+        console.log("🚀 ~ useEffect ~ formattedData:", formattedData)      
+        setDataTours(formattedData)
+      });
+    
+
+  }, [tourCreated]);
+
 
   const handleFacilityChange = (type: string, facility: string) => {
         console.log(arraysCheckBox.facility[2].name);
@@ -62,16 +102,27 @@ const filterObjFalse = (obj)=>Object.fromEntries(
   };
   const handleContainerClick = (e) => {
     if (e.target === e.currentTarget) {
-      setShowForm(false);
+                    //! удалить
     }
   };
 
+  const handleCoordinatesChange = (coordinates) => {
+    console.log("🚀 ~ handleCoordinatesChange ~ coordinates:", coordinates.lineCoordinates)
+
+    setInputs((prevInputs) => (
+      {
+      ...prevInputs,
+      'coordinates':coordinates.lineCoordinates,
+      }
+    ))
+  }
+
   const handleInputsChange = (event)=>{
     const { name, value, files } = event.target;
-    console.log(name, value);
-    if(name==='imageUpload')
-    {
-    }else
+
+
+    
+
     setInputs((prevInputs) => (
       name==='family_friendly'?
     {
@@ -110,6 +161,10 @@ const filterObjFalse = (obj)=>Object.fromEntries(
 
           }
             else
+            if(key==='coordinates'){
+              const jsonString = JSON.stringify(inputs[key]);
+              formData.append(key, jsonString);
+            }else
             formData.append(key, inputs[key]);
         }
       }
@@ -125,7 +180,13 @@ const filterObjFalse = (obj)=>Object.fromEntries(
       console.log("🚀 ~ handleSubmitForm ~ formData:", formData.getAll('images'))
 
 
-     axios.post('http://localhost:3100/api/tours/',formData,{withCredentials:true})
+     axios.post('http://localhost:3100/api/tours/',formData,{withCredentials:true}).then(res=>{
+      res?setTourCreated(true):setTourCreated(false)
+     }).catch(err=>setTourCreated(false))
+
+     setTimeout(() => {
+      setTourCreated(false);
+    }, 1500);
      formData = new FormData()
   }
 
@@ -158,13 +219,23 @@ const filterObjFalse = (obj)=>Object.fromEntries(
   };
 
 
+  const deleteHandler = (id) => {
+    axios.delete(`http://localhost:3100/api/tours/${id}`,{
+    withCredentials:true
+    })
+    setDataTours(dataTours.filter(card => card.id !== id));
+
+    setIsDelete(true)
+  };
+
   return (
     
     <div className="relative bg-cover bg-center min-h-screen"  style={{ backgroundImage: `url('./src/assets/images/minimalizm-montains-1.jpg')` }}>
       <div className="absolute inset-0 bg-black opacity-50"  />
      <br /> <br /> <br />
-      <div  onClick={handleContainerClick} className="relative mt-10 z-9 flex flex-col items-center justify-center min-h-screen text-white">
+      <div className="relative mt-10 z-9 flex flex-col items-center justify-start min-h-screen text-white">
         <h1 className="text-4xl font-bold">Личный кабинет {user?.login}</h1>
+
         <button
           className="mt-6 px-4 py-2 bg-blue-600 hover:bg-blue-800 rounded"
           onClick={() => setShowForm(!showForm)}
@@ -257,13 +328,13 @@ const filterObjFalse = (obj)=>Object.fromEntries(
                         ))}
                       </div>      
                     )}
-           
               </div>
             </div>
+
             <div className="map-container min-w-full">
-              Карта маршрута:
-              <DrawnTourMap setInputs={setInputs} />
+            <DrawnTourMap onInputChange={handleCoordinatesChange} />
             </div>
+
             <div className="w-full p-2 flex justify-around">
                
               <div className="mb-4">
@@ -333,10 +404,34 @@ const filterObjFalse = (obj)=>Object.fromEntries(
               </div>
             </div>
                     <div className='flex justify-center flex-1'>
-              <button className="mt-4 px-4 py-2 bg-green-600 hover:bg-green-800 rounded" >Сохранить тур</button>
+              <button className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-800 rounded text-white" >Сохранить тур</button>
+                  <div className={`absolute -mt-5 rounded p-1 bg-green-600 transition-opacity duration-1000
+                   ${tourCreated ? 'opacity-100' : 'opacity-0'}`}>
+                          Ваш тур успешно создан!
+                  </div>
               </div>
           </form>
         )}
+        <div className='allTours flex flex-wrap justify-around'>
+                  {
+                    dataTours.map(tour=>(
+                      <Card key={tour.id} className="mt-4 -p-3 flex justify-between">
+                  <MiniCardTour {...tour}  />
+                    <div className="mt-4 flex justify-between">
+                   <Button type="primary" onClick={()=>deleteHandler(tour.id)} danger>
+                     удалить
+                   </Button>
+                  <Button type="primary">
+                  Изменить
+                  </Button>
+                   <Button type="primary">
+                     Выгрузка заявок
+                   </Button>
+                  </div>
+                    </Card>
+                    ))
+                  }
+        </div>
       </div>
     </div>
   );
