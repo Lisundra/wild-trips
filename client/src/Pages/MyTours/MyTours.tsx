@@ -17,7 +17,7 @@ function ParallaxPage() {
   const [facilitiesFree, setFacilitiesFree] = useState({});
   const [activities, setActivities] = useState({});
   const [housings, setHousings] = useState({});
-  const [inputs, setInputs] = useState({family_friendly:true, season:'весна', difficulty:'низкая'});
+  const [inputs, setInputs] = useState({family_friendly:true, season:'весна', difficulty:'низкая', coordinates: ''});
   const [arraysCheckBox, setArraysCheckBox] = useState( {facility: [], activity: [], housing: []} )
   let formData = new FormData()
 
@@ -68,6 +68,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
 
   const handleInputsChange = (event)=>{
     const { name, value, files } = event.target;
+    console.log(name, value);
     if(name==='imageUpload')
     {
     }else
@@ -117,6 +118,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
       formData.append( 'facilitiesFree', JSON.stringify(filterObjFalse(facilitiesFree))) 
       formData.append( 'activities', JSON.stringify(filterObjFalse(activities)))
       formData.append( 'housings', JSON.stringify(filterObjFalse(housings)))
+      formData.append('coordinates', coordinates);
       //Формируем данные для ручки на создание
    
         
@@ -260,7 +262,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
             </div>
             <div className="map-container min-w-full">
               Карта маршрута:
-              <DrawnTourMap />
+              <DrawnTourMap setInputs={setInputs} />
             </div>
             <div className="w-full p-2 flex justify-around">
                
