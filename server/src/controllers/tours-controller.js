@@ -219,7 +219,7 @@ module.exports = {
       // console.log(createdTour);
       const jsonImages = JSON.stringify(images);
 
-  Image.create({image_path:jsonImages,tour_id:createdTour.id})
+  Image.create({image_path:jsonImages,tour_id:createdTour.id}) //! news_id:null
       
 const activityIds = JSON.parse(activities);
 const housingIds = JSON.parse(housings);

@@ -55,7 +55,7 @@ export default function NewCarousel({ tours }) {
               </Link>
               <div>
                 <p className={styles.tourCountry}>{tour.country}</p>
-                <Link to={`/tours/${tour.id}`} className="bg-emerald-500 hover:bg-emerald-400 text-white py-2 px-4 rounded inline-block mt-2">
+                <Link to={`/${tour.id}`} className="bg-emerald-500 hover:bg-emerald-400 text-white py-2 px-4 rounded inline-block mt-2">
                   Посмотреть программу
                 </Link>
               </div>

@@ -37,7 +37,7 @@ export default function HomeCarousel({ tours }) {
                     )}
                   </p>
                   <p className={styles.tourDates}>{formattedStartDate} — {formattedEndDate}</p>
-                  <Link to={`/tours/${tour.id}`} className="bg-emerald-500 hover:bg-emerald-400 text-white py-2 px-4 rounded inline-block mt-2">
+                  <Link to={`/${tour.id}`} className="bg-emerald-500 hover:bg-emerald-400 text-white py-2 px-4 rounded inline-block mt-2">
                     Посмотреть программу
                   </Link>
                 </div>
