@@ -5,7 +5,7 @@ const { Housing } = require('../../db/models');
 const { Facility } = require('../../db/models');
 const { Image } = require('../../db/models');
 const { TourOption } = require('../../db/models');
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 
 module.exports = {
   getAllTours: async (req, res) => {
@@ -29,7 +29,28 @@ module.exports = {
       res.status(400).json({ err: err.message });
     }
   },
+  getAllToursByUser: async (req, res) => {
+    try {
+      const { login } = req.session;
+      const user = await User.findOne({ where: { login } });
+      const organizer_id = user.id
 
+      const allToursByUser = await Tour.findAll({
+          where: {organizer_id}, 
+          order: [['id', 'DESC']],
+          include:[{
+            model:Image,
+          }],
+        });
+
+
+      const allToursByUserPlain = allToursByUser.map((tour) => tour.get({ plain: true }));
+      res.json(allToursByUserPlain);
+    } catch (err) {
+      console.log("🚀 ~ getAllToursByUser: ~ err:", err)
+      res.status(400).json({ err: err.message });
+    }
+  },
   getOneTour: async (req, res) => {
     const { id } = req.params;
     try {
@@ -242,19 +263,28 @@ for (let facility_id of Object.keys(facilitiesPaidIds)) {
     }
   },
 
-  // deleteTour: async (req, res) => {
-  //   const { id } = req.params;
-  //   try {
-  //     const result = await Tour.destroy({ where: { id } });
+  deleteTour: async (req, res) => {
+    const { id } = req.params;
+    try {
+      const tour = await Tour.findOne({ where: { id } });
 
-  //     if (result) {
-  //       res.sendStatus(200);
-  //     } else {
-  //       res.sendStatus(400);
-  //     }
-  //   } catch (err) {
-  //     res.status(400).json({ err: err.message });
-  //   }
-  // },
+      if (!tour) {
+        return res.status(404).json({ message: 'Tour not found' });
+      }
+
+      await TourOption.destroy({ where: { tour_id: id } });
+      await Image.destroy({ where: { tour_id: id } });
+
+      const result = await Tour.destroy({ where: { id } });
+
+      if (result) {
+        res.sendStatus(204); // 204 No Content
+      } else {
+        res.sendStatus(400);
+      }
+    } catch (err) {
+      res.status(400).json({ err: err.message });
+    }
+  },
 };
       

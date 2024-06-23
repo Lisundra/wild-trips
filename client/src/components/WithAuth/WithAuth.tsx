@@ -1,15 +1,42 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { RootState } from '../../redux/store';
 import { fetchCheckUser } from '../../redux/thunkActions';
 
 const withAuth = (Component) => {
   const AuthCheck = (props) => {
-    let user = useSelector((state: RootState) => state.user.user);
-    fetchCheckUser()
+    const dispatch = useDispatch();
+    const user = useSelector((state: RootState) => state.user.user);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    const isAuthenticated = user?true:false 
+
+    useEffect(() => {
+      const checkUser = async () => {
+        await dispatch(fetchCheckUser());
+        setIsLoading(false);
+      };
+
+      checkUser();
+    }, [dispatch]);
+    useEffect(() => {
+      if (user) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+    }, [user]);
+    
+    if (isLoading) {
+      return <div className='mt-52 ml-20'>Loading...</div>; // или другой компонент загрузки
+    }
+
+    if (!isAuthenticated) {
+      return <Navigate to="/" />;
+    }
+
+
     // console.log("🚀 ~ AuthCheck ~ isAuthenticated:", isAuthenticated)
     const userRole = user?.role || null 
     // console.log("🚀 ~ AuthCheck ~ userRole:", userRole)
@@ -18,18 +45,12 @@ const withAuth = (Component) => {
       return <Navigate to="/" />;
     }
 
-    if(userRole==='admin'){
-        return <Component {...props}/>;     
-     }else
-    if(userRole==='traveler'){
-        return <Component {...props}/>;     
-     }else
-    if (userRole === 'organizer') {
-        return <Component {...props}/>
-    }else  return <Navigate to="/" />;
-
-    // return <Component {...props} />;
-  };
+     if (userRole === 'admin' || userRole === 'traveler' || userRole === 'organizer') {
+      return <Component {...props} />;
+     } else {
+      return <Navigate to="/" />;
+     }
+     };  
 
   return AuthCheck;
 };

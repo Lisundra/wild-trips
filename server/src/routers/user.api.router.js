@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const multer = require('multer')
 const path = require('path')
+console.log('Все картинки аватарок хранятся по адресу:',
+path.join(__dirname, '../../../client/src/assets/avatars'));
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
