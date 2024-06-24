@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Checkbox } from 'antd';
-import type { CheckboxProps } from 'antd';
 import styles from './Filters.module.css';
 
 
-export default function DifficultyFilter({setFilters}) {
+export default function DifficultyFilter({ setFilters }) {
   const [checkedList, setCheckedList] = useState([]);
 
   const onChange = (list) => {
@@ -19,8 +18,6 @@ export default function DifficultyFilter({setFilters}) {
     { label: 'Средняя', value: 'Средняя' },
     { label: 'Высокая', value: 'Высокая' },
   ];
-
-
 
   return (
     <>

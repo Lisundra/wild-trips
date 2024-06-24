@@ -1,25 +1,68 @@
 import React from 'react';
-import { Checkbox } from 'antd';
-import type { CheckboxProps } from 'antd';
+import { Select } from 'antd';
 import styles from './Filters.module.css';
 
-const onChange: CheckboxProps['onChange'] = (e) => {
-  console.log(`checked = ${e.target.checked}`);
+const onChange = (value: string) => {
+  console.log(`selected ${value}`);
+};
+
+const onSearch = (value: string) => {
+  console.log('search:', value);
 };
 
 export default function HousingsFilter() {
     return (
     <>
     <p className={styles.filterName}>Тип размещения</p>
-    <Checkbox onChange={onChange}>
-    Гостевой дом
-    </Checkbox>
-    <Checkbox onChange={onChange}>
-    Глэмпинг
-    </Checkbox>
-    <Checkbox onChange={onChange}>
-    Юрта
-    </Checkbox>
+    <Select
+    showSearch
+    placeholder="Выберите желаемые типы размещения"
+    optionFilterProp="label"
+    onChange={onChange}
+    onSearch={onSearch}
+    options={[
+      {
+        value: 'Отель',
+        label: 'Отель',
+      },
+      {
+        value: 'Плавучий отель',
+        label: 'Плавучий отель',
+      },
+      {
+        value: 'Гостевой дом',
+        label: 'Гостевой дом',
+      },
+      {
+        value: 'Бунгало',
+        label: 'Бунгало',
+      },
+      {
+        value: 'Юрта',
+        label: 'Юрта',
+      },
+      {
+        value: 'Хижина',
+        label: 'Хижина',
+      },
+      {
+        value: 'Ферма',
+        label: 'Ферма',
+      },
+      {
+        value: 'Глэмпинг',
+        label: 'Глэмпинг',
+      },
+      {
+        value: 'Кемпинг',
+        label: 'Кемпинг',
+      },
+      {
+        value: 'Турбаза',
+        label: 'Турбаза',
+      },
+    ]}
+  />
   </>
 );
 }

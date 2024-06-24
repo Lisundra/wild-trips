@@ -10,12 +10,15 @@ export default function Catalog() {
     const [filters, setFilters] = useState({
       season: null,
       diffuculty: [],
-      price: [],
+      price: [1, 2000000],
+      duration: [1, 30],
+      family_friendly: null,
+      start_date: null,
+      end_date: null,
     });
 
       // Достаём данные внутри useEffect
 useEffect(() => {
-    // Достаём discounted tours
     axios.get(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/tours`)
       .then((res) => {
         let result = res.data;
@@ -28,8 +31,23 @@ useEffect(() => {
             if (filters[filterName].length) {
               result = result.filter(item => filters[filterName].map(el => el.toLowerCase()).includes(item[filterName].toLowerCase()));
             }
-          } 
-        }
+          } if (['price'].includes(filterName)) {
+            result = result.filter(item => item.price >= filters[filterName][0] && item.price <= filters[filterName][1]);
+          } if (['duration'].includes(filterName)) {
+            result = result.filter(item => item.duration >= filters[filterName][0] && item.duration <= filters[filterName][1]);
+          } if (['family_friendly'].includes(filterName) && filters[filterName] !== null) {
+            result = result.filter(item => item.family_friendly === filters[filterName]);
+        } if (['start_date', 'end_date'].includes(filterName) && filters.start_date && filters.end_date) {
+          result = result.filter(item => {
+              const tourStartDate = new Date(item.start_date);
+              const tourEndDate = new Date(item.end_date);
+              const filterStartDate = new Date(filters.start_date);
+              const filterEndDate = new Date(filters.end_date);
+              return tourStartDate >= filterStartDate && tourEndDate <= filterEndDate;
+          });
+      }
+  }
+
     // result = result.filter(item => item.price >= 100000 && item.price <= 300000)
         setTours(result);
         console.log(res.data, result);
