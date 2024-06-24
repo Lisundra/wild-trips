@@ -48,7 +48,7 @@ useEffect(() => {
       <div className='homeContainer'>
         <div className="backgroundContainer">
             {/* Заглушка для видео */}
-            <img className="w-screen h-screen object-cover" src="/src/assets/images/river.png" alt="background with nature" />
+            <img className="w-screen h-screen object-cover" src="/src/assets/images/home-header-picture.png" alt="background with nature" />
         </div>
         <div className="toursContainer">
         <h2 className="text-5xl font-bold text-center text-gray-800 my-4">Найдите путешествие вашей мечты!</h2>

@@ -8,7 +8,7 @@ import styles from './HomeCarousel.module.css';
 export default function HomeCarousel({ tours }) {
   return (
     <div className={styles.carouselContainer}>
-      <Carousel className={styles.carouselFromAnt} autoplay autoplaySpeed={5000} arrows>
+      <Carousel className={styles.carouselFromAnt} autoplay draggable autoplaySpeed={5000} arrows>
         {tours.map((tour) => {
           const startDate = new Date(tour.start_date);
           const endDate = new Date(tour.end_date);
@@ -37,7 +37,7 @@ export default function HomeCarousel({ tours }) {
                     )}
                   </p>
                   <p className={styles.tourDates}>{formattedStartDate} — {formattedEndDate}</p>
-                  <Link to={`/tours/${tour.id}`} className="bg-emerald-500 hover:bg-emerald-400 text-white py-2 px-4 rounded inline-block mt-2">
+                  <Link to={`/${tour.id}`} className="bg-emerald-500 hover:bg-emerald-400 text-white py-2 px-4 rounded inline-block mt-2">
                     Посмотреть программу
                   </Link>
                 </div>
