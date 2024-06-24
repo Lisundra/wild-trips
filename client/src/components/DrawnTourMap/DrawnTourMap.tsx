@@ -46,6 +46,7 @@ function DrawnTourMap({ onInputChange }) {
         // onInput={handleInputChange}
 
       />
+      <input id="markerTitle" type="text" placeholder="Enter marker title" />
       <div id="map" className="map" onClick={handleClickMap} style={{ width: "100%", height: "400px", backgroundColor: "#333" }} />
     </>
   );
