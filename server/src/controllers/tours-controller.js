@@ -208,7 +208,7 @@ module.exports = {
         difficulty,
         family_friendly:family_friendly.toLowerCase() === 'false' ? false : true,
         organizer_id: user.id,
-        coordinates:JSON.parse(coordinates),
+        coordinates,
       });
       // console.log(createdTour);
       const jsonImages = JSON.stringify(images);

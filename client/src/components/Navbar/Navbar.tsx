@@ -110,7 +110,7 @@ const Navbar = () => {
                             </button>
                             <button>
                                 <Link to="/tour-selection" className="text-white">
-                                    Подбор тура
+                                   Блог
                                 </Link>
                             </button>
                             {(!user || isUserLoading ) && (
