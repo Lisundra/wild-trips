@@ -42,13 +42,14 @@ useEffect(() => {
     });
 }, []); // useEffect заканчивается здесь, передаётся пустой массив зависимостей
 
-
   return (
     <div className={styles.wrapper}>
       <div className='homeContainer'>
         <div className="backgroundContainer">
-            {/* Заглушка для видео */}
-            <img className="w-screen h-screen object-cover" src="/src/assets/images/home-header-picture.png" alt="background with nature" />
+        <video className="w-screen h-screen object-cover" autoPlay loop muted>
+            <source src="/src/assets/images/homepage_video.webm" type="video/webm" />
+            Your browser does not support the video tag.
+          </video>
         </div>
         <div className="toursContainer">
         <h2 className="text-5xl font-bold text-center text-gray-800 my-4">Найдите путешествие вашей мечты!</h2>

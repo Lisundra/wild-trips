@@ -78,7 +78,7 @@ module.exports = {
         defaultValue: false,
       },
       coordinates: {
-        type: Sequelize.JSON,
+        type: Sequelize.STRING,
         allowNull: true,
       },
       organizer_id: {

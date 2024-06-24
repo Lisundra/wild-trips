@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 import { Col, InputNumber, Row, Slider, Space } from 'antd';
 import styles from './Filters.module.css';
 
-const RangeSlider: React.FC = () => {
-  const [inputValue, setInputValue] = useState<[number, number]>([1, 20]);
+const RangeSlider: React.FC<{ setFilters: React.Dispatch<React.SetStateAction<any>> }> = ({ setFilters }) => {
+  const [inputValue, setInputValue] = useState<[number, number]>([1, 30]);
 
   const onChange = (newValue: [number, number]) => {
     setInputValue(newValue);
+    setFilters(prev => ({ ...prev, duration: newValue }));
   };
 
   return (
@@ -16,7 +17,7 @@ const RangeSlider: React.FC = () => {
         <Slider
           range
           min={1}
-          max={20}
+          max={30}
           onChange={onChange}
           value={inputValue}
         />
@@ -24,14 +25,14 @@ const RangeSlider: React.FC = () => {
       <Col span={4}>
         <InputNumber
           min={1}
-          max={20}
+          max={30}
           value={inputValue[0]}
           onChange={(value) => onChange([value as number, inputValue[1]])}
           style={{ margin: '0 16px' }}
         />
         <InputNumber
           min={1}
-          max={20}
+          max={30}
           value={inputValue[1]}
           onChange={(value) => onChange([inputValue[0], value as number])}
           style={{ margin: '0 16px' }}
@@ -41,12 +42,12 @@ const RangeSlider: React.FC = () => {
   );
 };
 
-export default function DurationSlider() {
+export default function DurationSlider({ setFilters }) {
   return (
     <>
       <p className={styles.filterName}>Длительность</p>
       <Space style={{ width: '100%' }} direction="vertical">
-        <RangeSlider />
+        <RangeSlider setFilters={setFilters} />
       </Space>
     </>
   );

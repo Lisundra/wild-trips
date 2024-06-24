@@ -8,12 +8,14 @@ import DifficultyClue from '../../components/DifficultyClue/DifficultyClue';
 import MiniCardTour from '../../components/MiniCardTour/MiniCardTour';
 import DrawnTourMap from '../../components/DrawnTourMap/DrawnTourMap';
 import { Button, Card } from 'antd';
+import { Link } from 'react-router-dom';
 
 
 
 function ParallaxPage() {
   const [showForm, setShowForm] = useState(false);
   const [showImages, setShowImages] = useState(false);
+  const [showMap, setShowMap] = useState(false);
   const [tourCreated, setTourCreated] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [dataTours, setDataTours] = useState([]);
@@ -22,7 +24,7 @@ function ParallaxPage() {
   const [facilitiesFree, setFacilitiesFree] = useState({});
   const [activities, setActivities] = useState({});
   const [housings, setHousings] = useState({});
-  const [inputs, setInputs] = useState({family_friendly:true, season:'весна', difficulty:'низкая'});
+  const [inputs, setInputs] = useState({family_friendly:true, season:'весна', difficulty:'низкая', coordinates:''});
   const [arraysCheckBox, setArraysCheckBox] = useState( {facility: [], activity: [], housing: []} )
   let formData = new FormData()
 
@@ -43,7 +45,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
         setArraysCheckBox(res.data);
       });
 
-      axios.get('http://localhost:3100/api/tours/org', {
+      axios.get('http://localhost:3100/api/tours/org/all', {
         withCredentials: true
       }).then((res) => {
         console.log('data org tours ', res.data);
@@ -106,23 +108,19 @@ const filterObjFalse = (obj)=>Object.fromEntries(
     }
   };
 
-  const handleCoordinatesChange = (coordinates) => {
-    console.log("🚀 ~ handleCoordinatesChange ~ coordinates:", coordinates.lineCoordinates)
 
-    setInputs((prevInputs) => (
-      {
-      ...prevInputs,
-      'coordinates':coordinates.lineCoordinates,
-      }
-    ))
-  }
 
   const handleInputsChange = (event)=>{
     const { name, value, files } = event.target;
 
-
-    
-
+    if(name==='coordinates'){
+      setInputs((prevInputs) => (
+        {
+          ...prevInputs,
+          [name]: value.replace(/.*%([a-zA-Z0-9]+)&.*/, '$1'),
+        }
+      ))
+    }else
     setInputs((prevInputs) => (
       name==='family_friendly'?
     {
@@ -313,7 +311,12 @@ const filterObjFalse = (obj)=>Object.fromEntries(
             <div className="mb-4 flex flex-col">
                 <label htmlFor="imageUpload" className="block text-sm font-bold mb-2">Загрузить фото тура:</label>
                 <input type="file" id="imageUpload" name="imageUpload" accept=".jpg, .jpeg, .png" multiple onChange={handleImageUpload} required />
-                <span className="mt-4 px-4 py-2 bg-cyan-500 hover:bg-cyan-700 rounded" onClick={handleClickImages}>{showImages ? 'Скрыть загруженные фотографии' : 'Показать загруженные фотографии'}</span>
+                <div className="mt-4 px-4 py-2 bg-cyan-500 hover:bg-cyan-700 rounded select-none"
+                 onClick={handleClickImages}>{
+                  showImages ? 'Скрыть загруженные фотографии' 
+                 : 
+                 'Показать загруженные фотографии'}
+                 </div>
                     
                     {showImages && (
                       <div>
@@ -329,9 +332,52 @@ const filterObjFalse = (obj)=>Object.fromEntries(
                     )}
               </div>
             </div>
-
+                         
             <div className="map-container min-w-full">
-            <DrawnTourMap onInputChange={handleCoordinatesChange} />
+
+            <p className="block font-bold mb-2">
+            Чтобы добавить карту для вашего тура, следуйте инструкции:
+            </p>
+            <ol>
+               <li>1. Нажмите кнопку "Открыть Яндекс.Карты"</li>           
+               <li>2. Создайте маршрут в конструкторе карт</li>           
+               <li>3. Нажмите кнопку "Сохранить и продолжить" в конструткоре карт</li>      
+               <li>4. Нажмите кнопку "Получить код карты" в конструткоре карт</li>    
+               <li>5. Скопируйте код и вставьте в поле ниже:</li> 
+               </ol>  
+               <textarea className="w-full p-2 border rounded" name='coordinates' onChange={handleInputsChange} required />
+                <div className='iframe'></div>              
+        
+              <div className='flex flex-col items-center'>
+            <button type='button' className='bg-yellow-500 rounded-md p-2 hover:bg-yellow-400'>
+            <a href="https://yandex.ru/map-constructor" target="_blank">Открыть Яндекс.Карты</a>
+            </button>
+             <button type='button' className="mt-4 px-4 py-2 bg-cyan-500 hover:bg-cyan-700 rounded select-none" 
+                 onClick={()=>{ setShowMap(!showMap)}}>{
+                  showMap ? 'Скрыть карту' 
+                 : 
+                 'Показать карту'}
+             </button>
+             </div>
+             {showMap&&(
+                inputs?.['coordinates']? (
+             <iframe src={`https://yandex.ru/map-widget/v1/?um=constructor%${inputs?.['coordinates']?inputs.coordinates:''}&amp;source=constructor`} 
+               width="500"
+               height="400"
+               >
+            </iframe> 
+                )
+                :
+                (
+                <h2>
+                  Неккоректные данные
+                </h2>
+                )
+             )
+             
+             }
+            
+
             </div>
 
             <div className="w-full p-2 flex justify-around">
@@ -414,7 +460,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
         <div className='allTours flex flex-wrap justify-around'>
                   {
                     dataTours.map(tour=>(
-                      <Card key={tour.id} className="mt-4 -p-3 flex justify-between">
+                      <Card key={tour.id} className="mt-4 m-4 -p-3 flex justify-between">
                   <MiniCardTour {...tour}  />
                     <div className="mt-4 flex justify-between">
                    <Button type="primary" onClick={()=>deleteHandler(tour.id)} danger>
@@ -427,6 +473,13 @@ const filterObjFalse = (obj)=>Object.fromEntries(
                      Выгрузка заявок
                    </Button>
                   </div>
+                  <div className='flex justify-center m-2'>
+                  <Link to={`/${tour.id}`}>  
+                  <Button type="default">
+                     Перейти на страницу тура
+                   </Button>
+                   </Link>  
+                   </div>
                     </Card>
                     ))
                   }

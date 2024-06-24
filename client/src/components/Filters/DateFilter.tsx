@@ -1,19 +1,41 @@
 import React from 'react';
-import type { DatePickerProps } from 'antd';
 import { DatePicker, Space } from 'antd';
 import styles from './Filters.module.css';
 
-const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-    console.log(date, dateString);
-  };
+type DateFilterProps = {
+    setFilters: React.Dispatch<React.SetStateAction<any>>;
+};
 
-export default function DateFilter() {
-  return (
-    <>
-    <p className={styles.filterName}>Дата путешествия</p>
-        <Space direction="vertical">
-            <DatePicker onChange={onChange} />
-        </Space>
-    </>
-  )
-}
+const { RangePicker } = DatePicker;
+
+const DateFilter: React.FC<DateFilterProps> = ({ setFilters }) => {
+    const onChange = (dates: any, dateStrings: [string, string]) => {
+        if (dates) {
+            setFilters(prev => ({
+                ...prev,
+                start_date: dates[0].startOf('day').toISOString(),
+                end_date: dates[1].endOf('day').toISOString(),
+            }));
+        } else {
+            setFilters(prev => ({
+                ...prev,
+                start_date: null,
+                end_date: null,
+            }));
+        }
+    };
+
+    return (
+        <div>
+            <p className={styles.filterName}>Дата путешествия</p>
+            <Space direction="vertical" size={12}>
+                <RangePicker
+                    onChange={onChange}
+                    format="DD-MM-YYYY"
+                />
+            </Space>
+        </div>
+    );
+};
+
+export default DateFilter;
