@@ -36,7 +36,7 @@ router
   .get('/editors', getEditorsTours)
   .get('/new', getNewTours)
   .get('/:id', getOneTour)
-  .get('/org', getAllToursByUser)
+  .get('/org/all', getAllToursByUser)
   .post('/checkBox', getAllOptions)
   .post('/',upload.array('images',10), createTour)
   // .patch('/:id', editTour)

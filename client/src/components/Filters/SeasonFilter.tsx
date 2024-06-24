@@ -2,8 +2,7 @@ import React from 'react';
 import { Select } from 'antd';
 import styles from './Filters.module.css';
 
-
-export default function SeasonFilter({setFilters}) {
+export default function SeasonFilter({ setFilters }) {
   
   const onChange = (value: string) => {
     console.log(`selected ${value}`);

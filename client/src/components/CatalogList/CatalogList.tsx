@@ -1,11 +1,13 @@
 import React from 'react'
-import CatalogTour from '../CatalogTour/CatalogTour';
+import MiniCardForCatalog from '../MiniCardForCatalog/MiniCardForCatalog';
 
 export default function CatalogList({ tours }) {
+
+  console.log(tours);
   return (
     <div>
         {tours.map((tour) => (
-            <CatalogTour key={tour.id} tour={tour} />
+            <MiniCardForCatalog {...tour} key={tour.id}  />
         ))}
     </div>
   )

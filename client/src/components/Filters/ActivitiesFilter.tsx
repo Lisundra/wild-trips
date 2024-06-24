@@ -16,7 +16,7 @@ export default function ActivitiesFilter() {
     <p className={styles.filterName}>Виды отдыха</p>
     <Select
     showSearch
-    placeholder="Выберите вид отдыха"
+    placeholder="Выберите желаемые виды отдыха"
     optionFilterProp="label"
     onChange={onChange}
     onSearch={onSearch}
