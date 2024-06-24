@@ -4,7 +4,10 @@ import axios from 'axios';
 import { format, differenceInDays } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import OneTourCarousel from '../../components/OneTourCarousel/OneTourCarousel';
+import RatingStars from '../../components/StarRating/StarRating';
 import DrawnTourMap from '../../components/DrawnTourMap/DrawnTourMap';
+import DrawnTourMapNew from '../../components/DrawnTourMapNew/DrawnTourMapNew';
+import DifficultyTooltip from '../../components/DifficultyTooltip/DifficultyTooltip';
 
 function getDaysWordForm(days) {
   const lastDigit = days % 10;
@@ -55,6 +58,9 @@ function OneTour() {
       <div className="mt-8"> 
         <OneTourCarousel { ...tour }/>
       </div>
+      <div className="rating-stars-container">
+        <RatingStars />
+      </div>
       <p className='m-3'>{tour.name}</p>
       <button className='m-3' type='button'>
         Отправить заявку
@@ -62,7 +68,10 @@ function OneTour() {
       <p className='m-3'>Цена: {tour.price.toLocaleString('ru-RU')} ₽</p>
       <p className='m-3'>{formattedStartDate} — {formattedEndDate}</p>
       <p className='m-3'>Длительность: {daysDifference} {daysWordForm}</p>
-      <p className='m-3'>Сложность: {tour.difficulty}</p>
+      <p className='m-3' style={{ position: 'relative' }}>
+        Сложность: {tour.difficulty}
+        <DifficultyTooltip />
+      </p>
       <p className='m-3'>{tour.region}</p>
       <p className='m-3'>{tour.description}</p>
       <p className='m-3'>Активности в туре:<br/>
@@ -94,8 +103,11 @@ function OneTour() {
           </span>
         ))}
       </p>
-      <div className="map-container m-3">
+      {/* <div className="map-container m-3">
         <DrawnTourMap />
+      </div> */}
+      <div className="map-container-new m-3">
+        <DrawnTourMapNew />
       </div>
     </div>
   );

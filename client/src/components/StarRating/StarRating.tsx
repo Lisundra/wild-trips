@@ -1,8 +1,19 @@
 import React from 'react';
-import styles from './StarRating.module.css';
+import { Rate } from 'antd';
 
-export default function StarRating() {
+function RatingStars() {
+  const starStyle = {
+    fontSize: '50px',
+  };
+
   return (
-    <div>StarRating</div>
-  )
+    <div>
+      <Rate
+        count={10}
+        style={starStyle} 
+      />
+    </div>
+  );
 }
+
+export default RatingStars;
