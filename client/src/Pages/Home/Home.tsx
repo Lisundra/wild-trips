@@ -42,7 +42,6 @@ useEffect(() => {
     });
 }, []); // useEffect заканчивается здесь, передаётся пустой массив зависимостей
 
-
   return (
     <div className={styles.wrapper}>
       <div className='homeContainer'>

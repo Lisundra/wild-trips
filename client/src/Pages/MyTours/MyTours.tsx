@@ -45,7 +45,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
         setArraysCheckBox(res.data);
       });
 
-      axios.get('http://localhost:3100/api/tours/org', {
+      axios.get('http://localhost:3100/api/tours/org/all', {
         withCredentials: true
       }).then((res) => {
         console.log('data org tours ', res.data);

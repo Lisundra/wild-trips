@@ -3,7 +3,6 @@ import axios from 'axios';
 import styles from './Catalog.module.css';
 import Filters from '../../components/Filters/Filters';
 import CatalogList from '../../components/CatalogList/CatalogList';
-import MiniCardTour from '../../components/MiniCardTour/MiniCardTour';
 
 export default function Catalog() {
     const [tours, setTours] = useState([]);
@@ -22,6 +21,18 @@ useEffect(() => {
     axios.get(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/tours`)
       .then((res) => {
         let result = res.data;
+        console.log(res.data);
+
+        const dataWithImage = res.data.map(card=>{
+          if (card.Images) {
+            const newObj = {
+             ...card,
+             'Images': (JSON.parse(card.Images[0].image_path))
+            }
+            return newObj;
+          }
+         })
+
         for (const filterName in filters) {
           if (['season'].includes(filterName)) {
             if (filters[filterName] !== null) {
@@ -49,8 +60,8 @@ useEffect(() => {
   }
 
     // result = result.filter(item => item.price >= 100000 && item.price <= 300000)
-        setTours(result);
-        console.log(res.data, result);
+        setTours(dataWithImage);
+        console.log(dataWithImage, result);
       })
       .catch((error) => {
         console.error('Error fetching tours:', error);
