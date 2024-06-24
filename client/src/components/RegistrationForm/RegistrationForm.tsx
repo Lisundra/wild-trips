@@ -5,10 +5,12 @@ import { fetchCheckUser, fetchCreateUser } from '../../redux/thunkActions';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
-const RegistrationForm = () => {
+const RegistrationForm = ( {setIsUser}) => {
   const dispatch = useAppDispatch();
   const user = useSelector((state: RootState) => state.user.user);
   const[ registrationMessage, setRegistrationMessage ]= useState('')
+  const [isUserCreated, setIsUserCreated] = useState(false);
+  const [err, setErr] = useState(false);
 
   const [formData, setFormData] = useState<InputsTypeAuth>({
     login: '',
@@ -20,21 +22,43 @@ const RegistrationForm = () => {
     bio:'',
   });
   useEffect(() => {
-    console.log(user);
-    if (user?.message) {
-      setRegistrationMessage('Регистрация прошла успешно!')
-      console.log('User created successfully');
 
-    // Очистка сообщения через полторы секунды
-      const timeoutId = setTimeout(() => {
-        setRegistrationMessage('');
-      }, 1500);
+    if (isUserCreated) {    
+        setRegistrationMessage('Регистрация прошла успешно!');
+        console.log('User created successfully');
+        fetchCheckUser()
+        // Очистка сообщения через полторы секунды
+        const timeoutId = setTimeout(() => {
+          setRegistrationMessage('');
+        }, 1500);
+ 
+        // Очистка таймаута при размонтировании компонента или изменении зависимостей
+        return () => clearTimeout(timeoutId);
+      }else if(err){
+        setRegistrationMessage('Такой пользователь уже существует');
+        console.error('Error creating user:');
+        const timeoutId = setTimeout(() => {
+          setRegistrationMessage('');
+        }, 2500);
+    
+        // Очистка таймаута при размонтировании компонента или изменении зависимостей
+        return () => clearTimeout(timeoutId);
+       } 
+  //      else{
+  //       setRegistrationMessage('Такой пользователь уже существует');
+  //       console.error('Error creating user:');
+  //       const timeoutId = setTimeout(() => {
+  //         setRegistrationMessage('');
+  //       }, 2500);
+
+  //       // Очистка таймаута при размонтировании компонента или изменении зависимостей
+  //       return () => clearTimeout(timeoutId);
+  //  }
+   
+
+
   
-      // Очистка таймаута при размонтировании компонента или изменении зависимостей
-      return () => clearTimeout(timeoutId);
-    }
-  }, [user]);
-
+  }, [user, isUserCreated,err]);
   // const handleChange = (e) => {
       //? рабочая версия
   //   setFormData({
@@ -80,19 +104,20 @@ const RegistrationForm = () => {
       formDataToSend.append('profile_picture', formData.profile_picture);
     }
   
-    void dispatch(fetchCreateUser(formDataToSend));
-    if (!user) {
-      console.log(user);
-      
-      setRegistrationMessage('Такой пользователь уже существует')
-      console.error('Error creating user:');
-      const timeoutId = setTimeout(() => {
-        setRegistrationMessage('');
-      }, 2500);
-  
-      // Очистка таймаута при размонтировании компонента или изменении зависимостей
-      return () => clearTimeout(timeoutId);
-    }else fetchCheckUser()
+    dispatch(fetchCreateUser(formDataToSend)).then((res) => {
+      console.log("🚀 ~ dispatch ~ res:", res)
+      if(res.payload){
+      setIsUserCreated(true);
+      setIsUser(true)
+      setErr(false)
+
+      }else{
+        setIsUserCreated(false);
+        setErr(true)
+        setIsUser(false)
+      }
+
+    });
   };
 
   return (

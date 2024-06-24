@@ -8,6 +8,7 @@ import DifficultyClue from '../../components/DifficultyClue/DifficultyClue';
 import MiniCardTour from '../../components/MiniCardTour/MiniCardTour';
 import DrawnTourMap from '../../components/DrawnTourMap/DrawnTourMap';
 import { Button, Card } from 'antd';
+import { Link } from 'react-router-dom';
 
 
 
@@ -313,7 +314,12 @@ const filterObjFalse = (obj)=>Object.fromEntries(
             <div className="mb-4 flex flex-col">
                 <label htmlFor="imageUpload" className="block text-sm font-bold mb-2">Загрузить фото тура:</label>
                 <input type="file" id="imageUpload" name="imageUpload" accept=".jpg, .jpeg, .png" multiple onChange={handleImageUpload} required />
-                <span className="mt-4 px-4 py-2 bg-cyan-500 hover:bg-cyan-700 rounded" onClick={handleClickImages}>{showImages ? 'Скрыть загруженные фотографии' : 'Показать загруженные фотографии'}</span>
+                <div className="mt-4 px-4 py-2 bg-cyan-500 hover:bg-cyan-700 rounded select-none"
+                 onClick={handleClickImages}>{
+                  showImages ? 'Скрыть загруженные фотографии' 
+                 : 
+                 'Показать загруженные фотографии'}
+                 </div>
                     
                     {showImages && (
                       <div>
@@ -427,6 +433,13 @@ const filterObjFalse = (obj)=>Object.fromEntries(
                      Выгрузка заявок
                    </Button>
                   </div>
+                  <div className='flex justify-center m-2'>
+                  <Link to={`/${tour.id}`}>  
+                  <Button type="default">
+                     Перейти на страницу тура
+                   </Button>
+                   </Link>  
+                   </div>
                     </Card>
                     ))
                   }

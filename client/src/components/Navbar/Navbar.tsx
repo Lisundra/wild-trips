@@ -12,39 +12,62 @@ const Navbar = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalType, setModalType] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isUserLoading, setIsUserLoading] = useState(true);
+    const [isUserCreated, setIsUserCreated] = useState(false);    
+    const preventScroll = (e) => {
+        e.preventDefault();
+      };
+
     let user = useSelector((state: RootState) => state.user.user);
     const dispatch = useDispatch();
     const checkedUser= () => {
         dispatch(fetchCheckUser())
         console.log('Проверка пользователя');
       };
-    useEffect(() => {
-        console.log(user);
-        
-        if (user?.message) {
+      
+      const openModal = (type) => {
+          setModalType(type);
+          setIsModalOpen(true);
+          setTimeout(() => setIsModalVisible(true), 10); // Небольшая задержка для начала анимации
+      };
+      
+      const closeModal = () => {        
+          setIsModalVisible(false);
+          setTimeout(() => setIsModalOpen(false), 300);
+      };
+      useEffect(() => {
+          // Dispatch the fetchCheckUser action when the component mounts
+          dispatch(fetchCheckUser() as unknown as AnyAction);
+
+        }, [dispatch]);
+
+        useEffect(() => {
+
+            if (user) {
+                setIsUserLoading(false);
+            }
+        }, [user]);
+
+        useEffect(() => {
+            dispatch(fetchCheckUser()) 
+
+            if (user) {
+                setIsUserLoading(false);
+            }
+        }, [isUserCreated]);
+
+        useEffect(() => {
+          console.log(user);
+      
+          if (user?.message || user?.err) {
             setTimeout(() => closeModal(), 1500);
-        }
-        if (user?.err) {
-            // Handle error if needed
-        }else setTimeout(() => closeModal(), 1500);
-
-    }, [user]);
-
-    useEffect(() => {
-        // Dispatch the fetchCheckUser action when the component mounts
-        dispatch(fetchCheckUser() as unknown as AnyAction);
-    }, [dispatch]);
-
-    const openModal = (type) => {
-        setModalType(type);
-        setIsModalOpen(true);
-        setTimeout(() => setIsModalVisible(true), 10); // Небольшая задержка для начала анимации
-    };
-
-    const closeModal = () => {
-        setIsModalVisible(false);
-        setTimeout(() => setIsModalOpen(false), 300);
-    };
+          }
+      
+          // Функция очистки (если нужно)
+          return () => {
+            clearTimeout(); // Очистка таймера, если компонент размонтируется до истечения времени
+          };
+        }, [user, closeModal]);
 
     const handleOutsideClick = (e) => {
         if (e.target === e.currentTarget) {
@@ -52,12 +75,21 @@ const Navbar = () => {
         }
     };
 
-    useEffect(() => {
+    useEffect(() => {  //! overflow hidden свдигает контент, поэтому не подходит
         if (isModalOpen) {
-            document.body.classList.add('overflow-hidden'); // Предотвращает прокрутку заднего фона
+            document.addEventListener('wheel', preventScroll, { passive: false });
+            document.addEventListener('touchmove', preventScroll, { passive: false });
         } else {
-            document.body.classList.remove('overflow-hidden');
+            document.removeEventListener('wheel', preventScroll);
+            document.removeEventListener('touchmove', preventScroll);
         }
+
+        return()=>{
+            document.body.style.overflow = '';
+            document.removeEventListener('wheel', preventScroll);
+            document.removeEventListener('touchmove', preventScroll);
+        }
+
     }, [isModalOpen]);
 
     return (
@@ -81,7 +113,7 @@ const Navbar = () => {
                                     Подбор тура
                                 </Link>
                             </button>
-                            {(!user ) && (
+                            {(!user || isUserLoading ) && (
                                 <>
                                     <button onClick={() => openModal('registration')} className="text-white">
                                         Регистрация
@@ -91,11 +123,21 @@ const Navbar = () => {
                                     </button>
                                 </>
                             )}
-                            {(user) && (
+                            {(user && !isUserLoading)&& (
                                 <>
                                     <button className="text-white" onClick={checkedUser}>
-                                        <Link to="/MyTours" className="text-white">
-                                            Мои туры
+                                        <Link to="/MyTours" className="text-white">                                    
+                                            {
+                                            user.role==='organizer'?
+                                            `Личный кабинет организатора`
+                                            :
+                                            user.role==='admin'?
+                                            `Личный кабинет администратора`
+                                            :
+                                            `Личный кабинет`
+                                            }
+                                         
+                                                                               
                                         </Link>
                                     </button>
                                     <button className="text-white">
@@ -133,7 +175,7 @@ const Navbar = () => {
                         </button>
                         <h2 className="text-lg font-bold mb-4">{modalType === 'registration' ? 'Регистрация' : modalType === 'logout' ? 'Выход' : 'Вход'}</h2>
                         {modalType === 'registration' ? (
-                            <RegistrationForm />
+                            <RegistrationForm setIsUser={setIsUserCreated} />
                         ) : (
                             modalType === 'login' ? (
                                 <LoginForm />
