@@ -6,9 +6,9 @@ import { fetchCheckUser } from '../../redux/thunkActions';
 import type { RootState } from '../../redux/store';
 import DifficultyClue from '../../components/DifficultyClue/DifficultyClue';
 import MiniCardTour from '../../components/MiniCardTour/MiniCardTour';
-import DrawnTourMap from '../../components/DrawnTourMap/DrawnTourMap';
 import { Button, Card } from 'antd';
 import { Link } from 'react-router-dom';
+import EditTour from '../../components/EditTour/EditTour';
 
 
 
@@ -185,6 +185,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
       setTourCreated(false);
     }, 1500);
      formData = new FormData()
+     setShowForm(!showForm)
   }
 
   const handleImageUpload = (event) => {
@@ -214,6 +215,18 @@ const filterObjFalse = (obj)=>Object.fromEntries(
   const handleClickImages = () => {
     setShowImages(!showImages);
   };
+
+  const handlerUpdateTour = (updateTour) => {
+    console.log("🚀 ~ handlerUpdateTour ~ updateTour:", updateTour);
+
+    setDataTours((prevTours) => 
+      prevTours.map((t) => 
+        t.id === updateTour.id 
+          ? { ...t, ...updateTour } 
+          : t
+      )
+    );
+  }
 
 
   const deleteHandler = (id) => {
@@ -466,10 +479,12 @@ const filterObjFalse = (obj)=>Object.fromEntries(
                    <Button type="primary" onClick={()=>deleteHandler(tour.id)} danger>
                      удалить
                    </Button>
-                  <Button type="primary">
-                  Изменить
-                  </Button>
-                   <Button type="primary">
+                   <EditTour arraysCheckBox={arraysCheckBox} tour={tour} onUpdate={(updatedTour) => {
+               handlerUpdateTour(updatedTour)
+              }
+              
+              } />
+                   <Button style={{display:'none'}} type="primary">
                      Выгрузка заявок
                    </Button>
                   </div>

@@ -263,6 +263,90 @@ for (let facility_id of Object.keys(facilitiesPaidIds)) {
       res.status(400).json({ err: err.message });
     }
   },
+  editTour: async (req, res) => {
+    try {
+      console.log(req.body)
+      const { 
+        title, 
+        subtitle,
+        start_date,
+        end_date,
+        description,
+        price,
+        discount,
+        country,
+        region,
+        season,
+        difficulty,
+        family_friendly,
+        facilitiesFree,
+        facilitiesPaid,
+        activities,
+        housings,
+        coordinates,
+    } = req.body;
+
+    const tourId = req.params.id;
+    const existingTour = await Tour.findByPk(tourId);
+
+    let formattedStart_date = start_date ? new Date(start_date.replace('GMT+0230', 'GMT+02:30')) : existingTour.start_date;
+    let formattedEnd_date = end_date ? new Date(end_date.replace('GMT+0230', 'GMT+02:30')) : existingTour.end_date;
+    const duration = Math.ceil((new Date(formattedEnd_date) - new Date(formattedStart_date)) / (1000 * 60 * 60 * 24));
+
+     const dataUpdate = {
+      title:title?title:undefined,
+      name:title,
+      subtitle:subtitle?subtitle:undefined,
+      description:description?description:undefined,
+      duration:duration?duration:undefined,
+      price:price?Number(price):undefined,
+      discount:discount?Number(discount):undefined,
+      country:country?country:undefined,
+      region:region?region:undefined,
+      season:season?season:undefined,
+      difficulty:difficulty?difficulty:undefined,
+      start_date:formattedStart_date,
+      end_date:formattedEnd_date,
+      duration:duration,
+      family_friendly:family_friendly.toLowerCase() === 'false' ? false : true,
+    }
+
+
+    for (const key in dataUpdate) {
+      if(!dataUpdate[key] && dataUpdate[key]!==false)
+      delete dataUpdate[key]
+    }
+    console.log("🚀 ~ editTour: ~ dataUpdate:", dataUpdate)
+
+
+
+      if (!existingTour) {
+        return res.status(404).json({ error: 'Тур не найден' });
+      }
+
+      const updatedTour = await existingTour.update(dataUpdate);
+
+  if (req.files && req.files.length > 0) {
+    const images = req.files.map((file) => `/src/assets/images/${file.filename}`);
+    const imagesByTour = await Image.findOne({ where: { tour_id: tourId } });
+     const jsonImages = JSON.stringify(images);
+        
+              if (imagesByTour) {
+                await imagesByTour.update({ image_path: jsonImages, tour_id: updatedTour.id });
+              } else {
+                await Image.create({ image_path: jsonImages, tour_id: updatedTour.id });
+              }
+            }
+            console.log("🚀 ~ editTour: ~ updateTour:", updatedTour)
+
+
+         res.json(updatedTour)
+    } catch (error) {
+      console.log("🚀 ~ editTour: ~ error:", error)
+      
+    }
+
+  },
 
   deleteTour: async (req, res) => {
     const { id } = req.params;
