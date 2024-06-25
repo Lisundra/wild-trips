@@ -174,29 +174,9 @@ module.exports = {
 
   const images = req.files.map((file) => `/src/assets/images/${file.filename}`);
 
+  console.log("🚀 ~ createTour: ~ images:", images)
   const duration = Math.ceil((new Date(end_date) - new Date(start_date)) / (1000 * 60 * 60 * 24));
-//   const testData = {
-//     title, 
-//     subtitle,
-//     start_date,
-//     end_date,
-//     description,
-//     price,
-//     discount,
-//     country,
-//     region,
-//     season,
-//     difficulty,
-//     family_friendly,
-//     facilitiesFree,
-//     facilitiesPaid,
-//     activities,
-//     housings,
-//     duration,
-//     images
-//   }
-//  console.log(testData);
-
+  
     try {
       const createdTour = await Tour.create({ 
         name:title,
@@ -218,6 +198,7 @@ module.exports = {
       });
       // console.log(createdTour);
       const jsonImages = JSON.stringify(images);
+      console.log("🚀 ~ createTour: ~ jsonImages:", jsonImages)
 
   Image.create({image_path:jsonImages,tour_id:createdTour.id}) //! news_id:null
       
@@ -265,7 +246,7 @@ for (let facility_id of Object.keys(facilitiesPaidIds)) {
   },
   editTour: async (req, res) => {
     try {
-      console.log(req.body)
+      console.log('edit rour:', req.body)
       const { 
         title, 
         subtitle,
@@ -339,6 +320,35 @@ for (let facility_id of Object.keys(facilitiesPaidIds)) {
             }
             console.log("🚀 ~ editTour: ~ updateTour:", updatedTour)
 
+            const activitiesParse = JSON.parse(activities)
+            const housingsParse = JSON.parse(housings)
+            
+            await TourOption.destroy({
+              where: {
+                tour_id: updatedTour.id,
+                [Op.or]: [
+                  { activity_id: { [Op.ne]: null } },
+                  { facility_id: { [Op.ne]: null } },
+                  { housing_id: { [Op.ne]: null } }
+                ]
+              }
+            });
+        
+            // Создаем новые TourOption
+            const createTourOptions = async (items, type, typeId) => {
+              for (let id of items) {
+                await TourOption.create({
+                  tour_id: updatedTour.id,
+                  [type]: parseInt(id),
+                  type: typeId
+                });
+              }
+            };
+        
+            await createTourOptions(activitiesParse, 'activity_id', null);
+            await createTourOptions(housingsParse, 'housing_id', null);
+            await createTourOptions(facilitiesFree, 'facility_id', false);
+            await createTourOptions(facilitiesPaid, 'facility_id', true);
 
          res.json(updatedTour)
     } catch (error) {

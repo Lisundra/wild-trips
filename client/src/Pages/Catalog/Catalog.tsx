@@ -21,7 +21,7 @@ useEffect(() => {
     axios.get(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/tours`)
       .then((res) => {
         let result = res.data;
-        console.log(res.data);
+        console.log('catalog res data',res.data);
 
         const dataWithImage = res.data.map(card=>{
           if (card.Images) {

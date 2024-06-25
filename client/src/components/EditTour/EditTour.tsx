@@ -72,6 +72,17 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
   const handleFinish = (values) => {
     console.log("🚀 ~ handleFinish ~ values:", values)
     const formData = new FormData();
+    
+    console.log(facilitiesFree, facilitiesPaid)
+    
+        for (const key in facilitiesFree)
+          if(facilitiesFree[key]===true)
+          formData.append('facilitiesFree', (key));
+        
+
+    for (const key in facilitiesPaid)
+    if(facilitiesPaid[key]===true)
+    formData.append('facilitiesPaid', (key));
 
     for (const key in values) {
       if(!values[key])
@@ -122,6 +133,7 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
   };
 
   const handleFacilityChange = (type, facility) => {
+    console.log(facilitiesFree, facilitiesPaid )
     if (type === 'paid') {
       setFacilitiesPaid((prev) => ({ ...prev, [facility]: !prev[facility] }));
       setFacilitiesFree((prev) => ({ ...prev, [facility]: false }));
