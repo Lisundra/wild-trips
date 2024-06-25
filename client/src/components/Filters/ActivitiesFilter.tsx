@@ -1,108 +1,105 @@
-import React from 'react';
-import { Select } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Checkbox, Button } from 'antd';
+import axios from 'axios';
 import styles from './Filters.module.css';
 
-const onChange = (value: string) => {
-  console.log(`selected ${value}`);
-};
+const ActivitiesFilter = ({ setFilters }) => {
+    const [checkedList, setCheckedList] = useState([]);
+    const [collapsed, setCollapsed] = useState(true); // Состояние для сворачивания/разворачивания списка
 
-const onSearch = (value: string) => {
-  console.log('search:', value);
-};
+    const onChange = (value) => {
+        console.log(value);
+        setCheckedList(value);
+        setFilters((prev) => ({ ...prev, activities: value })); // Обновляем фильтры с выбранными видами отдыха
+    };
 
-export default function ActivitiesFilter() {
+    useEffect(() => {
+        // Вызываем функцию для применения фильтров, когда изменяются checkedList
+        applyFilters();
+    }, [checkedList]);
+
+    const applyFilters = () => {
+        axios
+            .get(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/tours`, {
+                params: { activities: checkedList } // Передаем выбранные виды отдыха как параметр запроса
+            })
+            .then((res) => {
+                setFilters((prev) => ({ ...prev, tours: res.data })); // Обновляем состояние с данными о турах
+            })
+            .catch((error) => {
+                console.error('Error fetching tours:', error);
+            });
+    };
+
+    const options = [
+        { label: 'Пешеходные прогулки', value: 'Пешеходные прогулки' },
+        { label: 'Треккинг', value: 'Треккинг' },
+        { label: 'Велопрогулки', value: 'Велопрогулки' },
+        { label: 'Поход в горы', value: 'Поход в горы' },
+        { label: 'Джип-туры', value: 'Джип-туры' },
+        { label: 'Катание на квадроциклах', value: 'Катание на квадроциклах' },
+        { label: 'Катание на снегоходах', value: 'Катание на снегоходах' },
+        { label: 'Катание на собачьих упряжках', value: 'Катание на собачьих упряжках' },
+        { label: 'Лыжные туры', value: 'Лыжные туры' },
+        { label: 'Обзорные туры', value: 'Обзорные туры' },
+        { label: 'Конные прогулки', value: 'Конные прогулки' },
+        { label: 'Круизы', value: 'Круизы' },
+        { label: 'Сплавы', value: 'Сплавы' },
+        { label: 'Яхтинг', value: 'Яхтинг' },
+        { label: 'Каякинг', value: 'Каякинг' },
+        { label: 'Дайвинг', value: 'Дайвинг' },
+        { label: 'Экспедиции', value: 'Экспедиции' },
+        { label: 'Этнотуры', value: 'Этнотуры' },
+        { label: 'Полет на вертолёте', value: 'Полет на вертолёте' },
+        { label: 'Парапланеризм', value: 'Парапланеризм' },
+    ];
+
     return (
-    <>
-    <p className={styles.filterName}>Виды отдыха</p>
-    <Select
-    showSearch
-    placeholder="Выберите желаемые виды отдыха"
-    optionFilterProp="label"
-    onChange={onChange}
-    onSearch={onSearch}
-    options={[
-      {
-        value: 'Пешеходные прогулки',
-        label: 'Пешеходные прогулки',
-      },
-      {
-        value: 'Треккинг',
-        label: 'Треккинг',
-      },
-      {
-        value: 'Велопрогулки',
-        label: 'Велопрогулки',
-      },
-      {
-        value: 'Поход в горы',
-        label: 'Поход в горы',
-      },
-      {
-        value: 'Джип-туры',
-        label: 'Джип-туры',
-      },
-      {
-        value: 'Катание на квадроциклах',
-        label: 'Катание на квадроциклах',
-      },
-      {
-        value: 'Катание на снегоходах',
-        label: 'Катание на снегоходах',
-      },
-      {
-        value: 'Катание на собачьих упряжках',
-        label: 'Катание на собачьих упряжках',
-      },
-      {
-        value: 'Лыжные туры',
-        label: 'Лыжные туры',
-      },
-      {
-        value: 'Обзорные туры',
-        label: 'Обзорные туры',
-      },
-      {
-        value: 'Конные прогулки',
-        label: 'Конные прогулки',
-      },
-      {
-        value: 'Круизы',
-        label: 'Круизы',
-      },
-      {
-        value: 'Сплавы',
-        label: 'Сплавы',
-      },
-      {
-        value: 'Яхтинг',
-        label: 'Яхтинг',
-      },
-      {
-        value: 'Каякинг',
-        label: 'Каякинг',
-      },
-      {
-        value: 'Дайвинг',
-        label: 'Дайвинг',
-      },
-      {
-        value: 'Экспедиции',
-        label: 'Экспедиции',
-      },
-      {
-        value: 'Этнотуры',
-        label: 'Этнотуры',
-      },
-      {
-        value: 'Полет на вертолёте',
-        label: 'Полет на вертолёте',
-      },
-      {
-        value: 'Парапланеризм',
-        label: 'Парапланеризм',
-      },
-    ]}
-  />
-  </>
-);
-}
+        <div className={styles.activitiesFilter}>
+            <p className={styles.filterName}>Виды отдыха</p>
+            {collapsed ? (
+                options.slice(0, 5).map((option) => (
+                    <Checkbox
+                        key={option.value}
+                        checked={checkedList.includes(option.value)}
+                        onChange={(e) => {
+                            const value = e.target.checked
+                                ? [...checkedList, option.value]
+                                : checkedList.filter((item) => item !== option.value);
+                            onChange(value);
+                        }}
+                        className={styles.checkbox}
+                    >
+                        {option.label}
+                    </Checkbox>
+                ))
+            ) : (
+                options.map((option) => (
+                    <Checkbox
+                        key={option.value}
+                        checked={checkedList.includes(option.value)}
+                        onChange={(e) => {
+                            const value = e.target.checked
+                                ? [...checkedList, option.value]
+                                : checkedList.filter((item) => item !== option.value);
+                            onChange(value);
+                        }}
+                        className={styles.checkbox}
+                    >
+                        {option.label}
+                    </Checkbox>
+                ))
+            )}
+            <Button
+                size="small"
+                onClick={() => setCollapsed(!collapsed)}
+                className={styles.showAllButton}
+                style={{ width: '75%', marginTop: '10px' }}
+            >
+                {collapsed ? 'Показать все' : 'Свернуть'}
+            </Button>
+        </div>
+    );
+};
+
+export default ActivitiesFilter;

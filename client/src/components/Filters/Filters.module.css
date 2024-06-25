@@ -11,3 +11,12 @@
     margin-bottom: 10px;
 }
 
+.activitiesFilter {
+    display: flex;
+    flex-direction: column;
+}
+
+.checkbox {
+    margin-bottom: 8px; /* Отступ между чекбоксами Activities */
+}
+

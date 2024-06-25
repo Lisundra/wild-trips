@@ -21,7 +21,7 @@ const Filters: React.FC<FiltersProps> = ({ setFilters }) => (
             <DurationSlider setFilters={setFilters} />
             <BudgetFilter setFilters={setFilters} />
             <SeasonFilter setFilters={setFilters} />
-            <ActivitiesFilter />
+            <ActivitiesFilter setFilters={setFilters}/>
             <DifficultyFilter setFilters={setFilters} />
             <HousingsFilter />
             <ChildrenFilter setFilters={setFilters} />

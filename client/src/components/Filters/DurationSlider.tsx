@@ -12,41 +12,43 @@ const RangeSlider: React.FC<{ setFilters: React.Dispatch<React.SetStateAction<an
   };
 
   return (
-    <Row>
-      <Col span={12}>
-        <Slider
-          range
-          min={1}
-          max={30}
-          onChange={onChange}
-          value={inputValue}
-        />
-      </Col>
-      <Col span={4}>
-        <InputNumber
-          min={1}
-          max={30}
-          value={inputValue[0]}
-          onChange={(value) => onChange([value as number, inputValue[1]])}
-          style={{ margin: '0 16px' }}
-        />
-        <InputNumber
-          min={1}
-          max={30}
-          value={inputValue[1]}
-          onChange={(value) => onChange([inputValue[0], value as number])}
-          style={{ margin: '0 16px' }}
-        />
-      </Col>
-    </Row>
+    <div style={{ width: '100%' }}>
+      <Row justify="space-between" style={{ marginBottom: 16 }}>
+        <Col span={12}>
+          <InputNumber
+            min={1}
+            max={30}
+            value={inputValue[0]}
+            onChange={(value) => onChange([value as number, inputValue[1]])}
+            style={{ width: '100%' }}
+          />
+        </Col>
+        <Col span={12}>
+          <InputNumber
+            min={1}
+            max={30}
+            value={inputValue[1]}
+            onChange={(value) => onChange([inputValue[0], value as number])}
+            style={{ width: '100%' }}
+          />
+        </Col>
+      </Row>
+      <Slider
+        range
+        min={1}
+        max={30}
+        onChange={onChange}
+        value={inputValue}
+      />
+    </div>
   );
 };
 
 export default function DurationSlider({ setFilters }) {
   return (
     <>
-      <p className={styles.filterName}>Длительность</p>
-      <Space style={{ width: '100%' }} direction="vertical">
+      <p className={styles.filterName}>Длительность (дней)</p>
+      <Space style={{ width: '75%' }} direction="vertical">
         <RangeSlider setFilters={setFilters} />
       </Space>
     </>

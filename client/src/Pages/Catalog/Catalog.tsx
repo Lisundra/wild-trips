@@ -14,6 +14,7 @@ export default function Catalog() {
       family_friendly: null,
       start_date: null,
       end_date: null,
+      activities: [],
     });
 
       // Достаём данные внутри useEffect
@@ -56,7 +57,7 @@ useEffect(() => {
               const filterEndDate = new Date(filters.end_date);
               return tourStartDate >= filterStartDate && tourEndDate <= filterEndDate;
           });
-      }
+      } if (['name'].includes)
   }
 
     // result = result.filter(item => item.price >= 100000 && item.price <= 300000)

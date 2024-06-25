@@ -16,7 +16,7 @@ export default function SeasonFilter({ setFilters }) {
     return (
     <>
     <p className={styles.filterName}>Сезон</p>
-    <Select
+    <Select 
     showSearch
     placeholder="Выберите сезон"
     optionFilterProp="label"

@@ -12,41 +12,43 @@ const BudgetRangeSlider: React.FC<{ setFilters: React.Dispatch<React.SetStateAct
   };
 
   return (
-    <Row>
-      <Col span={12}>
-        <Slider
-          range
-          min={1}
-          max={2000000}
-          onChange={onChange}
-          value={inputValue}
-        />
-      </Col>
-      <Col span={4}>
-        <InputNumber
-          min={1}
-          max={2000000}
-          value={inputValue[0]}
-          onChange={(value) => onChange([value as number, inputValue[1]])}
-          style={{ margin: '0 16px' }}
-        />
-        <InputNumber
-          min={1}
-          max={2000000}
-          value={inputValue[1]}
-          onChange={(value) => onChange([inputValue[0], value as number])}
-          style={{ margin: '0 16px' }}
-        />
-      </Col>
-    </Row>
+    <div style={{ width: '100%' }}>
+      <Row justify="space-between" style={{ marginBottom: 16 }}>
+        <Col span={12}>
+          <InputNumber
+            min={1}
+            max={2000000}
+            value={inputValue[0]}
+            onChange={(value) => onChange([value as number, inputValue[1]])}
+            style={{ width: '100%' }}
+          />
+        </Col>
+        <Col span={12}>
+          <InputNumber
+            min={1}
+            max={2000000}
+            value={inputValue[1]}
+            onChange={(value) => onChange([inputValue[0], value as number])}
+            style={{ width: '100%' }}
+          />
+        </Col>
+      </Row>
+      <Slider
+        range
+        min={1}
+        max={2000000}
+        onChange={onChange}
+        value={inputValue}
+      />
+    </div>
   );
 };
 
 export default function BudgetSlider({ setFilters }) {
   return (
     <>
-      <p className={styles.filterName}>Бюджет</p>
-      <Space style={{ width: '100%' }} direction="vertical">
+      <p className={styles.filterName}>Бюджет, ₽</p>
+      <Space style={{ width: '75%' }} direction="vertical">
         <BudgetRangeSlider setFilters={setFilters} />
       </Space>
     </>
