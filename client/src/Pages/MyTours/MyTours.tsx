@@ -6,9 +6,9 @@ import { fetchCheckUser } from '../../redux/thunkActions';
 import type { RootState } from '../../redux/store';
 import DifficultyClue from '../../components/DifficultyClue/DifficultyClue';
 import MiniCardTour from '../../components/MiniCardTour/MiniCardTour';
-import DrawnTourMap from '../../components/DrawnTourMap/DrawnTourMap';
 import { Button, Card } from 'antd';
 import { Link } from 'react-router-dom';
+import EditTour from '../../components/EditTour/EditTour';
 
 
 
@@ -17,6 +17,7 @@ function ParallaxPage() {
   const [showImages, setShowImages] = useState(false);
   const [showMap, setShowMap] = useState(false);
   const [tourCreated, setTourCreated] = useState(false);
+  const [upd, setUpd] = useState(0)
   const [isDelete, setIsDelete] = useState(false);
   const [dataTours, setDataTours] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -61,12 +62,12 @@ const filterObjFalse = (obj)=>Object.fromEntries(
         console.log("🚀 ~ useEffect ~ formattedData:", formattedData)      
         setDataTours(formattedData)
       });
-  }, []);
+  }, [upd]);
 
 
   useEffect(() => {
 
-      axios.get('http://localhost:3100/api/tours/org', {
+      axios.get('http://localhost:3100/api/tours/org/all', {
         withCredentials: true
       }).then((res) => {
         console.log('data org tours ', res.data);
@@ -185,6 +186,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
       setTourCreated(false);
     }, 1500);
      formData = new FormData()
+     setShowForm(!showForm)
   }
 
   const handleImageUpload = (event) => {
@@ -214,6 +216,21 @@ const filterObjFalse = (obj)=>Object.fromEntries(
   const handleClickImages = () => {
     setShowImages(!showImages);
   };
+
+  const handlerUpdateTour = (updateTour) => {
+    console.log("🚀 ~ handlerUpdateTour ~ updateTour:", updateTour);
+
+
+    setDataTours((prevTours) => 
+      prevTours.map((t) => 
+        t.id === updateTour.id 
+          ? { ...t, ...updateTour } 
+          : t
+      )
+    );
+
+    setUpd(upd+1)
+  }
 
 
   const deleteHandler = (id) => {
@@ -466,10 +483,12 @@ const filterObjFalse = (obj)=>Object.fromEntries(
                    <Button type="primary" onClick={()=>deleteHandler(tour.id)} danger>
                      удалить
                    </Button>
-                  <Button type="primary">
-                  Изменить
-                  </Button>
-                   <Button type="primary">
+                   <EditTour arraysCheckBox={arraysCheckBox} tour={tour} onUpdate={(updatedTour) => {
+               handlerUpdateTour(updatedTour)
+              }
+              
+              } />
+                   <Button style={{display:'none'}} type="primary">
                      Выгрузка заявок
                    </Button>
                   </div>

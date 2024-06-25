@@ -73,7 +73,7 @@ MiniCardTour.defaultProps = {
   numberBooking: 0,
   price: 0,
   rating: 0,
-  Images: ['/src/assets/images/arctic.png', '/src/assets/images/fjord.png', '/src/assets/images/river.png'], 
+  Images: ['/src/assets/images/minimalizm-montains-1.png', '/src/assets/images/minimalizm-montains-1.png', '/src/assets/images/minimalizm-montains-1.png'], 
 };
 
 export default MiniCardTour;
