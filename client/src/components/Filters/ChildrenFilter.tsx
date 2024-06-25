@@ -3,11 +3,13 @@ import { Checkbox } from 'antd';
 import type { CheckboxProps } from 'antd';
 import styles from './Filters.module.css';
 
-const onChange: CheckboxProps['onChange'] = (e) => {
-  console.log(`checked = ${e.target.checked}`);
-};
+export default function ChildrenFilter({ setFilters }) {
 
-export default function ChildrenFilter() {
+  const onChange: CheckboxProps['onChange'] = (e) => {
+    console.log(`checked = ${e.target.checked}`);
+    setFilters(prev => ({ ...prev, family_friendly: e.target.checked ? true : null }));
+  };
+
     return (
     <>
     <p className={styles.filterName}>Отдых с детьми</p>
