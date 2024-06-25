@@ -27,7 +27,7 @@ const {
   getAllOptions,
   createTour,
   deleteTour,
-  // editTour,
+  editTour,
 } = require('../controllers/tours-controller');
 
 router
@@ -35,11 +35,11 @@ router
   .get('/discounted', getDiscountedTours)
   .get('/editors', getEditorsTours)
   .get('/new', getNewTours)
-  .get('/:id', getOneTour)
   .get('/org/all', getAllToursByUser)
+  .get('/:id', getOneTour)
   .post('/checkBox', getAllOptions)
   .post('/',upload.array('images',10), createTour)
-  // .patch('/:id', editTour)
+  .patch('/:id',upload.array('images', 10), editTour)
   .delete('/:id', deleteTour);
   
 module.exports = router;

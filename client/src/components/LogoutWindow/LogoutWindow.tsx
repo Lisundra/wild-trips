@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { fetchDelete, fetchLogoutUser } from '../../redux/thunkActions';
 import { useDispatch } from 'react-redux';
 
-const LoginForm = () => {
+const LoginForm = ({closeModal}) => {
   const dispatch = useDispatch();
   
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle login logic here
     dispatch(fetchLogoutUser());
+    closeModal()
     console.log('LOGOUT');
   };
 
