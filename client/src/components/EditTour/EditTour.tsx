@@ -9,6 +9,7 @@ const { Option } = Select;
 
 const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
   const [visible, setVisible] = useState(false);
+  const [images, setImages] = useState([]);
   const [form] = Form.useForm();
   const [imagePreviews, setImagePreviews] = useState([]);
   const [dataTour, setDataTour] = useState({
@@ -72,7 +73,6 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
   const handleFinish = (values) => {
     console.log("🚀 ~ handleFinish ~ values:", values)
     const formData = new FormData();
-    
     console.log(facilitiesFree, facilitiesPaid)
     
         for (const key in facilitiesFree)
@@ -101,6 +101,11 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
       }
     }
 
+    images.forEach((image) => {
+      formData.append('images', image);
+    });
+
+    console.log('data edit : ', formData.getAll('images'))
     axios.patch(`http://localhost:3100/api/tours/${tour.id}`, formData, { withCredentials: true })
       .then((res) => {
       console.log("🚀 ~ .then ~ res:", res)
@@ -120,6 +125,8 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
 
   const handleImageUpload = (fileList) => {
     const previews = [];
+    const files = [];
+
     fileList.forEach((file) => {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -129,7 +136,10 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
         }
       };
       reader.readAsDataURL(file.originFileObj);
+      files.push(file.originFileObj);
     });
+
+    setImages(files);
   };
 
   const handleFacilityChange = (type, facility) => {

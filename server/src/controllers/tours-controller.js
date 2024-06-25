@@ -317,12 +317,16 @@ for (let facility_id of Object.keys(facilitiesPaidIds)) {
               } else {
                 await Image.create({ image_path: jsonImages, tour_id: updatedTour.id });
               }
+              updatedTour.images=images
+              updatedTour['images']=images
+              updatedTour['imagesjson']=jsonImages
             }
+            
             console.log("🚀 ~ editTour: ~ updateTour:", updatedTour)
 
             const activitiesParse = JSON.parse(activities)
             const housingsParse = JSON.parse(housings)
-            
+
             await TourOption.destroy({
               where: {
                 tour_id: updatedTour.id,
@@ -349,6 +353,8 @@ for (let facility_id of Object.keys(facilitiesPaidIds)) {
             await createTourOptions(housingsParse, 'housing_id', null);
             await createTourOptions(facilitiesFree, 'facility_id', false);
             await createTourOptions(facilitiesPaid, 'facility_id', true);
+      
+            console.log("🚀 RES JSON EDIT:", updatedTour)
 
          res.json(updatedTour)
     } catch (error) {

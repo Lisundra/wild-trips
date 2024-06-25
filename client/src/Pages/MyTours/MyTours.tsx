@@ -17,6 +17,7 @@ function ParallaxPage() {
   const [showImages, setShowImages] = useState(false);
   const [showMap, setShowMap] = useState(false);
   const [tourCreated, setTourCreated] = useState(false);
+  const [upd, setUpd] = useState(0)
   const [isDelete, setIsDelete] = useState(false);
   const [dataTours, setDataTours] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -61,7 +62,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
         console.log("🚀 ~ useEffect ~ formattedData:", formattedData)      
         setDataTours(formattedData)
       });
-  }, []);
+  }, [upd]);
 
 
   useEffect(() => {
@@ -219,6 +220,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
   const handlerUpdateTour = (updateTour) => {
     console.log("🚀 ~ handlerUpdateTour ~ updateTour:", updateTour);
 
+
     setDataTours((prevTours) => 
       prevTours.map((t) => 
         t.id === updateTour.id 
@@ -226,6 +228,8 @@ const filterObjFalse = (obj)=>Object.fromEntries(
           : t
       )
     );
+
+    setUpd(upd+1)
   }
 
 
