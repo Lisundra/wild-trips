@@ -44,10 +44,10 @@ const RangeSlider: React.FC<{ setFilters: React.Dispatch<React.SetStateAction<an
   );
 };
 
-export default function DurationSlider({ setFilters }) {
+export default function DurationFilter({ setFilters }) {
   return (
     <>
-      <p className={styles.filterName}>Длительность (дней)</p>
+      <p className={styles.filterName}>✅Длительность (дней)</p>
       <Space style={{ width: '75%' }} direction="vertical">
         <RangeSlider setFilters={setFilters} />
       </Space>

@@ -20,3 +20,14 @@
     margin-bottom: 8px; /* Отступ между чекбоксами Activities */
 }
 
+/* Вертикальные стили для чекбоксов с опцией свернуть */
+
+.housingsFilter .checkboxContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .housingsFilter .checkbox {
+    margin-bottom: 5px;
+  }
+  

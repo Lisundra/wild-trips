@@ -57,7 +57,7 @@ const Navbar = () => {
         }, [isUserCreated]);
 
         useEffect(() => {
-          console.log(user);
+        //   console.log(user);
       
           if (user?.message || user?.err) {
             setTimeout(() => closeModal(), 1500);

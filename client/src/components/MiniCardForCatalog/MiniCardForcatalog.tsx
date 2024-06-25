@@ -17,14 +17,14 @@ const MiniCardForCatalog = ({
   rating,
   Images,
 }) => {
-  console.log("🚀 ~ Images:", Images);
+  // console.log("🚀 ~ Images:", Images);
 
   const formattedStartDate = format(new Date(start_date), 'dd MMM', { locale: ru });
   const formattedEndDate = format(new Date(end_date), 'dd MMM', { locale: ru });
 
   return (
     <Card
-      style={{ width: 400, border: '1px solid #f0f0f0' }}
+      style={{ width: 400, border: '1px solid #f0f0f0', minHeight: '450px' }}
       cover={
         <div className="relative">
           <Carousel arrows={true} draggable touchMove={true}>
@@ -57,8 +57,8 @@ const MiniCardForCatalog = ({
               <p>Сложность: {difficulty}</p>
               <DifficultyClue difficulty={difficulty} />
             </div>
-            <p>Кол-во заявок: {numberBooking}</p>
-            <p>Price: {price}</p>
+            {/* <p>Кол-во заявок: {numberBooking}</p> */}
+            <p>От {price} руб.</p>
           </div>
         }
       />

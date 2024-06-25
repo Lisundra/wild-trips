@@ -79,7 +79,7 @@ export const fetchCheckUser = createAsyncThunk('users/check', async () => {
   );
 
 
-    console.log(response.data);
+    // console.log(response.data);
 
     return response.data;
   

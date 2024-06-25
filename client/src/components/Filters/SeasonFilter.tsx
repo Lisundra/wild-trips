@@ -1,46 +1,28 @@
-import React from 'react';
-import { Select } from 'antd';
+import React, { useState } from 'react';
+import { Checkbox } from 'antd';
 import styles from './Filters.module.css';
 
-export default function SeasonFilter({ setFilters }) {
-  
-  const onChange = (value: string) => {
-    console.log(`selected ${value}`);
-    setFilters(prev => ({...prev, season: value}));
-  };
-  
-  const onSearch = (value: string) => {
-    console.log('search:', value);
+const SeasonFilter = ({ setFilters }) => {
+  const [checkedList, setCheckedList] = useState([]);
+
+  const onChange = (list) => {
+    setCheckedList(list);
+    setFilters(prev => ({ ...prev, season: list }));
   };
 
-    return (
+  const options = [
+    { label: 'Зима', value: 'Зима' },
+    { label: 'Весна', value: 'Весна' },
+    { label: 'Лето', value: 'Лето' },
+    { label: 'Осень', value: 'Осень' },
+  ];
+
+  return (
     <>
-    <p className={styles.filterName}>Сезон</p>
-    <Select 
-    showSearch
-    placeholder="Выберите сезон"
-    optionFilterProp="label"
-    onChange={onChange}
-    onSearch={onSearch}
-    options={[
-      {
-        value: 'Зима',
-        label: 'Зима',
-      },
-      {
-        value: 'Весна',
-        label: 'Весна',
-      },
-      {
-        value: 'Лето',
-        label: 'Лето',
-      },
-      {
-        value: 'Осень',
-        label: 'Осень',
-      },
-    ]}
-  />
-  </>
-);
-}
+      <p className={styles.filterName}>😭Сезон</p>
+      <Checkbox.Group value={checkedList} options={options} onChange={onChange} />
+    </>
+  );
+};
+
+export default SeasonFilter;

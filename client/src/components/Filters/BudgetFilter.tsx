@@ -47,7 +47,7 @@ const BudgetRangeSlider: React.FC<{ setFilters: React.Dispatch<React.SetStateAct
 export default function BudgetSlider({ setFilters }) {
   return (
     <>
-      <p className={styles.filterName}>Бюджет, ₽</p>
+      <p className={styles.filterName}>✅Бюджет, ₽</p>
       <Space style={{ width: '75%' }} direction="vertical">
         <BudgetRangeSlider setFilters={setFilters} />
       </Space>
