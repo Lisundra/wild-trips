@@ -17,14 +17,12 @@ const MiniCardForCatalog = ({
   rating,
   Images,
 }) => {
-  // console.log("🚀 ~ Images:", Images);
-
   const formattedStartDate = format(new Date(start_date), 'dd MMM', { locale: ru });
   const formattedEndDate = format(new Date(end_date), 'dd MMM', { locale: ru });
 
   return (
     <Card
-      style={{ width: 400, border: '1px solid #f0f0f0', minHeight: '450px' }}
+      style={{ width: 400, border: '1px solid #f0f0f0' }}
       cover={
         <div className="relative">
           <Carousel arrows={true} draggable touchMove={true}>
@@ -44,24 +42,26 @@ const MiniCardForCatalog = ({
         </div>
       }
     >
-      <Meta
-        title={title}
-        description={
-          <div>
-            <p>{subtitle}</p>
-            <p>
-              {formattedStartDate} — {formattedEndDate}
-            </p>
-            <p>{duration} дней</p>
-            <div className='flex ml'>
-              <p>Сложность: {difficulty}</p>
-              <DifficultyClue difficulty={difficulty} />
+      <div style={{ minHeight: '450px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <Meta
+          title={title}
+          description={
+            <div>
+              <p>{subtitle}</p>
+              <p>
+                {formattedStartDate} — {formattedEndDate}
+              </p>
+              <p>{duration} дней</p>
+              <div className='flex ml'>
+                <p>Сложность: {difficulty}</p>
+                <DifficultyClue difficulty={difficulty} />
+              </div>
+              {/* <p>Кол-во заявок: {numberBooking}</p> */}
+              <p>От {price} руб.</p>
             </div>
-            {/* <p>Кол-во заявок: {numberBooking}</p> */}
-            <p>От {price} руб.</p>
-          </div>
-        }
-      />
+          }
+        />
+      </div>
     </Card>
   );
 };

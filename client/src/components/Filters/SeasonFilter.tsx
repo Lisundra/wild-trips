@@ -3,7 +3,7 @@ import { Checkbox } from 'antd';
 import styles from './Filters.module.css';
 
 const SeasonFilter = ({ setFilters }) => {
-  const [checkedList, setCheckedList] = useState([]);
+  const [checkedList, setCheckedList] = useState([]); //! Обновление локального состояния чекбоксов (не передаётся и не используются в других компонентах напрямую)
 
   const onChange = (list) => {
     setCheckedList(list);
@@ -19,7 +19,7 @@ const SeasonFilter = ({ setFilters }) => {
 
   return (
     <>
-      <p className={styles.filterName}>😭Сезон</p>
+      <p className={styles.filterName}>✅Сезон</p>
       <Checkbox.Group value={checkedList} options={options} onChange={onChange} />
     </>
   );

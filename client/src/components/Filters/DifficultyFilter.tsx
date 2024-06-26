@@ -21,7 +21,7 @@ export default function DifficultyFilter({ setFilters }) {
 
   return (
     <>
-    <p className={styles.filterName}>😭Сложность</p>
+    <p className={styles.filterName}>✅Сложность</p>
     <Checkbox.Group value={checkedList} options={options} onChange={onChange} /> 
   </>
 );

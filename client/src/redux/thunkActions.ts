@@ -48,7 +48,7 @@ export const fetchCreateUser = createAsyncThunk('users/createUser', async (formD
     }
   );
 
-  console.log(response.data);
+  // console.log(response.data);
   return response.data;
 });
 

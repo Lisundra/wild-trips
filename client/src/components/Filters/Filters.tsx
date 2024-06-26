@@ -27,12 +27,12 @@ const Filters: React.FC<FiltersProps> = ({ setFilters }) => (
             <RatingFilter setFilters={setFilters}/>
             <DurationFilter setFilters={setFilters} />
             <BudgetFilter setFilters={setFilters} />
+            <ChildrenFilter setFilters={setFilters} />
+            <DifficultyFilter setFilters={setFilters} />
             <SeasonFilter setFilters={setFilters} />
             <ActivitiesFilter setFilters={setFilters}/>
-            <DifficultyFilter setFilters={setFilters} />
             <HousingsFilter setFilters={setFilters} />
             <FacilitiesFilter setFilters={setFilters} />
-            <ChildrenFilter setFilters={setFilters} />
         </div>
     );
 
