@@ -3,7 +3,7 @@ import { Button, Card, Carousel } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import DifficultyClue from '../DifficultyClue/DifficultyClue';
 
-const MiniCardTour = ({
+const MiniCardTourNew = ({
   title,
   subtitle,
   start_date,
@@ -18,7 +18,6 @@ const MiniCardTour = ({
   Images,
 }) => {
     // console.log("🚀 ~ Images:", Images)
-    
 
   return (
     <Card
@@ -78,4 +77,4 @@ MiniCardTour.defaultProps = {
   Images: ['/src/assets/images/minimalizm-montains-1.png', '/src/assets/images/minimalizm-montains-1.png', '/src/assets/images/minimalizm-montains-1.png'], 
 };
 
-export default MiniCardTour;
+export default MiniCardTourNew;

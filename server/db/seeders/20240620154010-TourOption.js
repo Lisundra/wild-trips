@@ -63,6 +63,7 @@ module.exports = {
         facility_id: 20,
         type: true,
       },
+      
     ], {});
   },
 
