@@ -9,6 +9,7 @@ import MiniCardTour from '../../components/MiniCardTour/MiniCardTour';
 import { Button, Card } from 'antd';
 import { Link } from 'react-router-dom';
 import EditTour from '../../components/EditTour/EditTour';
+import { DeleteOutlined, EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 
 
 
@@ -16,6 +17,7 @@ function ParallaxPage() {
   const [showForm, setShowForm] = useState(false);
   const [showImages, setShowImages] = useState(false);
   const [showMap, setShowMap] = useState(false);
+  const [showCheckBox, setShowCheckBox] = useState(false);
   const [tourCreated, setTourCreated] = useState(false);
   const [upd, setUpd] = useState(0)
   const [isDelete, setIsDelete] = useState(false);
@@ -40,16 +42,16 @@ const filterObjFalse = (obj)=>Object.fromEntries(
       axios.post('http://localhost:3100/api/tours/checkBox', {
         withCredentials: true
       }).then((res) => {
-        console.log('data check ', res.data);
+        // console.log('data check ', res.data);
         setArraysCheckBox(res.data);
       });
 
-      console.log('USER ',user)
+      // console.log('USER ',user)
       
       axios.get('http://localhost:3100/api/tours/org/all', {
         withCredentials: true
       }).then((res) => {
-        console.log('data org tours ', res.data);
+        // console.log('data org tours ', res.data);
 
         const formattedData = res.data.map(card=>{
          const newObj = {
@@ -70,7 +72,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
       axios.get('http://localhost:3100/api/tours/org/all', {
         withCredentials: true
       }).then((res) => {
-        console.log('data org tours ', res.data);
+        // console.log('data org tours ', res.data);
 
         const formattedData = res.data.map(card=>{
          const newObj = {
@@ -80,7 +82,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
           return newObj
         })
 
-        console.log("🚀 ~ useEffect ~ formattedData:", formattedData)      
+        // console.log("🚀 ~ useEffect ~ formattedData:", formattedData)      
         setDataTours(formattedData)
       });
     
@@ -89,7 +91,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
 
 
   const handleFacilityChange = (type: string, facility: string) => {
-        console.log(arraysCheckBox.facility[2].name);
+        // console.log(arraysCheckBox.facility[2].name);
         
     if (type === 'paid') {
       setFacilitiesPaid((prev) => ({ ...prev, [facility]: !prev[facility] }));
@@ -139,22 +141,22 @@ const filterObjFalse = (obj)=>Object.fromEntries(
 
   const handleSubmitForm =(e)=>{
     e.preventDefault();
-    console.log('submit form tour ',inputs);
-    console.log(facilitiesFree, facilitiesPaid, activities, housings);
+    // console.log('submit form tour ',inputs);
+    // console.log(facilitiesFree, facilitiesPaid, activities, housings);
 
-    console.log('RESULT OBJECT DATA FOR CREATE',
-     {...inputs, facilitiesFree: filterObjFalse(facilitiesFree),
-      facilitiesPaid: filterObjFalse(facilitiesPaid), 
-      activities: filterObjFalse(activities),
-      housings: filterObjFalse(housings)}
-     )
+    // console.log('RESULT OBJECT DATA FOR CREATE',
+    //  {...inputs, facilitiesFree: filterObjFalse(facilitiesFree),
+    //   facilitiesPaid: filterObjFalse(facilitiesPaid), 
+    //   activities: filterObjFalse(activities),
+    //   housings: filterObjFalse(housings)}
+    //  )
     
       for (const key in inputs) {
         if (inputs.hasOwnProperty(key)) {
            if(key==='images'){
-           console.log("🚀 ~ handleSubmitForm ~ inputs[key]:", inputs[key])
+          //  console.log("🚀 ~ handleSubmitForm ~ inputs[key]:", inputs[key])
            Object.values(inputs[key]).forEach(value => {
-            console.log(value);
+            // console.log(value);
             formData.append('images', value);
           });
 
@@ -175,7 +177,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
       //Формируем данные для ручки на создание
    
         
-      console.log("🚀 ~ handleSubmitForm ~ formData:", formData.getAll('images'))
+      // console.log("🚀 ~ handleSubmitForm ~ formData:", formData.getAll('images'))
 
 
      axios.post('http://localhost:3100/api/tours/',formData,{withCredentials:true}).then(res=>{
@@ -210,7 +212,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
       };
       reader.readAsDataURL(files[i]);
     }
-      console.log("🚀 ~ handleImageUpload ~ formData:", formData.getAll('images'))
+      // console.log("🚀 ~ handleImageUpload ~ formData:", formData.getAll('images'))
   };
 
   const handleClickImages = () => {
@@ -218,7 +220,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
   };
 
   const handlerUpdateTour = (updateTour) => {
-    console.log("🚀 ~ handlerUpdateTour ~ updateTour:", updateTour);
+    // console.log("🚀 ~ handlerUpdateTour ~ updateTour:", updateTour);
 
 
     setDataTours((prevTours) => 
@@ -258,7 +260,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
         </button>
 
         {showForm && (
-          <form  onSubmit={handleSubmitForm} className="mt-8 bg-white text-black p-6 rounded shadow-md w-4/5 flex flex-wrap">
+          <form  onSubmit={handleSubmitForm} className="mt-8 bg-white text-black p-6 rounded shadow-md w-4/5 flex flex-wrap justify-center">
             <div className="w-full md:w-1/2 p-2">
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Название тура</label>
@@ -402,7 +404,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Активности в туре</label>
                 {[...Array(arraysCheckBox.activity.length).keys()].map(i => (
-                  <div key={i}>
+                  <div className={!showCheckBox && i>10?'hidden':''} key={i}>
                     <label>
                       <input
                         type="checkbox"
@@ -418,7 +420,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Проживание</label>
                 {[...Array(arraysCheckBox.housing.length).keys()].map(i => (
-                  <div key={i}>
+                  <div  key={i}>
                     <label>
                       <input
                         type="checkbox"
@@ -435,7 +437,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Оплатить дополнительно</label>
                 {[...Array(arraysCheckBox.facility.length).keys()].map(i => (
-                  <div key={i}>
+                  <div className={!showCheckBox && i>10?'hidden':''} key={i}>
                     <label>
                       <input
                         type="checkbox"
@@ -451,7 +453,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Включено в стоимость</label>
                 {[...Array(arraysCheckBox.facility.length).keys()].map(i => (
-                  <div key={i}>
+                  <div className={!showCheckBox && i>10?'hidden':''} key={i}>
                     <label>
                       <input
                         type="checkbox"
@@ -464,9 +466,14 @@ const filterObjFalse = (obj)=>Object.fromEntries(
                   </div>
                 ))}
               </div>
-            </div>
-                    <div className='flex justify-center flex-1'>
-              <button className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-800 rounded text-white" >Сохранить тур</button>
+             </div>
+                              
+             <div className='flex flex-col'>
+              <button type='button' onClick={()=>setShowCheckBox(!showCheckBox)} 
+              className="mt-4 mb-12 px-4 py-2 w-52 h-10 bg-gray-400 hover:bg-gray-800 rounded text-white">
+                {showCheckBox?'Скрыть':'Показать все услуги'}
+                </button> 
+              <button className="mt-4 px-4 py-2 w-52 h-10 bg-blue-600 hover:bg-blue-800 rounded text-white" >Сохранить тур</button>              
                   <div className={`absolute -mt-5 rounded p-1 bg-green-600 transition-opacity duration-1000
                    ${tourCreated ? 'opacity-100' : 'opacity-0'}`}>
                           Ваш тур успешно создан!
@@ -477,8 +484,16 @@ const filterObjFalse = (obj)=>Object.fromEntries(
         <div className='allTours flex flex-wrap justify-around'>
                   {
                     dataTours.map(tour=>(
-                      <Card key={tour.id} className="mt-4 m-4 -p-3 flex justify-between">
+                      <Card key={tour.id} className="mt-4 m-4 -p-3 flex justify-between"     
+                      actions={[
+                        <SettingOutlined key="setting" />,
+                        <EditOutlined key="edit" onClick={() => {
+                          
+                        }} />,                     
+                        <DeleteOutlined key="delete" onClick={() => deleteHandler(tour.id)} />,
+                      ]}>
                   <MiniCardTour {...tour}  />
+                  
                     <div className="mt-4 flex justify-between">
                    <Button type="primary" onClick={()=>deleteHandler(tour.id)} danger>
                      удалить
@@ -499,6 +514,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
                    </Button>
                    </Link>  
                    </div>
+             
                     </Card>
                     ))
                   }

@@ -32,13 +32,13 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
   }, [tourCoordinates]);
 
   useEffect(() => {
-    console.log('form',form.getFieldValue('coordinates'))
+    // console.log('form',form.getFieldValue('coordinates'))
     if (visible) {
       axios.get(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/tours/${tour.id}`, {
         withCredentials: true,
       })
       .then((res) => {
-        console.log('DATA ',  moment(tour.start_date))
+        // console.log('DATA ',  moment(tour.start_date))
         const tourData = res.data;
         setDataTour(tourData);
         form.setFieldsValue({
@@ -88,9 +88,9 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
   };
 
   const handleFinish = (values) => {
-    console.log("🚀 ~ handleFinish ~ values:", values)
+    // console.log("🚀 ~ handleFinish ~ values:", values)
     const formData = new FormData();
-    console.log(facilitiesFree, facilitiesPaid)
+    // console.log(facilitiesFree, facilitiesPaid)
     
         for (const key in facilitiesFree)
           if(facilitiesFree[key]===true)
@@ -125,10 +125,10 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
       formData.append('images', image);
     });
 
-    console.log('data edit : ', formData.getAll('images'))
+    // console.log('data edit : ', formData.getAll('images'))
     axios.patch(`http://localhost:3100/api/tours/${tour.id}`, formData, { withCredentials: true })
       .then((res) => {
-      console.log("🚀 ~ .then ~ res:", res)
+      // console.log("🚀 ~ .then ~ res:", res)
 
         
         onUpdate(res.data);
@@ -163,7 +163,7 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
   };
 
   const handleFacilityChange = (type, facility) => {
-    console.log(facilitiesFree, facilitiesPaid )
+    // console.log(facilitiesFree, facilitiesPaid )
     if (type === 'paid') {
       setFacilitiesPaid((prev) => ({ ...prev, [facility]: !prev[facility] }));
       setFacilitiesFree((prev) => ({ ...prev, [facility]: false }));

@@ -8,15 +8,16 @@ const MiniCardTour = ({
   subtitle,
   start_date,
   end_date,
+  start=new Date(start_date).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' }).split('.').reverse().join('-'),
+  end=new Date(end_date).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' }).split('.').reverse().join('-'),
   duration,
   difficulty,
   numberBooking,
   price,
-  rating,
+  average_rating,
   Images,
 }) => {
-    console.log("🚀 ~ Images:", Images)
-    
+    // console.log("🚀 ~ Images:", Images)
 
   return (
     <Card
@@ -35,7 +36,7 @@ const MiniCardTour = ({
             ))}
           </Carousel>
           <div className="absolute top-2 right-2 bg-orange-400 text-white rounded-full px-2 py-1">
-            {rating}
+            {average_rating}
           </div>
         </div>
       }
@@ -46,15 +47,15 @@ const MiniCardTour = ({
           <div>
             <p>{subtitle}</p>
             <p>
-              {start_date} — {end_date}
+              {start} — {end}
             </p>
-            <p>{duration}</p>
+            <p>Длительность в днях: {duration}</p>
             <div className='flex ml'>
                 <p>Сложность: {difficulty}</p>  
                 <DifficultyClue difficulty={difficulty} />
             </div>
             <p>Кол-во заявок: {numberBooking}</p>
-            <p>Price: {price}</p>
+            <p>От {price} руб.</p>
           </div>
         }
       />
@@ -72,7 +73,7 @@ MiniCardTour.defaultProps = {
   difficulty: 'Уровень сложности',
   numberBooking: 0,
   price: 0,
-  rating: 0,
+  average_rating: 0,
   Images: ['/src/assets/images/minimalizm-montains-1.png', '/src/assets/images/minimalizm-montains-1.png', '/src/assets/images/minimalizm-montains-1.png'], 
 };
 
