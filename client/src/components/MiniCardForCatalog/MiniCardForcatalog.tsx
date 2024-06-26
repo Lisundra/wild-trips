@@ -1,11 +1,11 @@
 import React from 'react';
 import { Card, Carousel } from 'antd';
 import Meta from 'antd/es/card/Meta';
-import DifficultyClue from '../DifficultyClue/DifficultyClue';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import DifficultyClue from '../DifficultyClue/DifficultyClue';
 
-const MiniCardForCatalog = ({
+function MiniCardForCatalog({
   title,
   subtitle,
   start_date,
@@ -16,16 +16,18 @@ const MiniCardForCatalog = ({
   price,
   rating,
   Images,
-}) => {
+}) {
   const formattedStartDate = format(new Date(start_date), 'dd MMM', { locale: ru });
   const formattedEndDate = format(new Date(end_date), 'dd MMM', { locale: ru });
 
   return (
     <Card
-      style={{ width: 400, border: '1px solid #f0f0f0' }}
+      hoverable
+      style={{ height: 500, width: 350, border: '1px solid #f0f0f0' }}
+      
       cover={
         <div className="relative">
-          <Carousel arrows={true} draggable touchMove={true}>
+          <Carousel arrows draggable touchMove >
             {Images.map((image, index) => (
               <div key={index}>
                 <img
@@ -64,7 +66,7 @@ const MiniCardForCatalog = ({
       </div>
     </Card>
   );
-};
+}
 
 // Задание значений по умолчанию для пропсов
 MiniCardForCatalog.defaultProps = {

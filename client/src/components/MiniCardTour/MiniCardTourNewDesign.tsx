@@ -64,7 +64,7 @@ const MiniCardTourNew = ({
 };
 
 // Задание значений по умолчанию для пропсов
-MiniCardTour.defaultProps = {
+MiniCardTourNew.defaultProps = {
   title: 'Название',
   subtitle: 'Описание',
   start_date: 'Дата начала',

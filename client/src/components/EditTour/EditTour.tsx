@@ -392,6 +392,6 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox, visible, setVisible }) 
       </Modal>
     </>
   );
-};
+}
 
 export default EditTourModal;

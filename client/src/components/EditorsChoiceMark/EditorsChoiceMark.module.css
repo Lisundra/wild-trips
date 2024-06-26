@@ -1,0 +1,23 @@
+@font-face {
+  font-family: 'Salina-Trial-Light';
+  src: url('/fonts/Salina-Trial-Light.otf') format('truetype');
+}
+
+.editorsChoiseMarkContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.leftLaurel, .rightLaurel {
+  height: 75px;
+}
+
+.editorsChoiseTitle {
+  display: flex;
+  align-items: center;
+  font-size: 42px;
+  font-family: 'Salina-Trial-Light';
+  font-variant: all-petite-caps;
+  color: #A7792A;
+  margin-top: -10px;
+}
