@@ -8,8 +8,7 @@ import FormItem from 'antd/es/form/FormItem';
 const { TextArea } = Input;
 const { Option } = Select;
 
-const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
-  const [visible, setVisible] = useState(false);
+const EditTourModal = ({ tour, onUpdate, arraysCheckBox, visible, setVisible }) => {
   const [hiddenCheckbox, setHiddenCheckbox]=useState(true)
   const [images, setImages] = useState([]);
   const [form] = Form.useForm();
@@ -175,9 +174,6 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
 
   return (
     <>
-      <Button type="primary" onClick={showModal}>
-        Изменить
-      </Button>
       <Modal
         title="Редактировать тур"
         visible={visible}

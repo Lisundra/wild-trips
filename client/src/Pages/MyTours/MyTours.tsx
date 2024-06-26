@@ -10,10 +10,12 @@ import { Button, Card } from 'antd';
 import { Link } from 'react-router-dom';
 import EditTour from '../../components/EditTour/EditTour';
 import { DeleteOutlined, EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import MiniCardTourNew from '../../components/MiniCardTour/MiniCardTourNewDesign';
 
 
 
 function ParallaxPage() {
+  const [visible, setVisible] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [showImages, setShowImages] = useState(false);
   const [showMap, setShowMap] = useState(false);
@@ -484,38 +486,30 @@ const filterObjFalse = (obj)=>Object.fromEntries(
         <div className='allTours flex flex-wrap justify-around'>
                   {
                     dataTours.map(tour=>(
-                      <Card key={tour.id} className="mt-4 m-4 -p-3 flex justify-between"     
+                      <>
+
+                      <MiniCardTourNew />
+
+                      <Card
+                      key={tour.id}
+                      className="mt-4 m-4 -p-3 flex flex-col justify-between"
                       actions={[
                         <SettingOutlined key="setting" />,
-                        <EditOutlined key="edit" onClick={() => {
-                          
-                        }} />,                     
+                        <EditOutlined key="edit" onClick={() => setVisible(true)} />,
                         <DeleteOutlined key="delete" onClick={() => deleteHandler(tour.id)} />,
-                      ]}>
-                  <MiniCardTour {...tour}  />
-                  
-                    <div className="mt-4 flex justify-between">
-                   <Button type="primary" onClick={()=>deleteHandler(tour.id)} danger>
-                     удалить
-                   </Button>
-                   <EditTour arraysCheckBox={arraysCheckBox} tour={tour} onUpdate={(updatedTour) => {
-               handlerUpdateTour(updatedTour)
-              }
-              
-              } />
-                   <Button style={{display:'none'}} type="primary">
-                     Выгрузка заявок
-                   </Button>
-                  </div>
-                  <div className='flex justify-center m-2'>
-                  <Link to={`/${tour.id}`}>  
-                  <Button type="default">
-                     Перейти на страницу тура
-                   </Button>
-                   </Link>  
-                   </div>
-             
+                      ]}
+                    >
+
+                      <MiniCardTour {...tour} />
+                      <EditTour
+                        visible={visible}
+                        setVisible={setVisible}
+                        arraysCheckBox={arraysCheckBox}
+                        tour={tour}
+                        onUpdate={(updatedTour) => handlerUpdateTour(updatedTour)}
+                      />
                     </Card>
+                    </>
                     ))
                   }
         </div>
