@@ -15,7 +15,7 @@ const MiniCardTour = ({
   rating,
   Images,
 }) => {
-    console.log("🚀 ~ Images:", Images)
+    // console.log("🚀 ~ Images:", Images)
     
 
   return (

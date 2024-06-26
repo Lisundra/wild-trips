@@ -65,11 +65,11 @@ module.exports = {
         allowNull: false,
       },
       season: {
-        type: Sequelize.ENUM('весна', 'лето', 'осень', 'зима'),
+        type: Sequelize.ENUM('Весна', 'Лето', 'Осень', 'Зима'),
         allowNull: false,
       },
       difficulty: {
-        type: Sequelize.ENUM('низкая', 'средняя', 'высокая'),
+        type: Sequelize.ENUM('Низкая', 'Средняя', 'Высокая'),
         allowNull: false,
       },
       family_friendly: {

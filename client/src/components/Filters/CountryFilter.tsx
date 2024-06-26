@@ -3,14 +3,17 @@ import { Checkbox, Button } from 'antd';
 import axios from 'axios';
 import styles from './Filters.module.css';
 
-const ActivitiesFilter = ({ setFilters }) => {
+
+
+//!!!! передать в пропсы туры и оттуда достать страны, передать объект в options
+const CountryFilter = ({ setFilters }) => {
     const [checkedList, setCheckedList] = useState([]);
     const [collapsed, setCollapsed] = useState(true); // Состояние для сворачивания/разворачивания списка
 
     const onChange = (value) => {
         console.log(value);
         setCheckedList(value);
-        setFilters((prev) => ({ ...prev, activities: value })); // Обновляем фильтры с выбранными видами отдыха
+        setFilters((prev) => ({ ...prev, countries: value })); // Обновляем фильтры с выбранными странами
     };
 
     useEffect(() => {
@@ -21,7 +24,7 @@ const ActivitiesFilter = ({ setFilters }) => {
     const applyFilters = () => {
         axios
             .get(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/tours`, {
-                params: { activities: checkedList } // Передаем выбранные виды отдыха как параметр запроса
+                params: { countries: checkedList } // Передаем выбранные страны как параметр запроса
             })
             .then((res) => {
                 setFilters((prev) => ({ ...prev, tours: res.data })); // Обновляем состояние с данными о турах
@@ -32,31 +35,14 @@ const ActivitiesFilter = ({ setFilters }) => {
     };
 
     const options = [
-        { label: 'Пешеходные прогулки', value: 'Пешеходные прогулки' },
-        { label: 'Треккинг', value: 'Треккинг' },
-        { label: 'Велопрогулки', value: 'Велопрогулки' },
-        { label: 'Поход в горы', value: 'Поход в горы' },
-        { label: 'Джип-туры', value: 'Джип-туры' },
-        { label: 'Катание на квадроциклах', value: 'Катание на квадроциклах' },
-        { label: 'Катание на снегоходах', value: 'Катание на снегоходах' },
-        { label: 'Катание на собачьих упряжках', value: 'Катание на собачьих упряжках' },
-        { label: 'Лыжные туры', value: 'Лыжные туры' },
-        { label: 'Обзорные туры', value: 'Обзорные туры' },
-        { label: 'Конные прогулки', value: 'Конные прогулки' },
-        { label: 'Круизы', value: 'Круизы' },
-        { label: 'Сплавы', value: 'Сплавы' },
-        { label: 'Яхтинг', value: 'Яхтинг' },
-        { label: 'Каякинг', value: 'Каякинг' },
-        { label: 'Дайвинг', value: 'Дайвинг' },
-        { label: 'Экспедиции', value: 'Экспедиции' },
-        { label: 'Этнотуры', value: 'Этнотуры' },
-        { label: 'Полет на вертолёте', value: 'Полет на вертолёте' },
-        { label: 'Парапланеризм', value: 'Парапланеризм' },
+        { label: '???', value: '???' },
+        
     ];
 
     return (
-        <div className={styles.activitiesFilter}>
-            <p className={styles.filterName}>Виды отдыха</p>
+        <div className={styles.housingsFilter}>
+            <p className={styles.filterName}>Страна</p>
+            <div className={styles.checkboxContainer}>
             {collapsed ? (
                 options.slice(0, 5).map((option) => (
                     <Checkbox
@@ -90,6 +76,7 @@ const ActivitiesFilter = ({ setFilters }) => {
                     </Checkbox>
                 ))
             )}
+            </div>
             <Button
                 size="small"
                 onClick={() => setCollapsed(!collapsed)}
@@ -102,4 +89,5 @@ const ActivitiesFilter = ({ setFilters }) => {
     );
 };
 
-export default ActivitiesFilter;
+export default CountryFilter;
+
