@@ -3,6 +3,8 @@ import { Tooltip, Button } from 'antd';
 import { QuestionOutlined } from '@ant-design/icons';
 
 function DifficultyTooltip() {
+  const gradient = 'linear-gradient(116deg, #007F5F, #80B918)';
+
   return (
     <Tooltip
       title={
@@ -16,9 +18,10 @@ function DifficultyTooltip() {
           высокая: требует особой подготовки
         </div>
       }
-      color="#008000"
-      placement="right"
+      color={gradient}
+      placement="rightTop"
       mouseLeaveDelay="0.15"
+      arrow={false}
     >
       <Button
         shape="circle"
@@ -26,8 +29,8 @@ function DifficultyTooltip() {
           position: 'absolute',
           bottom: '15px',
           fontSize: '22px',
-          backgroundColor: '#008000',
-          borderColor: '#008000',
+          background: gradient,
+          borderColor: gradient,
           color: 'white',
         }}
       >

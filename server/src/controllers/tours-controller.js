@@ -5,6 +5,7 @@ const { Housing } = require('../../db/models');
 const { Facility } = require('../../db/models');
 const { Image } = require('../../db/models');
 const { TourOption } = require('../../db/models');
+const { Review } = require('../../db/models');
 const { Op, where } = require('sequelize');
 
 module.exports = {
@@ -51,6 +52,7 @@ module.exports = {
       res.status(400).json({ err: err.message });
     }
   },
+  
   getOneTour: async (req, res) => {
     const { id } = req.params;
     try {
@@ -72,12 +74,102 @@ module.exports = {
         ],
       });
       const oneTourPlain = oneTour.get({ plain: true });
-      //console.log('------------------------', oneTourPlain);
-      //console.log('++++++++++++++++++++++++', oneTourPlain.Facilities[0].TourOption.type);
       res.json(oneTourPlain);
-    } catch (err) {
-      res.status(400).json({ err: err.message });
-      console.log('ошибка в ручке getOneTour', err);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+      console.log('Ошибка в ручке getOneTour', error);
+    }
+  },
+
+  postTourRating: async (req, res) => {
+    const { login } = req.session;
+    const user = await User.findOne({ where: { login } });
+  
+    const tourId = req.params.id;
+  
+    try {
+      const { rating } = req.body;
+  
+      const existingRating = await Review.findOne({ 
+        where: {
+          user_id: user.id,
+          tour_id: tourId,
+        } 
+      });
+  
+      if (existingRating) {
+        await Review.update(
+          { rating: rating },
+          {
+            where: {
+              user_id: user.id,
+              tour_id: tourId,
+            },
+          }
+        );
+  
+        const ratings = await Review.findAll({
+          where: { tour_id: tourId },
+          attributes: ['rating'],
+        });
+  
+        const average_rating = ratings.length > 0
+          ? (ratings.reduce((acc, num) => acc + num.rating, 0) / ratings.length).toFixed(1)
+          : '0';
+  
+        const tour = await Tour.findByPk(tourId);
+        tour.average_rating = average_rating;
+        await tour.save();
+  
+        return res.json({ ratingMessage: 'Ваша оценка обновлена!', tour });
+      }
+  
+      await Review.create({
+        user_id: user.id,
+        tour_id: tourId,
+        rating: rating,
+      });
+  
+      const ratings = await Review.findAll({
+        where: { tour_id: tourId },
+        attributes: ['rating'],
+      });
+
+      const average_rating = ratings.length > 0
+        ? (ratings.reduce((acc, num) => acc + num.rating, 0) / ratings.length).toFixed(1)
+        : '0';
+  
+      const tour = await Tour.findByPk(tourId);
+      tour.average_rating = average_rating;
+      await tour.save();
+  
+      return res.json({ ratingMessage: 'Ваша оценка добавлена!', tour });
+  
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+      console.error('Ошибка в ручке postTourRating', error);
+    }
+  },
+
+  getOneRating: async (req, res) => {
+
+    const { login } = req.session;
+    const user = await User.findOne({ where: { login } });
+
+    const tourId = req.params.id;
+
+    try {
+      const oneReview = await Review.findOne({
+        where: { 
+          tour_id: tourId,
+          user_id: user.id
+        }
+      });
+      const oneReviewPlain = oneReview.get({ plain: true });
+      res.json(oneReviewPlain);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+      console.error('Ошибка в ручке getOneRating', error)
     }
   },
   
