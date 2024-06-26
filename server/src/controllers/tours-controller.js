@@ -311,6 +311,20 @@ for (let facility_id of Object.keys(facilitiesPaidIds)) {
     const images = req.files.map((file) => `/src/assets/images/${file.filename}`);
     const imagesByTour = await Image.findOne({ where: { tour_id: tourId } });
      const jsonImages = JSON.stringify(images);
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
         
               if (imagesByTour) {
                 await imagesByTour.update({ image_path: jsonImages, tour_id: updatedTour.id });

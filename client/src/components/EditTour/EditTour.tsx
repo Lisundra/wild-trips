@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Modal, Form, Input, DatePicker, Select, Checkbox, Upload } from 'antd';
+import { Button, Modal, Form, Input, DatePicker, Select, Checkbox, Upload, Row, Col } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import FormItem from 'antd/es/form/FormItem';
 
 const { TextArea } = Input;
 const { Option } = Select;
 
 const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
   const [visible, setVisible] = useState(false);
+  const [hiddenCheckbox, setHiddenCheckbox]=useState(true)
   const [images, setImages] = useState([]);
   const [form] = Form.useForm();
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -26,6 +28,7 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
         withCredentials: true,
       })
       .then((res) => {
+        console.log('DATA ',  moment(tour.start_date))
         const tourData = res.data;
         setDataTour(tourData);
         form.setFieldsValue({
@@ -48,10 +51,8 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
           }
         });
         setFacilitiesPaid(paidFacilities);
-        setFacilitiesFree(freeFacilities);
-
-        
-      })
+        setFacilitiesFree(freeFacilities);          
+        })
       .catch((err) => {
         console.log(err);
       });
@@ -164,34 +165,45 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
         onCancel={handleCancel}
         footer={null}
       >
-        <Form form={form} layout="vertical" onFinish={handleFinish}>
+        <Form form={form} layout="vertical" className='' onFinish={handleFinish}>
           <Form.Item label="Название тура" name="title" rules={[{ required: false, message: 'Пожалуйста, введите название тура' }]}>
             <Input />
           </Form.Item>
           <Form.Item label="Краткое описание" name="subtitle" rules={[{ required: false, message: 'Пожалуйста, введите краткое описание' }]}>
             <Input />
-          </Form.Item>
+            </Form.Item>
+
+            <Row  justify={'space-around'}>
           <Form.Item label="Начало тура" name="start_date" rules={[{ required: false, message: 'Пожалуйста, выберите дату начала тура' }]}>
             <DatePicker />
           </Form.Item>
           <Form.Item label="Конец тура" name="end_date" rules={[{ required: false, message: 'Пожалуйста, выберите дату окончания тура' }]}>
             <DatePicker />
           </Form.Item>
+            </Row>
+  
           <Form.Item label="Подробное описание" name="description" rules={[{ required: false, message: 'Пожалуйста, введите подробное описание' }]}>
-            <TextArea />
+            <TextArea autoSize={{minRows:'7'}} />
           </Form.Item>
+
+            <Row justify={'space-around'}>
           <Form.Item label="Цена тура" name="price" rules={[{ required: false, message: 'Пожалуйста, введите цену тура' }]}>
             <Input type="number" />
           </Form.Item>
           <Form.Item label="Скидка на тур" name="discount">
             <Input type="number" />
           </Form.Item>
+            </Row>
+
+            <Row gutter={30}>
           <Form.Item label="Страна тура" name="country" rules={[{ required: false, message: 'Пожалуйста, введите страну тура' }]}>
-            <Input />
+            <Input style={{width:'220px'}} />
           </Form.Item>
           <Form.Item label="Регион тура" name="region" rules={[{ required: false, message: 'Пожалуйста, введите регион тура' }]}>
-            <Input />
+            <Input style={{width:'220px'}} />
           </Form.Item>
+          </Row>
+          <Row justify={'space-around'}>
           <Form.Item label="Сезон" name="season" rules={[{ required: false, message: 'Пожалуйста, выберите сезон' }]}>
             <Select>
               <Option value="весна">весна</Option>
@@ -207,21 +219,27 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
               <Option value="высокая">высокая</Option>
             </Select>
           </Form.Item>
+        
           <Form.Item label="Можно с детьми" name="family_friendly" rules={[{ required: false, message: 'Пожалуйста, выберите вариант' }]}>
             <Select>
               <Option value={1}>Да</Option>
               <Option value={0}>Нет</Option>
             </Select>
           </Form.Item>
+          </Row>
           <Form.Item label="Виды деятельности" name="activities">
             <Checkbox.Group>
-              {arraysCheckBox.activity.map((activity) => (
-                <Checkbox key={activity.id} value={activity.id} defaultChecked={dataTour.Activities.some(a => a.id === activity.id)}>
+              <Row  style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '2px' }}>
+              {arraysCheckBox.activity.map((activity,index) => (                  
+                  <Checkbox key={activity.id} value={activity.id} defaultChecked={dataTour.Activities.some(a => a.id === activity.id)}>
                   {activity.name}
-                </Checkbox>
+                </Checkbox>         
               ))}
+              </Row>
             </Checkbox.Group>
           </Form.Item>
+
+          <Row>
           <Form.Item label="Типы жилья" name="housings">
             <Checkbox.Group>
               {arraysCheckBox.housing.map((housing) => (
@@ -231,10 +249,18 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
               ))}
             </Checkbox.Group>
           </Form.Item>
-          <div className="mb-4">
+          </Row>
+          <Row justify={'space-around'}>
+            <Col span={9}>
             <label className="block text-sm font-bold mb-2">Оплатить дополнительно</label>
-            {arraysCheckBox.facility.map((facility) => (
-              <div key={facility.id}>
+            {arraysCheckBox.facility.map((facility,index) => (
+              <div key={facility.id}
+              className={
+                index>5?
+                hiddenCheckbox ? 'hidden' : ''
+                :
+                ''
+                }>
                 <label>
                   <input
                     type="checkbox"
@@ -246,11 +272,17 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
                 </label>
               </div>
             ))}
-          </div>
-          <div className="mb-4">
+            </Col>
+          <Col span={9}>
           <label className="block text-sm font-bold mb-2">Включено в стоимость</label>
-            {arraysCheckBox.facility.map((facility) => (
-              <div key={facility.id}>
+            {arraysCheckBox.facility.map((facility,index) => (
+              <div key={facility.id} 
+              className={
+                index>5?
+                hiddenCheckbox ? 'hidden' : ''
+                :
+                ''
+                }>
                 <label>
                   <input
                     type="checkbox"
@@ -262,7 +294,11 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
                 </label>
                   </div>
                 ))}
-              </div>
+              </Col>
+              </Row>
+              <Row justify={'center'}>
+              <Button onClick={()=>setHiddenCheckbox(!hiddenCheckbox)}>{hiddenCheckbox?'Скрыть все услуги': 'Раскрыть все услуги'}</Button>
+              </Row>
           <Form.Item label="Загрузить фото тура" name="images">
             <Upload
               listType="picture"
@@ -274,9 +310,9 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
             </Upload>
             {imagePreviews.length > 0 && (
               <div className="image-previews">
-                {imagePreviews.map((src, index) => (
+                {/* {imagePreviews.map((src, index) => (
                   <img key={index} src={src} alt={`preview ${index}`} className="w-full h-full object-cover m-2" />
-                ))}
+                ))} */}
               </div>
             )}
           </Form.Item>
