@@ -40,6 +40,7 @@ function OneTour() {
       .catch((err) => {
         console.log(err);
       });
+      
   }, [id]);
 
   if (!tour) {

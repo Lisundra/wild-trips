@@ -109,7 +109,7 @@ const Navbar = () => {
                                 </Link>
                             </button>
                             <button>
-                                <Link to="/tour-selection" className="text-white">
+                                <Link to="/News" className="text-white">
                                    Блог
                                 </Link>
                             </button>
@@ -180,7 +180,7 @@ const Navbar = () => {
                             modalType === 'login' ? (
                                 <LoginForm />
                             ) : (
-                                <LogoutWindow />
+                                <LogoutWindow closeModal={closeModal} />
                             )
                         )}
                     </div>
