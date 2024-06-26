@@ -14,6 +14,11 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
   const [images, setImages] = useState([]);
   const [form] = Form.useForm();
   const [imagePreviews, setImagePreviews] = useState([]);
+  const [showMap, setShowMap] = useState(false)
+  const [tourCoordinates, setTourCoordinates] = useState(JSON.parse(tour.coordinates).replace(/['"]/g, ''))
+  const [srcIframe, setSrcIframe] = useState('')
+
+
   const [dataTour, setDataTour] = useState({
     Activities: [],
     Housings: [],
@@ -23,6 +28,11 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
   const [facilitiesFree, setFacilitiesFree] = useState({});
 
   useEffect(() => {
+    setSrcIframe('https://yandex.ru/map-widget/v1/?um=constructor%'+tourCoordinates+'&amp;source=constructor');
+  }, [tourCoordinates]);
+
+  useEffect(() => {
+    console.log('form',form.getFieldValue('coordinates'))
     if (visible) {
       axios.get(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/tours/${tour.id}`, {
         withCredentials: true,
@@ -33,6 +43,7 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
         setDataTour(tourData);
         form.setFieldsValue({
           ...tour,
+          coordinates:tourCoordinates,
           start_date: tour.start_date ? moment(tour.start_date) : null,
           end_date: tour.end_date ? moment(tour.end_date) : null,
           activities: tourData.Activities.map(activity => activity.id),
@@ -62,6 +73,11 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
   const showModal = () => {
     setVisible(true);
   };
+
+  const handleSrcChange = (event)=>{
+
+    setTourCoordinates((event.target.value).replace(/.*%([a-zA-Z0-9]+)&.*/, '$1'))
+  }
 
   const handleCancel = () => {
     setVisible(false);
@@ -96,7 +112,10 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
           });
         } else if (key === 'activities' || key === 'housings' || key === 'facilities') {
           formData.append(key, JSON.stringify(values[key]));
-        } else {
+        } else if(key==='coordinates'){
+          const jsonString = JSON.stringify(values[key].replace(/.*%([a-zA-Z0-9]+)&.*/, '$1'));
+          formData.append(key, jsonString);
+        }else{
           formData.append(key, values[key]);
         }
       }
@@ -321,6 +340,58 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
               Сохранить изменения
             </Button>
           </Form.Item>
+
+                <FormItem>
+      <div className="map-container min-w-full">
+
+<p className="block font-bold mb-2">
+Чтобы изменить карту для вашего тура, следуйте инструкции:
+</p>
+<ol>
+   <li>1. Нажмите кнопку "Открыть Яндекс.Карты"</li>           
+   <li>2. Создайте маршрут в конструкторе карт</li>           
+   <li>3. Нажмите кнопку "Сохранить и продолжить" в конструткоре карт</li>      
+   <li>4. Нажмите кнопку "Получить код карты" в конструткоре карт</li>    
+   <li>5. Скопируйте код и вставьте в поле ниже:</li> 
+   </ol>  
+   <Form.Item label="Карта маршрута" name="coordinates">
+            <TextArea onChange={handleSrcChange} autoSize={{minRows:'7'}} />
+    </Form.Item>
+          
+  <div className='flex flex-col items-center'>
+<button type='button' className='bg-yellow-500 rounded-md p-2 hover:bg-yellow-400'>
+<a href="https://yandex.ru/map-constructor" target="_blank">Открыть Яндекс.Карты</a>
+</button>
+ <button type='button' className="mt-4 px-4 py-2 bg-cyan-500 hover:bg-cyan-700 rounded select-none" 
+     onClick={()=>{ setShowMap(!showMap)}}>{
+      showMap ? 'Скрыть карту' 
+     : 
+     'Показать карту'}
+ </button>
+ </div>
+ {showMap&&(
+    tour?.['coordinates']? (
+ <iframe src={srcIframe}
+   width="500"
+   height="400"
+   >
+</iframe> 
+    )
+    :
+    (
+    <h2>
+      Неккоректные данные
+    </h2>
+    )
+ )
+ 
+ }
+
+
+</div>
+
+                </FormItem>
+
         </Form>
       </Modal>
     </>
