@@ -1,7 +1,9 @@
 import React from 'react';
-import { Button, Card, Carousel } from 'antd';
+import { Card, Carousel } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import DifficultyClue from '../DifficultyClue/DifficultyClue';
+import { format } from 'date-fns';
+import { ru } from 'date-fns/locale';
 
 const MiniCardForCatalog = ({
   title,
@@ -15,8 +17,8 @@ const MiniCardForCatalog = ({
   rating,
   Images,
 }) => {
-    console.log("🚀 ~ Images:", Images)
-    
+  const formattedStartDate = format(new Date(start_date), 'dd MMM', { locale: ru });
+  const formattedEndDate = format(new Date(end_date), 'dd MMM', { locale: ru });
 
   return (
     <Card
@@ -40,24 +42,26 @@ const MiniCardForCatalog = ({
         </div>
       }
     >
-      <Meta
-        title={title}
-        description={
-          <div>
-            <p>{subtitle}</p>
-            <p>
-              {start_date} — {end_date}
-            </p>
-            <p>{duration}</p>
-            <div className='flex ml'>
-                <p>Сложность: {difficulty}</p>  
+      <div style={{ minHeight: '450px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <Meta
+          title={title}
+          description={
+            <div>
+              <p>{subtitle}</p>
+              <p>
+                {formattedStartDate} — {formattedEndDate}
+              </p>
+              <p>{duration} дней</p>
+              <div className='flex ml'>
+                <p>Сложность: {difficulty}</p>
                 <DifficultyClue difficulty={difficulty} />
+              </div>
+              {/* <p>Кол-во заявок: {numberBooking}</p> */}
+              <p>От {price} руб.</p>
             </div>
-            <p>Кол-во заявок: {numberBooking}</p>
-            <p>Price: {price}</p>
-          </div>
-        }
-      />
+          }
+        />
+      </div>
     </Card>
   );
 };
@@ -66,8 +70,8 @@ const MiniCardForCatalog = ({
 MiniCardForCatalog.defaultProps = {
   title: 'Название',
   subtitle: 'Описание',
-  start_date: 'Дата начала',
-  end_date: 'Дата окончания',
+  start_date: '2024-12-27',
+  end_date: '2025-01-03',
   duration: 'Длительность',
   difficulty: 'Уровень сложности',
   numberBooking: 0,

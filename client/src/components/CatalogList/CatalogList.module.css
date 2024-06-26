@@ -1,0 +1,5 @@
+.cardsContainer {
+    display: flex;
+    gap: 35px;
+    width: 70%;
+}
