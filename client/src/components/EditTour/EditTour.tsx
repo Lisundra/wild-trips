@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Modal, Form, Input, DatePicker, Select, Checkbox, Upload } from 'antd';
+import { Button, Modal, Form, Input, DatePicker, Select, Checkbox, Upload, Row, Col } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import FormItem from 'antd/es/form/FormItem';
 
 const { TextArea } = Input;
 const { Option } = Select;
 
 const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
   const [visible, setVisible] = useState(false);
+  const [hiddenCheckbox, setHiddenCheckbox]=useState(true)
   const [images, setImages] = useState([]);
   const [form] = Form.useForm();
   const [imagePreviews, setImagePreviews] = useState([]);
+  const [showMap, setShowMap] = useState(false)
+  const [tourCoordinates, setTourCoordinates] = useState(JSON.parse(tour.coordinates).replace(/['"]/g, ''))
+  const [srcIframe, setSrcIframe] = useState('')
+
+
   const [dataTour, setDataTour] = useState({
     Activities: [],
     Housings: [],
@@ -21,15 +28,22 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
   const [facilitiesFree, setFacilitiesFree] = useState({});
 
   useEffect(() => {
+    setSrcIframe('https://yandex.ru/map-widget/v1/?um=constructor%'+tourCoordinates+'&amp;source=constructor');
+  }, [tourCoordinates]);
+
+  useEffect(() => {
+    console.log('form',form.getFieldValue('coordinates'))
     if (visible) {
       axios.get(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/tours/${tour.id}`, {
         withCredentials: true,
       })
       .then((res) => {
+        console.log('DATA ',  moment(tour.start_date))
         const tourData = res.data;
         setDataTour(tourData);
         form.setFieldsValue({
           ...tour,
+          coordinates:tourCoordinates,
           start_date: tour.start_date ? moment(tour.start_date) : null,
           end_date: tour.end_date ? moment(tour.end_date) : null,
           activities: tourData.Activities.map(activity => activity.id),
@@ -48,10 +62,8 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
           }
         });
         setFacilitiesPaid(paidFacilities);
-        setFacilitiesFree(freeFacilities);
-
-        
-      })
+        setFacilitiesFree(freeFacilities);          
+        })
       .catch((err) => {
         console.log(err);
       });
@@ -61,6 +73,11 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
   const showModal = () => {
     setVisible(true);
   };
+
+  const handleSrcChange = (event)=>{
+
+    setTourCoordinates((event.target.value).replace(/.*%([a-zA-Z0-9]+)&.*/, '$1'))
+  }
 
   const handleCancel = () => {
     setVisible(false);
@@ -95,7 +112,10 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
           });
         } else if (key === 'activities' || key === 'housings' || key === 'facilities') {
           formData.append(key, JSON.stringify(values[key]));
-        } else {
+        } else if(key==='coordinates'){
+          const jsonString = JSON.stringify(values[key].replace(/.*%([a-zA-Z0-9]+)&.*/, '$1'));
+          formData.append(key, jsonString);
+        }else{
           formData.append(key, values[key]);
         }
       }
@@ -164,34 +184,45 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
         onCancel={handleCancel}
         footer={null}
       >
-        <Form form={form} layout="vertical" onFinish={handleFinish}>
+        <Form form={form} layout="vertical" className='' onFinish={handleFinish}>
           <Form.Item label="Название тура" name="title" rules={[{ required: false, message: 'Пожалуйста, введите название тура' }]}>
             <Input />
           </Form.Item>
           <Form.Item label="Краткое описание" name="subtitle" rules={[{ required: false, message: 'Пожалуйста, введите краткое описание' }]}>
             <Input />
-          </Form.Item>
+            </Form.Item>
+
+            <Row  justify={'space-around'}>
           <Form.Item label="Начало тура" name="start_date" rules={[{ required: false, message: 'Пожалуйста, выберите дату начала тура' }]}>
             <DatePicker />
           </Form.Item>
           <Form.Item label="Конец тура" name="end_date" rules={[{ required: false, message: 'Пожалуйста, выберите дату окончания тура' }]}>
             <DatePicker />
           </Form.Item>
+            </Row>
+  
           <Form.Item label="Подробное описание" name="description" rules={[{ required: false, message: 'Пожалуйста, введите подробное описание' }]}>
-            <TextArea />
+            <TextArea autoSize={{minRows:'7'}} />
           </Form.Item>
+
+            <Row justify={'space-around'}>
           <Form.Item label="Цена тура" name="price" rules={[{ required: false, message: 'Пожалуйста, введите цену тура' }]}>
             <Input type="number" />
           </Form.Item>
           <Form.Item label="Скидка на тур" name="discount">
             <Input type="number" />
           </Form.Item>
+            </Row>
+
+            <Row gutter={30}>
           <Form.Item label="Страна тура" name="country" rules={[{ required: false, message: 'Пожалуйста, введите страну тура' }]}>
-            <Input />
+            <Input style={{width:'220px'}} />
           </Form.Item>
           <Form.Item label="Регион тура" name="region" rules={[{ required: false, message: 'Пожалуйста, введите регион тура' }]}>
-            <Input />
+            <Input style={{width:'220px'}} />
           </Form.Item>
+          </Row>
+          <Row justify={'space-around'}>
           <Form.Item label="Сезон" name="season" rules={[{ required: false, message: 'Пожалуйста, выберите сезон' }]}>
             <Select>
               <Option value="весна">весна</Option>
@@ -207,21 +238,27 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
               <Option value="высокая">высокая</Option>
             </Select>
           </Form.Item>
+        
           <Form.Item label="Можно с детьми" name="family_friendly" rules={[{ required: false, message: 'Пожалуйста, выберите вариант' }]}>
             <Select>
               <Option value={1}>Да</Option>
               <Option value={0}>Нет</Option>
             </Select>
           </Form.Item>
+          </Row>
           <Form.Item label="Виды деятельности" name="activities">
             <Checkbox.Group>
-              {arraysCheckBox.activity.map((activity) => (
-                <Checkbox key={activity.id} value={activity.id} defaultChecked={dataTour.Activities.some(a => a.id === activity.id)}>
+              <Row  style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '2px' }}>
+              {arraysCheckBox.activity.map((activity,index) => (                  
+                  <Checkbox key={activity.id} value={activity.id} defaultChecked={dataTour.Activities.some(a => a.id === activity.id)}>
                   {activity.name}
-                </Checkbox>
+                </Checkbox>         
               ))}
+              </Row>
             </Checkbox.Group>
           </Form.Item>
+
+          <Row>
           <Form.Item label="Типы жилья" name="housings">
             <Checkbox.Group>
               {arraysCheckBox.housing.map((housing) => (
@@ -231,10 +268,18 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
               ))}
             </Checkbox.Group>
           </Form.Item>
-          <div className="mb-4">
+          </Row>
+          <Row justify={'space-around'}>
+            <Col span={9}>
             <label className="block text-sm font-bold mb-2">Оплатить дополнительно</label>
-            {arraysCheckBox.facility.map((facility) => (
-              <div key={facility.id}>
+            {arraysCheckBox.facility.map((facility,index) => (
+              <div key={facility.id}
+              className={
+                index>5?
+                hiddenCheckbox ? 'hidden' : ''
+                :
+                ''
+                }>
                 <label>
                   <input
                     type="checkbox"
@@ -246,11 +291,17 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
                 </label>
               </div>
             ))}
-          </div>
-          <div className="mb-4">
+            </Col>
+          <Col span={9}>
           <label className="block text-sm font-bold mb-2">Включено в стоимость</label>
-            {arraysCheckBox.facility.map((facility) => (
-              <div key={facility.id}>
+            {arraysCheckBox.facility.map((facility,index) => (
+              <div key={facility.id} 
+              className={
+                index>5?
+                hiddenCheckbox ? 'hidden' : ''
+                :
+                ''
+                }>
                 <label>
                   <input
                     type="checkbox"
@@ -262,7 +313,11 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
                 </label>
                   </div>
                 ))}
-              </div>
+              </Col>
+              </Row>
+              <Row justify={'center'}>
+              <Button onClick={()=>setHiddenCheckbox(!hiddenCheckbox)}>{hiddenCheckbox?'Скрыть все услуги': 'Раскрыть все услуги'}</Button>
+              </Row>
           <Form.Item label="Загрузить фото тура" name="images">
             <Upload
               listType="picture"
@@ -274,9 +329,9 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
             </Upload>
             {imagePreviews.length > 0 && (
               <div className="image-previews">
-                {imagePreviews.map((src, index) => (
+                {/* {imagePreviews.map((src, index) => (
                   <img key={index} src={src} alt={`preview ${index}`} className="w-full h-full object-cover m-2" />
-                ))}
+                ))} */}
               </div>
             )}
           </Form.Item>
@@ -285,6 +340,58 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
               Сохранить изменения
             </Button>
           </Form.Item>
+
+                <FormItem>
+      <div className="map-container min-w-full">
+
+<p className="block font-bold mb-2">
+Чтобы изменить карту для вашего тура, следуйте инструкции:
+</p>
+<ol>
+   <li>1. Нажмите кнопку "Открыть Яндекс.Карты"</li>           
+   <li>2. Создайте маршрут в конструкторе карт</li>           
+   <li>3. Нажмите кнопку "Сохранить и продолжить" в конструткоре карт</li>      
+   <li>4. Нажмите кнопку "Получить код карты" в конструткоре карт</li>    
+   <li>5. Скопируйте код и вставьте в поле ниже:</li> 
+   </ol>  
+   <Form.Item label="Карта маршрута" name="coordinates">
+            <TextArea onChange={handleSrcChange} autoSize={{minRows:'7'}} />
+    </Form.Item>
+          
+  <div className='flex flex-col items-center'>
+<button type='button' className='bg-yellow-500 rounded-md p-2 hover:bg-yellow-400'>
+<a href="https://yandex.ru/map-constructor" target="_blank">Открыть Яндекс.Карты</a>
+</button>
+ <button type='button' className="mt-4 px-4 py-2 bg-cyan-500 hover:bg-cyan-700 rounded select-none" 
+     onClick={()=>{ setShowMap(!showMap)}}>{
+      showMap ? 'Скрыть карту' 
+     : 
+     'Показать карту'}
+ </button>
+ </div>
+ {showMap&&(
+    tour?.['coordinates']? (
+ <iframe src={srcIframe}
+   width="500"
+   height="400"
+   >
+</iframe> 
+    )
+    :
+    (
+    <h2>
+      Неккоректные данные
+    </h2>
+    )
+ )
+ 
+ }
+
+
+</div>
+
+                </FormItem>
+
         </Form>
       </Modal>
     </>

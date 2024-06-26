@@ -36,8 +36,6 @@ const filterObjFalse = (obj)=>Object.fromEntries(
 )
 
   useEffect(() => {
-    console.log('');
-      console.log('MyTours user: ', housings);
       fetchCheckUser()
       axios.post('http://localhost:3100/api/tours/checkBox', {
         withCredentials: true
@@ -46,6 +44,8 @@ const filterObjFalse = (obj)=>Object.fromEntries(
         setArraysCheckBox(res.data);
       });
 
+      console.log('USER ',user)
+      
       axios.get('http://localhost:3100/api/tours/org/all', {
         withCredentials: true
       }).then((res) => {
@@ -59,7 +59,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
           return newObj
         })
 
-        console.log("🚀 ~ useEffect ~ formattedData:", formattedData)      
+        // console.log("🚀 ~ useEffect ~ formattedData:", formattedData)      
         setDataTours(formattedData)
       });
   }, [upd]);

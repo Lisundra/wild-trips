@@ -96,6 +96,7 @@ module.exports = {
         difficulty: 'Средняя',
         family_friendly: false,
         organizer_id: 3,
+        coordinates:"\"3A46505c496141fceba7946160f4ba114ce390b2fe488edb63f4f07dd19b0d6d9e\""
         },
         {
         name: 'Тропические приключения в Коста-Рике',
