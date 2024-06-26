@@ -22,8 +22,8 @@ export default function ActivitiesFilter() {
     onSearch={onSearch}
     options={[
       {
-        value: 'Пешеходные прогулки',
-        label: 'Пешеходные прогулки',
+        value: 'Пешие прогулки',
+        label: 'Пешие прогулки',
       },
       {
         value: 'Треккинг',
@@ -38,8 +38,8 @@ export default function ActivitiesFilter() {
         label: 'Поход в горы',
       },
       {
-        value: 'Джип-туры',
-        label: 'Джип-туры',
+        value: 'Джип-сафари',
+        label: 'Джип-сафари',
       },
       {
         value: 'Катание на квадроциклах',
@@ -54,8 +54,8 @@ export default function ActivitiesFilter() {
         label: 'Катание на собачьих упряжках',
       },
       {
-        value: 'Лыжные туры',
-        label: 'Лыжные туры',
+        value: 'Лыжные походы',
+        label: 'Лыжные походы',
       },
       {
         value: 'Обзорные туры',
