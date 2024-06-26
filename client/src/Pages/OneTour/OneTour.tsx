@@ -28,20 +28,32 @@ function getDaysWordForm(days) {
 function OneTour() {
   const { id } = useParams();
   const [tour, setTour] = useState(null);
+  const [avgRating, setAvgRating] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/tours/${id}`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        setTour(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-      
-  }, [id]);
+    const fetchData = async () => {
+      try {
+        const result = await axios.get(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/tours/${id}`, {
+          withCredentials: true,
+        });
+        setTour(result.data);
+        console.log('useEffect отрабатывает', result.data);
+      } catch (error) {
+        console.error('Ошибка при получении данных', error);
+      }
+    };
+
+    fetchData();
+  }, [id, avgRating]);
+
+  useEffect(() => {
+    if (avgRating !== null) {
+      setTour((prevTour) => ({
+        ...prevTour,
+        average_rating: avgRating
+      }));
+    }
+  }, [avgRating]);
 
   if (!tour) {
     return <div>Loading...</div>;
@@ -117,7 +129,13 @@ function OneTour() {
       <div className={styles.infoContainer}>
         <div className={styles.leftContainer}>
           <p className={styles.description}>
-            {tour.description}
+          Погрузитесь в уникальную атмосферу Долины гейзеров на Камчатке, которая является самым крупным гейзерным полем в Евразии. Здесь вас ждет захватывающее путешествие по этим удивительным местам, где вы сможете увидеть мощные гейзеры, кипящие источники и другие природные явления, которые поражают воображение. Камчатка славится своей дикостью и недоступностью, что делает ее идеальным местом для любителей природы и приключений. Множество редких видов растений и животных, живущих в этом регионе, удивят вас своим многообразием и красотой.
+          </p>
+          <p className={styles.description}>
+            В течение 7 дней вы окунетесь в мир вулканических ландшафтов и уникальной флоры и фауны, которые делают этот регион настоящим чудом природы. Каждый день будет наполнен новыми открытиями и незабываемыми впечатлениями. Вы сможете наблюдать, как гейзеры выбрасывают свои струи воды и пара на высоту до нескольких десятков метров, почувствуете жар от кипящих источников и насладитесь чистым воздухом, наполненным ароматом дикорастущих трав. Природа Камчатки невероятно разнообразна и удивительна, и вы сможете оценить все ее богатства во время вашего путешествия.
+          </p>
+          <p className={styles.description}>
+            Под руководством опытных гидов вы сможете узнать много интересного о гейзерах, вулканах и истории этого удивительного места. Ваши гиды не только проведут вас по самым интересным маршрутам, но и поделятся с вами знаниями о геологической структуре региона, его истории и легендах, связанных с этим местом. Вы узнаете о том, как гейзеры образуются и почему они существуют только в нескольких местах на Земле. Это путешествие подарит вам не только эстетическое удовольствие, но и новые знания, которые обогатят ваше понимание природы и ее удивительных явлений.
           </p>
           <div className={styles.mapContainer}>
             <TourMap tour={tour} />
@@ -126,7 +144,7 @@ function OneTour() {
             <p className={styles.ratingStarsTitle}>
               Оставьте оценку этому маршруту
             </p>
-            <RatingStars setTour={setTour} />
+            <RatingStars setTour={setTour} setAvgRating={setAvgRating} />
           </div>
           <div className={styles.facilitiesContainer}>
         <p className={styles.facilityTitle}>
@@ -134,9 +152,9 @@ function OneTour() {
         </p>
         <p className={styles.facility}>
           {tour.Facilities.filter((facility) => (facility.TourOption.type === false)).map((facility) => (
-            <p key={facility.id} className={styles.facilityItem}>
+            <span key={facility.id} className={styles.facilityItem}>
               {facility.name}
-            </p>
+            </span>
           ))}
         </p>
         <br />

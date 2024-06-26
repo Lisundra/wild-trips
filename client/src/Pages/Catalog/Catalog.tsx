@@ -48,9 +48,9 @@ function Catalog() {
                 }
 
 
-                // console.log('нажали на фильтры - образовали из них новый массив', filters.difficulty); 
+                console.log('нажали на фильтры - образовали из них новый массив', filters.difficulty); 
                 if (filters.difficulty && filters.difficulty.length > 0) { // Если массив образовался, и в нём что-то есть
-                    // console.log(filters.difficulty);
+                    console.log(filters.difficulty);
                     const filteredToursByFilterArr = []; 
                     console.log('по нажатию на новый фильтр - создаётся по массиву c турами, прошедшими проверку на этот фильтр (внутри массива для результата)', filteredToursByFilterArr);
                     for (let i = 0; i < filters.difficulty.length; i++) {

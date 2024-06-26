@@ -19,6 +19,20 @@ module.exports = {
         type: false,
       },
       {
+        tour_id:1,
+        activity_id: 3,
+        housing_id: 5,
+        facility_id: 4,
+        type: true,
+      },
+      {
+        tour_id:1,
+        activity_id: 4,
+        housing_id: 1,
+        facility_id: 7,
+        type: false,
+      },
+      {
         tour_id:2,
         activity_id: 1,
         housing_id: 1,

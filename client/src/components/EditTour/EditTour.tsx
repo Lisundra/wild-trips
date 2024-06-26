@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Modal, Form, Input, DatePicker, Select, Checkbox, Upload } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined , EditOutlined } from '@ant-design/icons';
 import moment from 'moment';
+
 
 const { TextArea } = Input;
 const { Option } = Select;
 
-const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
+function EditTourModal({ tour, onUpdate, arraysCheckBox }) {
   const [visible, setVisible] = useState(false);
   const [images, setImages] = useState([]);
   const [form] = Form.useForm();
@@ -155,9 +156,7 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
 
   return (
     <>
-      <Button type="primary" onClick={showModal}>
-        Изменить
-      </Button>
+      <Button size="large" key="edit" type="link" icon={<EditOutlined />} onClick={showModal} />
       <Modal
         title="Редактировать тур"
         visible={visible}
@@ -289,6 +288,6 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox }) => {
       </Modal>
     </>
   );
-};
+}
 
 export default EditTourModal;

@@ -3,7 +3,7 @@ import { Rate } from 'antd';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-function RatingStars({ setTour }) { //! приняли пропс setTour
+function RatingStars({ setTour, setAvgRating }) { //! приняли пропс setTour
   const { id } = useParams();
   const [currentRating, setCurrentRating] = useState(0);
   const starStyle = {
@@ -35,6 +35,7 @@ function RatingStars({ setTour }) { //! приняли пропс setTour
         );
       console.log('Рейтинг успешно отправлен', response.data.tour);
       setCurrentRating(value);
+
       // setTour((prev) => prev.map((el) => {
       //     if (el.id === response.data.tour.id) {
       //       return {
@@ -44,14 +45,21 @@ function RatingStars({ setTour }) { //! приняли пропс setTour
       //     }
       //     return el;
       //   }));
-      // setTour((prev) => {
-      //   console.log('предыдущий рейтинг', prev.average_rating);
-      //   console.log('новый рейтинг', Number(response.data.tour.average_rating));
-      //   prev.average_rating = Number(response.data.tour.average_rating);
-      //   console.log('текущий рейтинг', prev.average_rating);
+
+      setAvgRating(() => {
+        Number(response.data.tour.average_rating)
+      });
+      
+      setTour((prev) => {
+        console.log('предыдущий рейтинг', prev.average_rating);
+        console.log('новый рейтинг', Number(response.data.tour.average_rating));
+
+        prev.average_rating = Number(response.data.tour.average_rating); //! 
+
+        console.log('текущий рейтинг', prev.average_rating);
         
-      //   return prev;
-      // });
+        return prev;
+      });
 
       // setTour((prev) => {
       //   console.log('консоль прева', prev)
