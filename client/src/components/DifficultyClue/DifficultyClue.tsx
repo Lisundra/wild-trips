@@ -15,15 +15,15 @@ const DifficultyClue = ({ difficulty }) => {
   };
 
   switch (difficulty) {
-    case 'низкая':
+    case 'Низкая':
       tooltipText = 'Низкая: Подходит неподготовленным людям';
       tooltipColor = 'bg-gray-300';
       break;
-    case 'средняя':
+    case 'Средняя':
       tooltipText = 'Средняя: Нужен инструктаж';
       tooltipColor = 'bg-gray-300';
       break;
-    case 'высокая':
+    case 'Высокая':
       tooltipText = 'Высокая: Экипировка и спецподготовка';
       tooltipColor = 'bg-gray-300';
       break;

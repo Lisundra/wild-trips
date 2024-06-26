@@ -27,7 +27,7 @@ const DateFilter: React.FC<DateFilterProps> = ({ setFilters }) => {
 
     return (
         <div>
-            <p className={styles.filterName}>Дата путешествия</p>
+            <p className={styles.filterName}>✅Дата путешествия</p>
             <Space direction="vertical" size={12}>
                 <RangePicker
                     onChange={onChange}
