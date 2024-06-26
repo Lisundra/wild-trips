@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AnyAction } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { Button, Card } from 'antd';
+import { Link } from 'react-router-dom';
+import { DeleteOutlined, EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { fetchCheckUser } from '../../redux/thunkActions';
 import type { RootState } from '../../redux/store';
 import DifficultyClue from '../../components/DifficultyClue/DifficultyClue';
 import MiniCardTour from '../../components/MiniCardTour/MiniCardTour';
-import { Button, Card } from 'antd';
-import { Link } from 'react-router-dom';
 import EditTour from '../../components/EditTour/EditTour';
-import { DeleteOutlined, EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import MiniCardTourNew from '../../components/MiniCardTour/MiniCardTourNewDesign';
+import styles from './MyTours.module.css';
 
 
 
@@ -176,7 +177,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
       formData.append( 'facilitiesFree', JSON.stringify(filterObjFalse(facilitiesFree))) 
       formData.append( 'activities', JSON.stringify(filterObjFalse(activities)))
       formData.append( 'housings', JSON.stringify(filterObjFalse(housings)))
-      //Формируем данные для ручки на создание
+      // Формируем данные для ручки на создание
    
         
       // console.log("🚀 ~ handleSubmitForm ~ formData:", formData.getAll('images'))
@@ -196,7 +197,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
   const handleImageUpload = (event) => {
     const {files} = event.target;
 
-    setInputs((prev) => ({ ...prev, ['images']: files }));
+    setInputs((prev) => ({ ...prev, 'images': files }));
 
 
     const previews = [];
@@ -367,11 +368,11 @@ const filterObjFalse = (obj)=>Object.fromEntries(
                <li>5. Скопируйте код и вставьте в поле ниже:</li> 
                </ol>  
                <textarea className="w-full p-2 border rounded" name='coordinates' onChange={handleInputsChange} required />
-                <div className='iframe'></div>              
+                <div className='iframe' />              
         
               <div className='flex flex-col items-center'>
             <button type='button' className='bg-yellow-500 rounded-md p-2 hover:bg-yellow-400'>
-            <a href="https://yandex.ru/map-constructor" target="_blank">Открыть Яндекс.Карты</a>
+            <a href="https://yandex.ru/map-constructor" target="_blank" rel="noreferrer">Открыть Яндекс.Карты</a>
             </button>
              <button type='button' className="mt-4 px-4 py-2 bg-cyan-500 hover:bg-cyan-700 rounded select-none" 
                  onClick={()=>{ setShowMap(!showMap)}}>{
@@ -381,12 +382,11 @@ const filterObjFalse = (obj)=>Object.fromEntries(
              </button>
              </div>
              {showMap&&(
-                inputs?.['coordinates']? (
-             <iframe src={`https://yandex.ru/map-widget/v1/?um=constructor%${inputs?.['coordinates']?inputs.coordinates:''}&amp;source=constructor`} 
+                inputs?.coordinates? (
+             <iframe src={`https://yandex.ru/map-widget/v1/?um=constructor%${inputs?.coordinates?inputs.coordinates:''}&amp;source=constructor`} 
                width="500"
                height="400"
-               >
-            </iframe> 
+                /> 
                 )
                 :
                 (
@@ -486,17 +486,17 @@ const filterObjFalse = (obj)=>Object.fromEntries(
         <div className='allTours flex flex-wrap justify-around'>
                   {
                     dataTours.map(tour=>(
-                      <>
-
-                      <MiniCardTourNew />
-
-                      <Card
+                      <Card {...tour}
                       key={tour.id}
+                      style={{ width: 350, height: 500 }}
+                      hoverable
                       className="mt-4 m-4 -p-3 flex flex-col justify-between"
                       actions={[
-                        <SettingOutlined key="setting" />,
-                        <EditOutlined key="edit" onClick={() => setVisible(true)} />,
-                        <DeleteOutlined key="delete" onClick={() => deleteHandler(tour.id)} />,
+                        <Link to={`/${tour.id}`}>  
+                          <SettingOutlined className={styles.customIcon} key="setting" />
+                        </Link>,
+                        <EditOutlined className={styles.customIcon} key="edit" onClick={() => setVisible(true)} />,
+                        <DeleteOutlined className={styles.customIcon} key="delete" onClick={() => deleteHandler(tour.id)} />,
                       ]}
                     >
 
@@ -509,7 +509,6 @@ const filterObjFalse = (obj)=>Object.fromEntries(
                         onUpdate={(updatedTour) => handlerUpdateTour(updatedTour)}
                       />
                     </Card>
-                    </>
                     ))
                   }
         </div>
