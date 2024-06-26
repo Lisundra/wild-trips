@@ -19,7 +19,7 @@ const SeasonFilter = ({ setFilters }) => {
 
   return (
     <>
-      <p className={styles.filterName}>✅Сезон</p>
+      <p className={styles.filterName}>Сезон</p>
       <Checkbox.Group value={checkedList} options={options} onChange={onChange} />
     </>
   );

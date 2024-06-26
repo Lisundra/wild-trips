@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
-import { Checkbox } from 'antd';
+import { Radio } from 'antd';
 import styles from './Filters.module.css';
 
-
 export default function RatingFilter({ setFilters }) {
-  const [checkedList, setCheckedList] = useState([]);
+  const [value, setValue] = useState(null);
 
-  const onChange = (list) => {
-    // console.log(list);
-    setCheckedList(list);
-    setFilters(prev => ({...prev, rating: list}))
-    
+  const onChange = (e) => {
+    setValue(e.target.value);
+    setFilters(prev => ({ ...prev, average_rating: e.target.value }));
   };
 
   const options = [
@@ -21,8 +18,14 @@ export default function RatingFilter({ setFilters }) {
 
   return (
     <>
-    <p className={styles.filterName}>Рейтинг</p>
-    <Checkbox.Group value={checkedList} options={options} onChange={onChange} /> 
-  </>
-);
+      <p className={styles.filterName}>Рейтинг</p>
+      <Radio.Group onChange={onChange} value={value}>
+        {options.map(option => (
+          <Radio key={option.value} value={option.value}>
+            {option.label}
+          </Radio>
+        ))}
+      </Radio.Group>
+    </>
+  );
 }

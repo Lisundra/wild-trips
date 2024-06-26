@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Checkbox, Button } from 'antd';
+import axios from 'axios';
 import styles from './Filters.module.css';
 
-const HousingsFilter = ({ setFilters }) => {
+function HousingsFilter({ setFilters }) {
   const [checkedList, setCheckedList] = useState([]);
   const [collapsed, setCollapsed] = useState(true);
 
@@ -11,6 +12,24 @@ const HousingsFilter = ({ setFilters }) => {
     setCheckedList(value);
     setFilters((prev) => ({ ...prev, housings: value }));
   };
+
+  useEffect(() => {
+    // Вызываем функцию для применения фильтров, когда изменяются checkedList
+    applyFilters();
+}, [checkedList]);
+
+const applyFilters = () => {
+    axios
+        .get(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/tours`, {
+            params: { housings: checkedList } // Передаем выбранные виды отдыха как параметр запроса
+        })
+        .then((res) => {
+            setFilters((prev) => ({ ...prev, tours: res.data })); // Обновляем состояние с данными о турах
+        })
+        .catch((error) => {
+            console.error('Error fetching tours:', error);
+        });
+};
 
   const options = [
     { label: 'Отель', value: 'Отель' },
@@ -73,6 +92,6 @@ const HousingsFilter = ({ setFilters }) => {
       </Button>
     </div>
   );
-};
+}
 
 export default HousingsFilter;
