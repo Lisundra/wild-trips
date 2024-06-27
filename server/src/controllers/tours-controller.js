@@ -29,6 +29,20 @@ module.exports = {
       res.status(400).json({ err: err.message });
     }
   },
+  getAllToursByAdmin: async (req, res) => {
+    try {
+      const allTours = await Tour.findAll({
+        order: [['id', 'DESC']],
+        include:[{
+          model:Image,
+        }],
+      });
+      const allToursPlain = allTours.map((tour) => tour.get({ plain: true }));
+      res.json(allToursPlain);
+    } catch (err) {
+      res.status(400).json({ err: err.message });
+    }
+  },
   getAllToursByUser: async (req, res) => {
     try {
       const { login } = req.session;

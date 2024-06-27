@@ -108,7 +108,7 @@ const Navbar = () => {
                                     Каталог туров
                                 </Link>
                             </button>
-                            <button>
+                            <button className='hidden'>
                                 <Link to="/News" className="text-white">
                                    Блог
                                 </Link>
@@ -135,8 +135,7 @@ const Navbar = () => {
                                             `Личный кабинет администратора`
                                             :
                                             `Личный кабинет`
-                                            }
-                                         
+                                            }                                       
                                                                                
                                         </Link>
                                     </button>

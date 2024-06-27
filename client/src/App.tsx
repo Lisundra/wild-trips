@@ -13,6 +13,7 @@ import OneTour from './Pages/OneTour/OneTour';
 import MyTours from './Pages/MyTours/MyTours';
 import withAuth from './components/WithAuth/WithAuth';
 import Catalog from './Pages/Catalog/Catalog';
+import Profile from './Pages/Profile/Profile';
 
 
 const ProtectedMyTours = withAuth(MyTours);
@@ -28,6 +29,7 @@ function App(): JSX.Element {
           <Route index element={<Home />} />  
           <Route path="catalog" element={<Catalog />} />
           <Route path="MyTours" element={<ProtectedMyTours />} />
+          <Route path="Profile" element={<Profile initialUser={undefined} />} />
           <Route path=":id" element={<OneTour />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

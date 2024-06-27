@@ -19,6 +19,7 @@ const upload = multer({ storage: storageToursImages });
 
 const {
   getAllTours,
+  getAllToursByAdmin,
   getAllToursByUser,
   getOneTour,
   getDiscountedTours,
@@ -36,6 +37,7 @@ router
   .get('/editors', getEditorsTours)
   .get('/new', getNewTours)
   .get('/org/all', getAllToursByUser)
+  .get('/admin/all', getAllToursByAdmin)
   .get('/:id', getOneTour)
   .post('/checkBox', getAllOptions)
   .post('/',upload.array('images',10), createTour)

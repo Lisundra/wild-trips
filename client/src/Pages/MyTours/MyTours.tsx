@@ -15,7 +15,7 @@ import MiniCardTourNew from '../../components/MiniCardTour/MiniCardTourNewDesign
 
 
 function ParallaxPage() {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState({});
   const [showForm, setShowForm] = useState(false);
   const [showImages, setShowImages] = useState(false);
   const [showMap, setShowMap] = useState(false);
@@ -29,7 +29,7 @@ function ParallaxPage() {
   const [facilitiesFree, setFacilitiesFree] = useState({});
   const [activities, setActivities] = useState({});
   const [housings, setHousings] = useState({});
-  const [inputs, setInputs] = useState({family_friendly:true, season:'Весна', difficulty:'Низкая', coordinates:''});
+  const [inputs, setInputs] = useState({family_friendly:true, season:'весна', difficulty:'низкая', coordinates:''});
   const [arraysCheckBox, setArraysCheckBox] = useState( {facility: [], activity: [], housing: []} )
   let formData = new FormData()
 
@@ -48,9 +48,52 @@ const filterObjFalse = (obj)=>Object.fromEntries(
         setArraysCheckBox(res.data);
       });
 
-      // console.log('USER ',user)
-      
+       console.log('USER ',user)
+
+       if(user.role==='admin'){
+
+        axios.get('http://localhost:3100/api/tours/admin/all', {
+          withCredentials: true
+        }).then((res) => {
+          // console.log('data org tours ', res.data);
+  
+          const formattedData = res.data.map(card=>{
+           const newObj = {
+            ...card,
+            'Images': (JSON.parse(card.Images[0].image_path)).map(el=>el.replace(/^.*?src/, 'src'),)
+           }
+            return newObj
+          })
+  
+          // console.log("🚀 ~ useEffect ~ formattedData:", formattedData)      
+          setDataTours(formattedData)
+        });
+
+       } else
       axios.get('http://localhost:3100/api/tours/org/all', {
+        withCredentials: true
+      }).then((res) => {
+        // console.log('data org tours ', res.data);
+
+        const formattedData = res.data.map(card=>{
+         const newObj = {
+          ...card,
+          'Images': (JSON.parse(card.Images[0].image_path)).map(el=>el.replace(/^.*?src/, 'src'),)
+         }
+          return newObj
+        })
+        // console.log("🚀 ~ useEffect ~ formattedData:", formattedData)      
+        setDataTours(formattedData)
+      });
+
+
+  }, [upd]);
+
+
+  useEffect(() => {
+  console.log('USER 2',user)
+  if(user.role==='admin'){
+    axios.get('http://localhost:3100/api/tours/admin/all', {
         withCredentials: true
       }).then((res) => {
         // console.log('data org tours ', res.data);
@@ -66,11 +109,9 @@ const filterObjFalse = (obj)=>Object.fromEntries(
         // console.log("🚀 ~ useEffect ~ formattedData:", formattedData)      
         setDataTours(formattedData)
       });
-  }, [upd]);
-
-
-  useEffect(() => {
-
+    
+  }
+  else
       axios.get('http://localhost:3100/api/tours/org/all', {
         withCredentials: true
       }).then((res) => {
@@ -236,6 +277,12 @@ const filterObjFalse = (obj)=>Object.fromEntries(
     setUpd(upd+1)
   }
 
+  const toggleVisibility = (id) => {
+    setVisible((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   const deleteHandler = (id) => {
     axios.delete(`http://localhost:3100/api/tours/${id}`,{
@@ -305,21 +352,21 @@ const filterObjFalse = (obj)=>Object.fromEntries(
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Сезон</label>
                 <select className="w-full p-2 border rounded" name='season' value={inputs.season} onChange={handleInputsChange} required>
-                  <option value="Весна">Весна</option>
-                  <option value="Лето">Лето</option>
-                  <option value="Осень">Осень</option>
-                  <option value="Зима">Зима</option>
+                  <option value="весна">Весна</option>
+                  <option value="лето">Лето</option>
+                  <option value="осень">Осень</option>
+                  <option value="зима">Зима</option>
                 </select>
               </div>
               <div className="mb-4">
                 <div className='flex'>
                 <label className="block text-sm font-bold mb-2">Сложность</label>
-                <DifficultyClue difficulty={inputs.difficulty?inputs.difficulty:'Низкая' } />
+                <DifficultyClue difficulty={inputs.difficulty?inputs.difficulty:'низкая' } />
                 </div>
                 <select className="w-full p-2 border rounded" name='difficulty' onChange={handleInputsChange} required>
-                  <option value="Низкая">Низкая</option>
-                  <option value="Средняя">Средняя</option>
-                  <option value="Высокая">Высокая</option>
+                  <option value="низкая">Низкая</option>
+                  <option value="средняя">Средняя</option>
+                  <option value="высокая">Высокая</option>
                 </select>
               </div>
               <div className="mb-4">
@@ -488,26 +535,34 @@ const filterObjFalse = (obj)=>Object.fromEntries(
                     dataTours.map(tour=>(
                       <>
 
-                      <MiniCardTourNew />
+                      {/* <MiniCardTourNew /> */}
 
                       <Card
                       key={tour.id}
                       className="mt-4 m-4 -p-3 flex flex-col justify-between"
                       actions={[
-                        <SettingOutlined key="setting" />,
-                        <EditOutlined key="edit" onClick={() => setVisible(true)} />,
-                        <DeleteOutlined key="delete" onClick={() => deleteHandler(tour.id)} />,
+                        <Link to={`/${tour.id}`}>  
+                    <SettingOutlined key="setting" />
+                         </Link> 
+                       ,
+                        
+                    <EditOutlined key={tour.id} onClick={() => toggleVisibility(tour.id)} />,
+                     <DeleteOutlined key="delete" onClick={() => deleteHandler(tour.id)} />,
                       ]}
                     >
 
                       <MiniCardTour {...tour} />
-                      <EditTour
-                        visible={visible}
-                        setVisible={setVisible}
-                        arraysCheckBox={arraysCheckBox}
-                        tour={tour}
-                        onUpdate={(updatedTour) => handlerUpdateTour(updatedTour)}
-                      />
+                      {visible[tour.id] && (
+                        <EditTour
+                          key={tour.id}
+                          isAdmin={user.role === 'admin'}
+                          visible={visible[tour.id]}
+                          setVisible={(isVisible) => toggleVisibility(tour.id, isVisible)}
+                          arraysCheckBox={arraysCheckBox}
+                          tour={tour}
+                          onUpdate={(updatedTour) => handlerUpdateTour(updatedTour)}
+                        />
+                      )}
                     </Card>
                     </>
                     ))

@@ -1,7 +1,7 @@
 const { User } = require('../../db/models');
 const bcrypt = require('bcrypt'); 
 const path = require('path')
-
+const fs = require('fs')
 
 module.exports = {
   getAllUsers: async (req, res) => {
@@ -22,7 +22,22 @@ module.exports = {
       res.status(400).json({ err: err.message });
     }
   },
-
+  getOneUserNotPassword: async (req, res) => {
+    try {
+      const { login } = req.session;
+      const user = await User.findOne({ where: { login } });
+      
+      if (user) {
+        // Исключаем поле password из результата вручную
+        const { password, ...userWithoutPassword } = user.toJSON();
+        res.json(userWithoutPassword);
+      } else {
+        res.status(404).json({ message: 'User not found' });
+      }
+    } catch (err) {
+      res.status(400).json({ err: err.message });
+    }
+  },
   createUser: async (req, res) => { //! Добавить возможность загрузки аватара
     const { login, email, password, full_name, role, bio } = req.body;
     console.log( req.body);
@@ -140,5 +155,49 @@ module.exports = {
       res.status(400).json({ err: err.message });
     }
   },
+  updateUser: async (req, res) => {
+    const { login } = req.session;
+    const { full_name, bio } = req.body;
+    let profile_picture = null
+
+    try {
+      const user = await User.findOne({ where: { login } });
+  
+      if (!user) {
+        console.log('User not found');
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      // Обработка загрузки нового аватара
+      if (req.file) {
+        // Удаление старого аватара, если он существует
+        if (user.profile_picture && user.profile_picture !== 'src/assets/avatars/ava.png') {
+          const oldImagePath = path.join(__dirname, '../../../client/src/assets/avatars/', path.basename(user.profile_picture));
+          if (fs.existsSync(oldImagePath)) {
+            fs.unlinkSync(oldImagePath);
+          }
+        }
+  
+        profile_picture =`/src/assets/avatars/${req.file.filename}`
+      }
+  
+      // Обновление данных пользователя
+      const updatedUserData = {
+        full_name: full_name || user.full_name,
+        bio: bio || user.bio,
+        ...(profile_picture && { profile_picture }),
+      };
+  
+      await user.update(updatedUserData);
+  
+      res.status(200).json({ message: 'User updated successfully', user });
+    } catch (err) {
+      console.log("🚀 ~ updateUser: ~ err:", err)
+      
+      res.status(400).json({ err: err.message });
+    }
+  },
+
+
 
 };

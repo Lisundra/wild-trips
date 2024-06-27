@@ -8,7 +8,7 @@ import FormItem from 'antd/es/form/FormItem';
 const { TextArea } = Input;
 const { Option } = Select;
 
-const EditTourModal = ({ tour, onUpdate, arraysCheckBox, visible, setVisible }) => {
+const EditTourModal = ({ tour, onUpdate, arraysCheckBox, visible, setVisible, isAdmin }) => {
   const [hiddenCheckbox, setHiddenCheckbox]=useState(true)
   const [images, setImages] = useState([]);
   const [form] = Form.useForm();
@@ -37,7 +37,7 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox, visible, setVisible }) 
         withCredentials: true,
       })
       .then((res) => {
-        // console.log('DATA ',  moment(tour.start_date))
+        console.log(' res.data  ',  moment( res.data))
         const tourData = res.data;
         setDataTour(tourData);
         form.setFieldsValue({
@@ -171,7 +171,7 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox, visible, setVisible }) 
       setFacilitiesPaid((prev) => ({ ...prev, [facility]: false }));
     }
   };
-
+console.log(tour)
   return (
     <>
       <Modal
@@ -196,7 +196,15 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox, visible, setVisible }) 
             <DatePicker />
           </Form.Item>
             </Row>
-  
+              {
+                !isAdmin?(<></>)
+                :
+                (
+                <Row justify={'center'}>
+                <Checkbox name='editors_choice' defaultChecked={tour.editors_choice}>Выбор редакции</Checkbox>
+                </Row>)
+              }
+        
           <Form.Item label="Подробное описание" name="description" rules={[{ required: false, message: 'Пожалуйста, введите подробное описание' }]}>
             <TextArea autoSize={{minRows:'7'}} />
           </Form.Item>
@@ -312,7 +320,7 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox, visible, setVisible }) 
               </Col>
               </Row>
               <Row justify={'center'}>
-              <Button onClick={()=>setHiddenCheckbox(!hiddenCheckbox)}>{hiddenCheckbox?'Скрыть все услуги': 'Раскрыть все услуги'}</Button>
+              <Button onClick={()=>setHiddenCheckbox(!hiddenCheckbox)}>{hiddenCheckbox?'Раскрыть все услуги': 'Скрыть все услуги'}</Button>
               </Row>
           <Form.Item label="Загрузить фото тура" name="images">
             <Upload

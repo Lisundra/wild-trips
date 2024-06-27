@@ -18,9 +18,11 @@ const {
 createUser,
 getAllUsers,
 getOneUser,
+getOneUserNotPassword,
 destroyUser,
 loginUser,
-checkSession
+checkSession,
+updateUser
 } = require('../controllers/user-controller');
 
 router
@@ -29,5 +31,7 @@ router
   .post('/login', loginUser)
   .delete('/', destroyUser)
   .post('/find', getOneUser)
+  .get('/user/get',getOneUserNotPassword)
+  .put('/',upload.single('profile_picture'),updateUser)
   .post('/check', checkSession);
 module.exports = router;
