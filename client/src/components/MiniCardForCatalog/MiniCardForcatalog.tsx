@@ -24,10 +24,12 @@ function MiniCardForCatalog({
 
   return (
     <Card
-      style={{ width: 400, border: '1px solid #f0f0f0' }}
+      hoverable
+      style={{ height: 500, width: 350, border: '1px solid #f0f0f0' }}
+      
       cover={
         <div className="relative">
-          <Carousel arrows draggable touchMove>
+          <Carousel arrows draggable touchMove >
             {Images.map((image, index) => (
               <div key={index}>
                 <img

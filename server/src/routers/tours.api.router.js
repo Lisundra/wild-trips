@@ -21,6 +21,8 @@ const {
   getAllTours,
   getAllToursByUser,
   getOneTour,
+  postTourRating,
+  getOneRating,
   getDiscountedTours,
   getEditorsTours,
   getNewTours,
@@ -35,8 +37,10 @@ router
   .get('/discounted', getDiscountedTours)
   .get('/editors', getEditorsTours)
   .get('/new', getNewTours)
-  .get('/org/all', getAllToursByUser)
   .get('/:id', getOneTour)
+  .post('/:id/rate', postTourRating)
+  .get('/:id/rating', getOneRating)
+  .get('/org/all', getAllToursByUser)
   .post('/checkBox', getAllOptions)
   .post('/',upload.array('images',10), createTour)
   .patch('/:id',upload.array('images', 10), editTour)

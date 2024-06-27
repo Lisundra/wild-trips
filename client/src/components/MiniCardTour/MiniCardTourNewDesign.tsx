@@ -2,10 +2,8 @@ import React from 'react';
 import { Button, Card, Carousel } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import DifficultyClue from '../DifficultyClue/DifficultyClue';
-import OneRatingStar from '../OneRatingStar/OneRatingStar';
-import styles from './MiniCardTour.module.css';
 
-function MiniCardTour({
+const MiniCardTourNew = ({
   title,
   subtitle,
   start_date,
@@ -18,23 +16,15 @@ function MiniCardTour({
   price,
   average_rating,
   Images,
-}) {
+}) => {
     // console.log("🚀 ~ Images:", Images)
-  let ratingColorClass = '';
-  if (average_rating < 6.0) {
-    ratingColorClass = styles.redRating;
-  } else if (average_rating < 8.0) {
-    ratingColorClass = styles.yellowRating;
-  } else {
-    ratingColorClass = styles.greenRating;
-  }
 
   return (
     <Card
-      style={{ width: 349, border: '1px solid #ffffff', marginLeft: -24, marginTop: -85 }}
+      style={{ width: 400, border: '1px solid #f0f0f0' }}
       cover={
         <div className="relative">
-          <Carousel arrows draggable touchMove>
+          <Carousel arrows={true} draggable touchMove={true}>
             {Images.map((image, index) => (
               <div key={index}>
                 <img
@@ -45,15 +35,8 @@ function MiniCardTour({
               </div>
             ))}
           </Carousel>
-          <div className="absolute top-2 right-2 text-white rounded-full px-2 py-1">
-            <div className={styles.avgRatingNumberContainer}>
-              <div className={styles.numberContainer}>
-                <p className={`${styles.avgRatingNumber} ${ratingColorClass}`}>
-                  {average_rating}
-                </p>
-              </div>
-              <OneRatingStar rating={average_rating} />
-            </div>
+          <div className="absolute top-2 right-2 bg-orange-400 text-white rounded-full px-2 py-1">
+            {average_rating}
           </div>
         </div>
       }
@@ -78,10 +61,10 @@ function MiniCardTour({
       />
     </Card>
   );
-}
+};
 
 // Задание значений по умолчанию для пропсов
-MiniCardTour.defaultProps = {
+MiniCardTourNew.defaultProps = {
   title: 'Название',
   subtitle: 'Описание',
   start_date: 'Дата начала',
@@ -94,4 +77,4 @@ MiniCardTour.defaultProps = {
   Images: ['/src/assets/images/minimalizm-montains-1.png', '/src/assets/images/minimalizm-montains-1.png', '/src/assets/images/minimalizm-montains-1.png'], 
 };
 
-export default MiniCardTour;
+export default MiniCardTourNew;

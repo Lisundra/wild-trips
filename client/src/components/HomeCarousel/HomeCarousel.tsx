@@ -3,6 +3,7 @@ import { Carousel, Card } from 'antd';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import EditorsChoiceMark from '../../components/EditorsChoiceMark/EditorsChoiceMark'
 import styles from './HomeCarousel.module.css';
 
 export default function HomeCarousel({ tours }) {

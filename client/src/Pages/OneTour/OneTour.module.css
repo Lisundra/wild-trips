@@ -1,0 +1,208 @@
+@font-face {
+  font-family: 'ExcentraPro-Bold';
+  src: url('/fonts/ExcentraPro-Bold.ttf') format('truetype');
+}
+
+.upperWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-right: 100px;
+  margin-left: 100px;
+}
+
+.upperContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.nameRatingContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.nameTitle {
+  justify-content: center;
+  align-items: center;
+  padding-top: 5px;
+  font-family: 'ExcentraPro-Bold', sans-serif;
+  font-size: 48px;
+}
+
+.avgRatingContainer {
+  display: flex;
+  flex-direction: row;
+  margin-left: 25px;
+}
+
+.avgRatingNumberContainer {
+  display: flex;
+}
+
+.avgRatingNumber {
+  padding-top: 10px;
+  color: #FADB14;
+  font-family: 'ExcentraPro-Bold', sans-serif;
+  font-size: 48px;
+}
+
+.priceRequestContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 50px;
+  padding: 8px 16px;
+  margin-right: 25px;
+  font-size: 24px;
+  background-color: #D2F3EE;
+  border-radius: 25px;
+}
+
+.dateDurationDifficultyContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-right: 425px;
+  margin-left: 380px;
+}
+
+.date, .duration, .difficulty {
+  font-size: 24px;
+}
+
+.infoContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 50px;
+  margin-right: 100px;
+  margin-left: 100px;
+  }
+  
+.description {
+  margin-bottom: 40px;
+  text-align: justify;
+}
+
+.ratingStarsContainer {
+  margin-top: 20px;
+}
+
+.ratingStarsTitle {
+  margin-bottom: 10px;
+}
+
+.leftContainer {
+  width: 60%;
+}
+
+.rightContainer {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 40px;
+}
+
+.detailsWrapper {
+  display: flex;
+  justify-content: end;
+}
+
+.detailsContainer {
+  width: auto;
+  height: auto;
+  background-color: #D2F3EE;
+  border-radius: 20px;
+  padding: 20px;
+  font-size: 18px;
+}
+
+.detailsTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.detailsTitle {
+  font-family: 'ExcentraPro-Bold', sans-serif;
+  font-size: 24px;
+}
+
+.detailLabel {
+  font-weight: bold;
+  padding: 8px;
+  vertical-align: top;
+}
+
+.detailDifficultyValue, .detailValue {
+  text-align: end;
+}
+
+.detailDifficultyValue {
+  padding-right: 33px;
+}
+
+.detailValue2 {
+  padding-top: 8px;
+  column-count: 2;
+  text-align: end;
+  padding-bottom: 12px;
+}
+
+.detailsDifficultyItem {
+  margin-right: 10px;
+}
+
+.detailsItem {
+  display: block;
+}
+
+.facilitiesContainer {
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+
+.facilityTitle {
+  margin-top: -10px;
+  margin-bottom: 30px;
+  font-family: 'ExcentraPro-Bold', sans-serif;
+  font-size: 24px;
+}
+
+.facility {
+  justify-content: space-between;
+  column-count: 2;
+}
+
+.facilityItem {
+  height: 40px;
+  display: flex;
+  padding: 5px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.detailsWrapper {
+  position: sticky;
+  top: 160px;
+}
+
+.redRating {
+  color: #DA2C38;
+}
+
+.yellowRating {
+  color: #FADB14;
+}
+
+.greenRating {
+  color: #55A630;
+}
