@@ -30,6 +30,11 @@
   height: 35px;
 }
 
+.telegram {
+  width: 30px;
+  height: 30px;
+}
+
 .quote {
   text-transform: uppercase;
   font-size: 25px;
