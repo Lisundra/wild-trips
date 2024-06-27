@@ -11,6 +11,7 @@ import DifficultyTooltip from '../../components/DifficultyTooltip/DifficultyTool
 import OneTourButton from '../../components/OneTourButton/OneTourButton';
 import EditorsChoiceMark from '../../components/EditorsChoiceMark/EditorsChoiceMark'
 import styles from './OneTour.module.css';
+import AssistantModal from '../../components/AssistantModal/AssistantModal';
 
 function getDaysWordForm(days) {
   const lastDigit = days % 10;
@@ -29,6 +30,10 @@ function OneTour() {
   const { id } = useParams();
   const [tour, setTour] = useState(null);
   const [avgRating, setAvgRating] = useState(null);
+  const [visible, setVisible] = useState(false);
+  const [userData, setUserData] = useState({email:'', name:''})
+  const [loading, setLoading] = useState(true)
+  console.log("🚀 ~ OneTour ~ userData:", userData)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,14 +42,24 @@ function OneTour() {
           withCredentials: true,
         });
         setTour(result.data);
-        console.log('useEffect отрабатывает', result.data);
+
+        const resultUserData = await axios.get(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/users/user/get`, {
+          withCredentials: true,
+        });
+        setUserData({email:resultUserData.data.email || '', name: resultUserData.data.full_name  || ''});
+
+        setLoading(false)
+        console.log('useEffect отрабатывает', result.data, resultUserData);
       } catch (error) {
         console.error('Ошибка при получении данных', error);
       }
     };
 
+
+    
+
     fetchData();
-  }, [id, avgRating]);
+  }, [id, avgRating, visible]);
 
   useEffect(() => {
     if (avgRating !== null) {
@@ -55,7 +70,7 @@ function OneTour() {
     }
   }, [avgRating]);
 
-  if (!tour) {
+  if (!tour || loading) {
     return <div>Loading...</div>;
   }
 
@@ -85,6 +100,14 @@ function OneTour() {
       <br />
       <br />
       <br />
+
+      <AssistantModal 
+      userName={userData.name} 
+      userEmail={userData.email} 
+      visible={visible} 
+      setVisible={setVisible}>
+      </AssistantModal>
+
       <div className={styles.upperWrapper}>
         <div className={styles.upperContainer}>
           <div className={styles.nameRatingContainer}>
@@ -101,7 +124,9 @@ function OneTour() {
           {tour.editors_choice && <EditorsChoiceMark />}
           <div className={styles.priceRequestContainer}>
             <p className={styles.price}>{tour.price.toLocaleString('ru-RU')} ₽</p>
+              <button onClick={()=>setVisible(!visible)}>
             <OneTourButton />
+            </button>
           </div>
         </div>
         <div className={styles.dateDurationDifficultyContainer}>
