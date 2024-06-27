@@ -31,7 +31,7 @@ function MiniCardTour({
 
   return (
     <Card
-      style={{ width: 349, border: '1px solid #ffffff', marginLeft: -24, marginTop: -85 }}
+      style={{ width: 350, border: '1px solid #ffffff', marginLeft: -25, marginTop: -25 }}
       cover={
         <div className="relative">
           <Carousel arrows draggable touchMove>

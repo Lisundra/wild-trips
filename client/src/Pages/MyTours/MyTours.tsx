@@ -30,7 +30,7 @@ function ParallaxPage() {
   const [facilitiesFree, setFacilitiesFree] = useState({});
   const [activities, setActivities] = useState({});
   const [housings, setHousings] = useState({});
-  const [inputs, setInputs] = useState({family_friendly:true, season:'весна', difficulty:'низкая', coordinates:''});
+  const [inputs, setInputs] = useState({family_friendly:true, season:'Весна', difficulty:'Низкая', coordinates:''});
   const [arraysCheckBox, setArraysCheckBox] = useState( {facility: [], activity: [], housing: []} )
   let formData = new FormData()
 
@@ -353,21 +353,21 @@ const filterObjFalse = (obj)=>Object.fromEntries(
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Сезон</label>
                 <select className="w-full p-2 border rounded" name='season' value={inputs.season} onChange={handleInputsChange} required>
-                  <option value="весна">Весна</option>
-                  <option value="лето">Лето</option>
-                  <option value="осень">Осень</option>
-                  <option value="зима">Зима</option>
+                  <option value="Весна">Весна</option>
+                  <option value="Лето">Лето</option>
+                  <option value="Осень">Осень</option>
+                  <option value="Зима">Зима</option>
                 </select>
               </div>
               <div className="mb-4">
                 <div className='flex'>
                 <label className="block text-sm font-bold mb-2">Сложность</label>
-                <DifficultyClue difficulty={inputs.difficulty?inputs.difficulty:'низкая' } />
+                <DifficultyClue difficulty={inputs.difficulty?inputs.difficulty:'Низкая' } />
                 </div>
                 <select className="w-full p-2 border rounded" name='difficulty' onChange={handleInputsChange} required>
-                  <option value="низкая">Низкая</option>
-                  <option value="средняя">Средняя</option>
-                  <option value="высокая">Высокая</option>
+                  <option value="Низкая">Низкая</option>
+                  <option value="Средняя">Средняя</option>
+                  <option value="Высокая">Высокая</option>
                 </select>
               </div>
               <div className="mb-4">

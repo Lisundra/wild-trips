@@ -229,17 +229,17 @@ console.log(tour)
           <Row justify={'space-around'}>
           <Form.Item label="Сезон" name="season" rules={[{ required: false, message: 'Пожалуйста, выберите сезон' }]}>
             <Select>
-              <Option value="весна">весна</Option>
-              <Option value="лето">лето</Option>
-              <Option value="осень">осень</Option>
-              <Option value="зима">зима</Option>
+              <Option value="Весна">Весна</Option>
+              <Option value="Лето">Лето</Option>
+              <Option value="Осень">Осень</Option>
+              <Option value="Зима">Зима</Option>
             </Select>
           </Form.Item>
           <Form.Item label="Сложность" name="difficulty" rules={[{ required: false, message: 'Пожалуйста, выберите сложность' }]}>
             <Select>
-              <Option value="низкая">низкая</Option>
-              <Option value="средняя">средняя</Option>
-              <Option value="высокая">высокая</Option>
+              <Option value="Низкая">Низкая</Option>
+              <Option value="Средняя">Средняя</Option>
+              <Option value="Высокая">Высокая</Option>
             </Select>
           </Form.Item>
         
