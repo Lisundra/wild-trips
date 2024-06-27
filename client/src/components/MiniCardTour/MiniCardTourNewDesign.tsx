@@ -3,7 +3,7 @@ import { Button, Card, Carousel } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import DifficultyClue from '../DifficultyClue/DifficultyClue';
 
-const MiniCardTourNew = ({
+function MiniCardTourNew({
   title,
   subtitle,
   start_date,
@@ -16,7 +16,7 @@ const MiniCardTourNew = ({
   price,
   average_rating,
   Images,
-}) => {
+}) {
     // console.log("🚀 ~ Images:", Images)
 
   return (
@@ -24,7 +24,7 @@ const MiniCardTourNew = ({
       style={{ width: 400, border: '1px solid #f0f0f0' }}
       cover={
         <div className="relative">
-          <Carousel arrows={true} draggable touchMove={true}>
+          <Carousel arrows draggable touchMove>
             {Images.map((image, index) => (
               <div key={index}>
                 <img
@@ -61,7 +61,7 @@ const MiniCardTourNew = ({
       />
     </Card>
   );
-};
+}
 
 // Задание значений по умолчанию для пропсов
 MiniCardTourNew.defaultProps = {
