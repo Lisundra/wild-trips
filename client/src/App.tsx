@@ -15,6 +15,7 @@ import withAuth from './components/WithAuth/WithAuth';
 import Catalog from './Pages/Catalog/Catalog';
 import Footer from './components/Footer/Footer';
 import Profile from './Pages/Profile/Profile';
+import TestAssistent from './components/testAssistent/testAssistent';
 
 
 const ProtectedMyTours = withAuth(MyTours);

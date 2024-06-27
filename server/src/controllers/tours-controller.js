@@ -171,6 +171,7 @@ module.exports = {
   getOneRating: async (req, res) => {
 
     const { login } = req.session;
+
     const user = await User.findOne({ where: { login } });
 
     const tourId = req.params.id;
@@ -296,7 +297,7 @@ module.exports = {
         end_date:new Date(end_date),
         duration,
         price:Number(price),
-        discount:Number(discount),
+        discount:Number(discount) || 0,
         country,
         region,
         season,
