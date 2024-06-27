@@ -4,6 +4,8 @@ import Meta from 'antd/es/card/Meta';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import DifficultyClue from '../DifficultyClue/DifficultyClue';
+import OneRatingStar from '../OneRatingStar/OneRatingStar';
+import styles from './MiniCardForCatalog.module.css';
 
 function MiniCardForCatalog({
   title,
@@ -14,7 +16,7 @@ function MiniCardForCatalog({
   difficulty,
   numberBooking,
   price,
-  rating,
+  average_rating,
   Images,
 }) {
   const formattedStartDate = format(new Date(start_date), 'dd MMM', { locale: ru });
@@ -38,8 +40,15 @@ function MiniCardForCatalog({
               </div>
             ))}
           </Carousel>
-          <div className="absolute top-2 right-2 bg-orange-400 text-white rounded-full px-2 py-1">
-            {rating}
+          <div className="absolute top-2 right-2 text-white rounded-full px-2 py-1">
+          <div className={styles.avgRatingNumberContainer}>
+              <div className={styles.numberContainer}>
+                <p className={styles.avgRatingNumber}>
+                  {average_rating}
+                </p>
+              </div>
+              <OneRatingStar rating={average_rating} />
+            </div>
           </div>
         </div>
       }
@@ -78,7 +87,7 @@ MiniCardForCatalog.defaultProps = {
   difficulty: 'Уровень сложности',
   numberBooking: 0,
   price: 0,
-  rating: 0,
+  average_rating: 0,
   Images: ['/src/assets/images/arctic.png', '/src/assets/images/fjord.png', '/src/assets/images/river.png'], 
 };
 

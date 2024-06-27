@@ -1,0 +1,34 @@
+.footerContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: #243100;;
+}
+
+.upperPart {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-left: 116px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.logo {
+    width: 70px;
+    height: 70px;
+}
+
+.socialList {
+    display: flex;
+    gap: 7px;
+}
+
+.socialIcon {
+    width: 35px;
+    height: 35px;
+}
+
+.about, .lowerPart {  
+  text-align: center;
+  color: white;
+}

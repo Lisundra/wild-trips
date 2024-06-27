@@ -4,7 +4,7 @@ import { Col, InputNumber, Row, Slider, Space } from 'antd';
 import styles from './Filters.module.css';
 
 const BudgetRangeSlider: React.FC<{ setFilters: React.Dispatch<React.SetStateAction<any>> }> = ({ setFilters }) => {
-  const [inputValue, setInputValue] = useState<[number, number]>([1, 2000000]);
+  const [inputValue, setInputValue] = useState<[number, number]>([1, 500000]);
 
   const onChange = (newValue: [number, number]) => {
     setInputValue(newValue);
@@ -17,7 +17,7 @@ const BudgetRangeSlider: React.FC<{ setFilters: React.Dispatch<React.SetStateAct
         <Col span={12}>
           <InputNumber
             min={1}
-            max={2000000}
+            max={500000}
             value={inputValue[0]}
             onChange={(value) => onChange([value as number, inputValue[1]])}
             style={{ width: '100%' }}
@@ -26,7 +26,7 @@ const BudgetRangeSlider: React.FC<{ setFilters: React.Dispatch<React.SetStateAct
         <Col span={12}>
           <InputNumber
             min={1}
-            max={2000000}
+            max={500000}
             value={inputValue[1]}
             onChange={(value) => onChange([inputValue[0], value as number])}
             style={{ width: '100%' }}
@@ -36,9 +36,10 @@ const BudgetRangeSlider: React.FC<{ setFilters: React.Dispatch<React.SetStateAct
       <Slider
         range
         min={1}
-        max={2000000}
+        max={500000}
         onChange={onChange}
         value={inputValue}
+        trackStyle={{ backgroundColor: '#2B9348' }}
       />
     </div>
   );
@@ -47,7 +48,7 @@ const BudgetRangeSlider: React.FC<{ setFilters: React.Dispatch<React.SetStateAct
 export default function BudgetSlider({ setFilters }) {
   return (
     <>
-      <p className={styles.filterName}>✅Бюджет, ₽</p>
+      <p className={styles.filterName}>Бюджет на человека, ₽</p>
       <Space style={{ width: '75%' }} direction="vertical">
         <BudgetRangeSlider setFilters={setFilters} />
       </Space>

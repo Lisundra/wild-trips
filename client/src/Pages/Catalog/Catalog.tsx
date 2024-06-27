@@ -10,13 +10,20 @@ function Catalog() {
         //! состояние filters инициализируется объектом, где season является пустым массивом []
         season: null,
         difficulty: [],
-        price: [1, 2000000],
+        price: [1, 500000],
         duration: [1, 30],
         family_friendly: null,
         start_date: null,
         end_date: null,
+        average_rating: null,
         activities: [],
+        housings: [],
+        facilities: [],
+        countries: [],
     });
+
+
+    const [countries, setCountries] = useState([]); // Состояние для хранения уникальных стран
 
     //! useEffect, чтобы при каждом изменении состояния filters (включая season) загружать данные туров и применять фильтрацию
     useEffect(() => {
@@ -28,6 +35,69 @@ function Catalog() {
         axios.get(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/tours`)
             .then((res) => {
                 let filteredTours = res.data;
+                // console.log('*_______________*', filteredTours);
+                const arrOfActivitiesName = [];
+                filteredTours.forEach((tour) => {
+                    // console.log(tour.Activities); //! Приходит по массиву под каждый тур, и если в нём существуют активности, то внутри него массив заполняется объектами этих активностей
+                    tour.Activities.forEach((activity) => {
+                        arrOfActivitiesName.push(activity.name);
+                    })
+                })
+                // console.log(arrayOfActivitiesName);
+
+        
+            //! Фильтрация по активностям
+            if (filters.activities.length > 0) {
+                filteredTours = filteredTours.filter(tour =>
+                    filters.activities.some(activity => //! проверяем, что хотя бы одна выбранная активность (activity) содержится в поле Activities текущего тура.
+                        tour.Activities.some(act => act.name === activity) //! проверяем, содержит ли массив Activities хотя бы один объект с именем активности, которое соответствует текущей выбранной активности
+                    )
+                );
+            }
+
+
+            const arrOfHousingsName = [];
+            filteredTours.forEach((tour) => {
+                // console.log(tour.Housings); //! Приходит по массиву под каждый тур, и если в нём существуют дома, то внутри него массив заполняется объектами этих типов жилья
+                tour.Housings.forEach((housing) => {
+                    arrOfHousingsName.push(housing.name);
+                })
+            })
+            //  console.log(arrOfHousingsName);
+
+            //! Фильтрация по проживанию
+            if (filters.housings.length > 0) {
+                filteredTours = filteredTours.filter(tour =>
+                    filters.housings.some(housing => //! проверяем, что хотя бы один выбранный тип жилья содержится в поле Housings текущего тура.
+                        tour.Housings.some(act => act.name === housing) //! проверяем, содержит ли массив Housings хотя бы один объект с именем жилья, которое соответствует текущему выбранному жилью
+                    )
+                );
+            }
+
+
+
+            const arrOfFacilitiesName = [];
+            filteredTours.forEach((tour) => {
+                // console.log(tour.Facilities); //! Приходит по массиву под каждый тур, и если в нём существуют услуги, то внутри него массив заполняется объектами услуг
+                tour.Facilities.forEach((facility) => {
+                    arrOfFacilitiesName.push(facility.name);
+                })
+            })
+            //  console.log(arrOfHousingsName);
+
+            // //! Фильтрация по услугам
+            if (filters.facilities.length > 0) {
+                filteredTours = filteredTours.filter(tour =>
+                    filters.facilities.some(facility => //! проверяем, что хотя бы одна выбранная услуга содержится в поле Facilities текущего тура.
+                        tour.Facilities.some(act => act.name === facility) //! проверяем, содержит ли массив Facilities хотя бы один объект с именем услуги, которое соответствует текущей выбранной услуге
+                    )
+                );
+            }
+
+
+
+
+                
 
                 // console.log('нажали на фильтры - образовали из них новый массив', filters.season); //! передается из компонента фильтров (SeasonFilter) в состояние фильтров (filters) компонента Catalog
                 if (filters.season && filters.season.length > 0) {  // Если массив образовался, и в нём что-то есть
@@ -48,7 +118,10 @@ function Catalog() {
                 }
 
 
-                console.log('нажали на фильтры - образовали из них новый массив', filters.difficulty); 
+
+
+
+                // console.log('нажали на фильтры - образовали из них новый массив', filters.difficulty); 
                 if (filters.difficulty && filters.difficulty.length > 0) { // Если массив образовался, и в нём что-то есть
                     console.log(filters.difficulty);
                     const filteredToursByFilterArr = []; 
@@ -89,15 +162,23 @@ function Catalog() {
                 filteredTours = filteredTours.filter(tour => tour.duration >= filters.duration[0] && tour.duration <= filters.duration[1]);
 
 
+                 //! Фильтрация по рейтингу
+                if (filters.average_rating !== null) {
+                // Преобразуем строку с рейтингом ("От 7.0") в число (7.0)
+                const minimumRating = parseFloat(filters.average_rating.split(' ')[1]);
 
-                if (filters.activities.length > 0) {
-                    // Фильтрация по активностям
-                    filteredTours = filteredTours.filter(tour =>
-                        filters.activities.every(activity =>
-                            tour.activities.some(tourActivity => tourActivity.name === activity)
-                        )
-                    );
+                // Фильтруем туры, оставляя только те, у которых средний рейтинг больше или равен minimumRating
+                filteredTours = filteredTours.filter(tour => tour.average_rating >= minimumRating);
+
+                console.log('Ура, наш результат - массив нужных туров по рейтингу', filteredTours);
                 }
+
+
+             
+
+
+
+
 
                 // Проверяем туры на наличие изображения
                 const dataWithImages = filteredTours.map(tour => {

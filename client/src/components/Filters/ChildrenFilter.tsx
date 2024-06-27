@@ -12,7 +12,7 @@ export default function ChildrenFilter({ setFilters }) {
 
     return (
     <>
-    <p className={styles.filterName}>✅Отдых с детьми</p>
+    <p className={styles.filterName}>Отдых с детьми</p>
     <Checkbox onChange={onChange}>
     Подходит для поездки с детьми
     </Checkbox>

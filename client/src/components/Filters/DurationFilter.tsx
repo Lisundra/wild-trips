@@ -1,4 +1,3 @@
-/* eslint-disable react/function-component-definition */
 import React, { useState } from 'react';
 import { Col, InputNumber, Row, Slider, Space } from 'antd';
 import styles from './Filters.module.css';
@@ -39,6 +38,7 @@ const RangeSlider: React.FC<{ setFilters: React.Dispatch<React.SetStateAction<an
         max={30}
         onChange={onChange}
         value={inputValue}
+        trackStyle={{ backgroundColor: '#2B9348' }}
       />
     </div>
   );
@@ -47,7 +47,7 @@ const RangeSlider: React.FC<{ setFilters: React.Dispatch<React.SetStateAction<an
 export default function DurationFilter({ setFilters }) {
   return (
     <>
-      <p className={styles.filterName}>✅Длительность (дней)</p>
+      <p className={styles.filterName}>Длительность (дней)</p>
       <Space style={{ width: '75%' }} direction="vertical">
         <RangeSlider setFilters={setFilters} />
       </Space>

@@ -22,8 +22,8 @@ const Filters: React.FC<FiltersProps> = ({ setFilters }) => (
         <div className={styles.filtersContainer}>
             <h4 className={styles.filtersHeading}>Фильтры</h4>
             <DateFilter setFilters={setFilters} />
-            <CountryFilter setFilters={setFilters} />
-            <RegionFilter setFilters={setFilters}/>
+            {/* <CountryFilter setFilters={setFilters} />
+            <RegionFilter setFilters={setFilters}/> */}
             <RatingFilter setFilters={setFilters}/>
             <DurationFilter setFilters={setFilters} />
             <BudgetFilter setFilters={setFilters} />
