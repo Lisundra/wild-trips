@@ -43,14 +43,14 @@ useEffect(() => {
 }, []); // useEffect заканчивается здесь, передаётся пустой массив зависимостей
 
   return (
-    <div className={styles.wrapper}>
-      <div className='homeContainer'>
-        <div className="backgroundContainer">
-        <video className="w-screen h-screen object-cover" autoPlay loop muted>
-            <source src="/src/assets/images/homepage_video.webm" type="video/webm" />
-            Your browser does not support the video tag.
-          </video>
-        </div>
+    <div className={styles.homeContainer}>
+      <div className={styles.backgroundContainer}>
+      <video className={styles.video} autoPlay loop muted>
+        <source src="/src/assets/images/homepage_video.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <div className={styles.overlay}></div>
+    </div>
         <div className="toursContainer">
         <h2 className="text-5xl font-bold text-center text-gray-800 my-4">Найдите путешествие вашей мечты!</h2>
         <h3 className='text-4xl font-semibold text-rose-600 ml-24 my-8'>Горящие предложения</h3>
@@ -70,7 +70,6 @@ useEffect(() => {
           <NewCarousel tours={newTours}/>
         </div>
         </div>
-    </div>
     </div>
   )
 }

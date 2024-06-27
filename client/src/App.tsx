@@ -16,7 +16,6 @@ import Catalog from './Pages/Catalog/Catalog';
 import Footer from './components/Footer/Footer';
 import Profile from './Pages/Profile/Profile';
 
-
 const ProtectedMyTours = withAuth(MyTours);
  
 function App(): JSX.Element {

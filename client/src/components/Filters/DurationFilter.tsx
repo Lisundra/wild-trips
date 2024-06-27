@@ -11,7 +11,7 @@ const RangeSlider: React.FC<{ setFilters: React.Dispatch<React.SetStateAction<an
   };
 
   return (
-    <div style={{ width: '100%' }}>
+    <div style={{ width: '116%' }}>
       <Row justify="space-between" style={{ marginBottom: 16 }}>
         <Col span={12}>
           <InputNumber
