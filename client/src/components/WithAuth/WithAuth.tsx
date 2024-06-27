@@ -48,6 +48,9 @@ const withAuth = (Component) => {
      if (userRole === 'admin' || userRole === 'organizer') {
       return <Component {...props} />;
      } else {
+      if(userRole === 'traveler')
+      return <Navigate to="/profile" />;
+      else
       return <Navigate to="/" />;
      }
      };  

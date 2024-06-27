@@ -1,11 +1,13 @@
 import React from 'react';
 import { Card, Carousel } from 'antd';
 import Meta from 'antd/es/card/Meta';
-import DifficultyClue from '../DifficultyClue/DifficultyClue';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import DifficultyClue from '../DifficultyClue/DifficultyClue';
+import OneRatingStar from '../OneRatingStar/OneRatingStar';
+import styles from './MiniCardForCatalog.module.css';
 
-const MiniCardForCatalog = ({
+function MiniCardForCatalog({
   title,
   subtitle,
   start_date,
@@ -14,18 +16,20 @@ const MiniCardForCatalog = ({
   difficulty,
   numberBooking,
   price,
-  rating,
+  average_rating,
   Images,
-}) => {
+}) {
   const formattedStartDate = format(new Date(start_date), 'dd MMM', { locale: ru });
   const formattedEndDate = format(new Date(end_date), 'dd MMM', { locale: ru });
 
   return (
     <Card
-      style={{ width: 400, border: '1px solid #f0f0f0' }}
+      hoverable
+      style={{ height: 500, width: 350, border: '1px solid #f0f0f0' }}
+      
       cover={
         <div className="relative">
-          <Carousel arrows={true} draggable touchMove={true}>
+          <Carousel arrows draggable touchMove >
             {Images.map((image, index) => (
               <div key={index}>
                 <img
@@ -36,8 +40,15 @@ const MiniCardForCatalog = ({
               </div>
             ))}
           </Carousel>
-          <div className="absolute top-2 right-2 bg-orange-400 text-white rounded-full px-2 py-1">
-            {rating}
+          <div className="absolute top-2 right-2 text-white rounded-full px-2 py-1">
+          <div className={styles.avgRatingNumberContainer}>
+              <div className={styles.numberContainer}>
+                <p className={styles.avgRatingNumber}>
+                  {average_rating}
+                </p>
+              </div>
+              <OneRatingStar rating={average_rating} />
+            </div>
           </div>
         </div>
       }
@@ -64,7 +75,7 @@ const MiniCardForCatalog = ({
       </div>
     </Card>
   );
-};
+}
 
 // Задание значений по умолчанию для пропсов
 MiniCardForCatalog.defaultProps = {
@@ -76,7 +87,7 @@ MiniCardForCatalog.defaultProps = {
   difficulty: 'Уровень сложности',
   numberBooking: 0,
   price: 0,
-  rating: 0,
+  average_rating: 0,
   Images: ['/src/assets/images/arctic.png', '/src/assets/images/fjord.png', '/src/assets/images/river.png'], 
 };
 

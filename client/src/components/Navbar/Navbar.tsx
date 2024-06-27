@@ -99,7 +99,7 @@ const Navbar = () => {
                     <div className="flex items-center justify-between h-16">
                         <div>
                             <Link to="/" className="flex items-center text-white font-bold text-lg">
-                                Wild Trail
+                                Wild Tours
                             </Link>
                         </div>
                         <div className="flex space-x-9">

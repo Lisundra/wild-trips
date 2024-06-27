@@ -13,6 +13,7 @@ import OneTour from './Pages/OneTour/OneTour';
 import MyTours from './Pages/MyTours/MyTours';
 import withAuth from './components/WithAuth/WithAuth';
 import Catalog from './Pages/Catalog/Catalog';
+import Footer from './components/Footer/Footer';
 import Profile from './Pages/Profile/Profile';
 
 
@@ -34,6 +35,7 @@ function App(): JSX.Element {
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
+      <Footer /> 
     </div>
   );
 }

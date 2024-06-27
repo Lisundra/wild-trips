@@ -1,0 +1,7 @@
+.customIcon {
+  font-size: 32px !important;
+}
+
+.ant-card-head {
+  display: none;
+}

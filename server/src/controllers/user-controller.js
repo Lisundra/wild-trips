@@ -7,7 +7,7 @@ module.exports = {
   getAllUsers: async (req, res) => {
     try {
       const users = await User.findAll();
-      res.json(users);
+      res.json(users); //! Утечка паролей
     } catch (err) {
       res.status(400).json({ err: err.message });
     }
@@ -17,7 +17,7 @@ module.exports = {
     try {
         const { login } = req.body;
         const user = await User.findOne({ where: { login } });
-        res.json(user);
+        res.json(user); //! Утечка пароля
     } catch (err) {
       res.status(400).json({ err: err.message });
     }
@@ -190,10 +190,9 @@ module.exports = {
   
       await user.update(updatedUserData);
   
-      res.status(200).json({ message: 'User updated successfully', user });
+      res.status(200).json({ message: 'User updated successfully', user }); //! Утечка пароля
     } catch (err) {
-      console.log("🚀 ~ updateUser: ~ err:", err)
-      
+      console.log("🚀 ~ updateUser: ~ err:", err)      
       res.status(400).json({ err: err.message });
     }
   },

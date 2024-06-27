@@ -3,12 +3,12 @@ import { Checkbox, Button } from 'antd';
 import axios from 'axios';
 import styles from './Filters.module.css';
 
-const ActivitiesFilter = ({ setFilters }) => {
+function ActivitiesFilter({ setFilters }) {
     const [checkedList, setCheckedList] = useState([]);
     const [collapsed, setCollapsed] = useState(true); // Состояние для сворачивания/разворачивания списка
 
     const onChange = (value) => {
-        console.log(value);
+        console.log('Selected Activities:', value);
         setCheckedList(value);
         setFilters((prev) => ({ ...prev, activities: value })); // Обновляем фильтры с выбранными видами отдыха
     };
@@ -100,6 +100,6 @@ const ActivitiesFilter = ({ setFilters }) => {
             </Button>
         </div>
     );
-};
+}
 
 export default ActivitiesFilter;

@@ -400,6 +400,6 @@ console.log(tour)
       </Modal>
     </>
   );
-};
+}
 
 export default EditTourModal;

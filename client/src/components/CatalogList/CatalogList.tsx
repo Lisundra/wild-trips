@@ -8,7 +8,7 @@ export default function CatalogList({ tours }) {
   return (
     <div className={styles.cardsContainer}>
         {tours.map((tour) => (
-            <MiniCardForCatalog {...tour} key={tour.id}  />
+            <MiniCardForCatalog className={styles.MiniCardForCatalog} {...tour} key={tour.id}  />
         ))}
     </div>
   )

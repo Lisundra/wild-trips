@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Card, Avatar, Input, Button, Typography, Form, Upload } from 'antd';
 import { UserOutlined, UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { fetchCheckUser } from '../../redux/thunkActions';
+import { AsyncThunk, AnyAction } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
@@ -12,7 +15,8 @@ const Profile = ({ initialUser }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [fileImg, setFileImg] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-  
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
     axios.get('http://localhost:3100/api/users/user/get', { withCredentials: true })
@@ -65,6 +69,7 @@ const Profile = ({ initialUser }) => {
       .then(response => {
         console.log('User updated successfully:', response.data);
         setEditing(false);
+        dispatch(fetchCheckUser())
       })
       .catch(error => {
         console.error('There was an error updating the user!', error);
@@ -152,3 +157,7 @@ const Profile = ({ initialUser }) => {
 };
 
 export default Profile;
+
+function dispatch(fetchCheckUser: AsyncThunk<any, void, { state?: unknown; dispatch?: Dispatch<AnyAction> | undefined; extra?: unknown; rejectValue?: unknown; serializedErrorType?: unknown; pendingMeta?: unknown; fulfilledMeta?: unknown; rejectedMeta?: unknown; }>) {
+    throw new Error('Function not implemented.');
+}
