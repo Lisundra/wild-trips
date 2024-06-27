@@ -1,34 +1,40 @@
 .footerContainer {
-    display: flex;
-    flex-direction: column;
-    background-color: #243100;;
-}
-
-.upperPart {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-left: 116px;
-    margin-top: 15px;
-    margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #243100;
+  background-image: url(/src/assets/images/leaves-texture-footer.jpg);
+  /* background-position: center; */
+  padding: 20px 0; /* Добавьте отступы по вашему усмотрению */
+  width: 100%;
+  margin-top: auto; /* Это заставит футер переместиться вниз */
+  font-family: 'ExcentraPro-Bold', sans-serif;
 }
 
 .logo {
-    width: 70px;
-    height: 70px;
+  width: 70px;
+  height: 70px;
 }
 
 .socialList {
-    display: flex;
-    gap: 7px;
+  display: flex;
+  gap: 7px;
+  list-style: none; /* Удалить маркеры списка */
+  padding: 0; /* Удалить отступы */
+  margin-bottom: 10px;
 }
 
 .socialIcon {
-    width: 35px;
-    height: 35px;
+  width: 35px;
+  height: 35px;
 }
 
-.about, .lowerPart {  
-  text-align: center;
-  color: white;
+.quote {
+  text-transform: uppercase;
+  font-size: 25px;
+}
+
+.quote, .lowerPart {
+  color: rgb(253, 144, 10);
 }

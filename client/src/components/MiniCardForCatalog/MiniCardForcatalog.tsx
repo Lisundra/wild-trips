@@ -25,7 +25,7 @@ function MiniCardForCatalog({
   return (
     <Card
       hoverable
-      style={{ height: 500, width: 350, border: '1px solid #f0f0f0' }}
+      style={{ height: 450, width: 300, border: '1px solid #f0f0f0' }}
       
       cover={
         <div className="relative">

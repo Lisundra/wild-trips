@@ -1,14 +1,17 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/button-has-type */
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AnyAction } from '@reduxjs/toolkit';
+import { AsyncThunkAction, Dispatch } from '@reduxjs/toolkit';
 import RegistrationForm from '../RegistrationForm/RegistrationForm';
 import LoginForm from '../LoginForm/LoginForm';
 import LogoutWindow from '../LogoutWindow/LogoutWindow';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+import type { RootState } from '../../redux/store';
 import { fetchCheckUser } from '../../redux/thunkActions';
-import { AsyncThunkAction, Dispatch, AnyAction } from '@reduxjs/toolkit';
 
-const Navbar = () => {
+function Navbar() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalType, setModalType] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -18,7 +21,7 @@ const Navbar = () => {
         e.preventDefault();
       };
 
-    let user = useSelector((state: RootState) => state.user.user);
+    const user = useSelector((state: RootState) => state.user.user);
     const dispatch = useDispatch();
     const checkedUser= () => {
         dispatch(fetchCheckUser())
@@ -97,25 +100,21 @@ const Navbar = () => {
             <nav className="bg-custom-accent w-full fixed top-0 z-10">
                 <div className="container mx-auto px-4 py-3">
                     <div className="flex items-center justify-between h-16">
-                        <div>
-                            <Link to="/" className="flex items-center text-white font-bold text-lg">
+                    <div className="flex items-center"> {/* Добавленный общий контейнер */}
+                            <img style={{ width: 70, height: 70, marginRight: 15 }} src="/src/assets/icons/logo.png" alt="logo" />
+                            <Link to="/" style={{ fontFamily: 'ExcentraPro-Bold', fontSize: '30px', paddingTop: '10px', marginLeft: '-5px' }} className="ml-2 text-white font-bold text-lg"> {/* Добавленный отступ */}
                                 Wild Tours
                             </Link>
                         </div>
                         <div className="flex space-x-9">
                             <button>
-                                <Link to="/catalog" className="text-white">
+                                <Link to="/catalog" style={{ fontFamily: 'ExcentraPro-Bold', fontSize: '30px', paddingTop: '10px', marginLeft: '-5px' }} className="text-white">
                                     Каталог туров
-                                </Link>
-                            </button>
-                            <button className='hidden'>
-                                <Link to="/News" className="text-white">
-                                   Блог
                                 </Link>
                             </button>
                             {(!user || isUserLoading ) && (
                                 <>
-                                    <button onClick={() => openModal('registration')} className="text-white">
+                                    <button onClick={() => openModal('registration')} style={{ fontFamily: 'ExcentraPro-Bold', fontSize: '30px', paddingTop: '10px', marginLeft: '-5px' }} className="text-white">
                                         Регистрация
                                     </button>
                                     <button onClick={() => openModal('login')} className="text-white">
@@ -126,7 +125,7 @@ const Navbar = () => {
                             {(user && !isUserLoading)&& (
                                 <>
                                     <button className="text-white" onClick={checkedUser}>
-                                        <Link to="/MyTours" className="text-white">                                    
+                                        <Link to="/MyTours" style={{ fontFamily: 'ExcentraPro-Bold', fontSize: '30px', paddingTop: '10px', marginLeft: '-5px' }} className="text-white">                                    
                                             {
                                             user.role==='organizer'?
                                             `Личный кабинет организатора`
@@ -144,8 +143,8 @@ const Navbar = () => {
                                             {}
                                         </Link>
                                     </button>
-                                    <Link to="/profile" className="text-white m-0">
-                                        <button className="flex items-center">
+                                    <Link to="/profile" className="text-white m-0"> 
+                                        <button className="flex items-center" style={{ fontFamily: 'ExcentraPro-Bold', fontSize: '30px', marginLeft: '-5px' }}>
                                             <div className='m-3'>{user.login}</div>
                                             <img src={user.src?user.src.replace(/\\/g, '/').replace(/^.*?src\//, 'src/'):'src/assets/avatars/ava.png'} 
                                             alt="Avatar" 
@@ -157,7 +156,7 @@ const Navbar = () => {
                                              />
                                         </button>
                                     </Link>
-                                    <button onClick={() => openModal('logout')} className="text-white">
+                                    <button onClick={() => openModal('logout')} className="text-white" style={{ fontFamily: 'ExcentraPro-Bold', fontSize: '30px', marginLeft: '10px' }}>
                                         Выход
                                     </button>
                                 </>
@@ -187,7 +186,7 @@ const Navbar = () => {
             )}
         </>
     );
-};
+}
 
 export default Navbar;
 

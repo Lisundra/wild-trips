@@ -1,9 +1,11 @@
 .cardsContainer {
   display: flex;
+  padding: 50px;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 35px;
-  width: 70%;
+  /* background: linear-gradient(116deg, #FCFAFB, #C8D3D6); */
+  width: 80%;
 }
 
 .MiniCardForCatalog {

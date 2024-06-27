@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Checkbox, Button } from 'antd';
 import axios from 'axios';
 import styles from './Filters.module.css';
+import CatalogButton from '../CatalogButton/CatalogButton';
 
 function ActivitiesFilter({ setFilters }) {
     const [checkedList, setCheckedList] = useState([]);
@@ -90,14 +91,14 @@ function ActivitiesFilter({ setFilters }) {
                     </Checkbox>
                 ))
             )}
-            <Button
+            <CatalogButton
                 size="small"
                 onClick={() => setCollapsed(!collapsed)}
                 className={styles.showAllButton}
                 style={{ width: '75%', marginTop: '10px' }}
             >
                 {collapsed ? 'Показать все' : 'Свернуть'}
-            </Button>
+            </CatalogButton>
         </div>
     );
 }
