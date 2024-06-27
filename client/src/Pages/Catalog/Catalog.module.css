@@ -1,6 +1,5 @@
 .catalogContainer {
-    margin-top: 150px;
+    padding-top: 120px;
     display: flex;
-    margin-bottom: 50px;
-    
+    background: linear-gradient(116deg, #F2E8CF, #6A994E); /* Градиент */
 }

@@ -17,7 +17,6 @@ import Footer from './components/Footer/Footer';
 import Profile from './Pages/Profile/Profile';
 import TestAssistent from './components/testAssistent/testAssistent';
 
-
 const ProtectedMyTours = withAuth(MyTours);
  
 function App(): JSX.Element {
