@@ -25,6 +25,9 @@ module.exports = {
   getOneUserNotPassword: async (req, res) => {
     try {
       const { login } = req.session;
+      if(!login){
+        return res.status(200).json({ message: 'User not found' })
+      }
       const user = await User.findOne({ where: { login } });
       
       if (user) {
@@ -32,9 +35,11 @@ module.exports = {
         const { password, ...userWithoutPassword } = user.toJSON();
         res.json(userWithoutPassword);
       } else {
-        res.status(404).json({ message: 'User not found' });
+        res.status(200).json({ message: 'User not found' });
       }
     } catch (err) {
+      console.log("🚀 ~ getOneUserNotPassword: ~ err:", err)
+      
       res.status(400).json({ err: err.message });
     }
   },
@@ -159,6 +164,9 @@ module.exports = {
     const { login } = req.session;
     const { full_name, bio } = req.body;
     let profile_picture = null
+
+    if( !login )  
+        return res.status(404).json({ message: 'User not found' });
 
     try {
       const user = await User.findOne({ where: { login } });
