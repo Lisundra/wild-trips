@@ -12,28 +12,28 @@ export default function Footer() {
       </div>
       <ul className={styles.socialList}>
         <li>
-          <a target="_blank" href="https://telegram.org/" rel="noopener noreferrer">
-            <img className={styles.socialIcon} src="/src/assets/icons/tg.svg" alt="telegram-logo" />
-          </a>
-        </li>
-        <li>
           <a target="_blank" href="https://www.vk.com/" rel="noopener noreferrer">
             <img className={styles.socialIcon} src="/src/assets/icons/vk.svg" alt="vk-logo" />
           </a>
         </li>
         <li>
-          <a target="_blank" href="https://www.instagram.com/" rel="noopener noreferrer">
-            <img className={styles.socialIcon} src="/src/assets/icons/inst.svg" alt="instagram-logo" />
+          <a target="_blank" href="https://x.com/" rel="noopener noreferrer">
+            <img className={styles.socialIcon} src="/src/assets/icons/twitter.svg" alt="twitter-logo" />
           </a>
         </li>
         <li>
-          <a target="_blank" href="https://www.facebook.com/" rel="noopener noreferrer">
-            <img className={styles.socialIcon} src="/src/assets/icons/fb.svg" alt="fb-logo" />
+          <a target="_blank" href="https://www.youtube.com/" rel="noopener noreferrer">
+            <img className={styles.socialIcon} src="/src/assets/icons/youtube.svg" alt="youtube-logo" />
+          </a>
+        </li>
+        <li>
+          <a target="_blank" href="https://telegram.org/" rel="noopener noreferrer">
+          <img className={styles.telegram} src="/src/assets/icons/telegram.svg" alt="telegram-logo" />
           </a>
         </li>
       </ul>
       <div className={styles.lowerPart}>
-        2024 ©
+      © 2024 Wild Tours
       </div>
     </div>
   );

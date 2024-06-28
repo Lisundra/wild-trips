@@ -1,5 +1,5 @@
 import React from 'react';
-import { Carousel, Card } from 'antd';
+import { Carousel, Card, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import styles from './NewCarousel.module.css';
 
@@ -43,25 +43,30 @@ export default function NewCarousel({ tours }) {
           },
         ]}
       >
-        {tours.map((tour) => (
-          <div key={tour.id} className={styles.carouselSlide}>
-            <Card
-              hoverable
-              className={styles.cardContainer}
-              // cover={<img alt={tour.name} src={tour.images[0]?.image_path} />}
-            >
-              <Link to={`/tours/${tour.id}`} className={styles.link}>
-                <h3 className={`${styles.tourName} text-custom-background`}>{tour.name}</h3>
-              </Link>
-              <div>
-                <p className={styles.tourCountry}>{tour.country}</p>
-                <Link to={`/${tour.id}`} className="bg-emerald-500 hover:bg-emerald-400 text-white py-2 px-4 rounded inline-block mt-2">
-                  Посмотреть программу
+        {tours.map((tour) => {
+          const tourImage = tour.Images && tour.Images.length > 0 ? tour.Images[0][0] : null;
+
+          return (
+            <div key={tour.id} className={styles.carouselSlide}>
+              <Card
+                hoverable
+                className={styles.cardContainer}
+                cover={tourImage ? <img alt={tour.name} src={tourImage} /> : null}
+              >
+                <Link to={`/${tour.id}`} className={styles.link}>
+                  <h3 className={`${styles.tourName} text-custom-background`}>{tour.name}</h3>
                 </Link>
-              </div>
-            </Card>
-          </div>
-        ))}
+                <div>
+                  <Link
+                    to={`/${tour.id}`}
+                  >
+                    <Button>Посмотреть программу</Button>
+                  </Link>
+                </div>
+              </Card>
+            </div>
+          );
+        })}
       </Carousel>
     </div>
   );

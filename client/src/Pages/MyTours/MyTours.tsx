@@ -107,7 +107,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
          }
           return newObj
         })
-
+        
         // console.log("🚀 ~ useEffect ~ formattedData:", formattedData)      
         setDataTours(formattedData)
       });
@@ -547,9 +547,9 @@ const filterObjFalse = (obj)=>Object.fromEntries(
 
                       <Card
                       key={tour.id}
-                      style={{ width: 350, height: 500 }}
+                      style={{ width: 350, height: 400 }}
                       hoverable
-                      className="mt-4 m-4 -p-3 flex flex-col justify-between"
+                      className="mt-20 m-4 -p-3 flex flex-col justify-between"
                       actions={[                      
                       <EditOutlined key={tour.id} onClick={() => toggleVisibility(tour.id)} />,
                      <DeleteOutlined key="delete" onClick={() => deleteHandler(tour.id)} />,

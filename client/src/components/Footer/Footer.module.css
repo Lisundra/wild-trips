@@ -3,12 +3,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #243100;
   background-image: url(/src/assets/images/leaves-texture-footer.jpg);
-  /* background-position: center; */
-  padding: 20px 0; /* Добавьте отступы по вашему усмотрению */
+  padding: 20px 0; 
   width: 100%;
-  margin-top: auto; /* Это заставит футер переместиться вниз */
+  margin-top: auto;
   font-family: 'ExcentraPro-Bold', sans-serif;
 }
 
@@ -28,6 +26,11 @@
 .socialIcon {
   width: 35px;
   height: 35px;
+}
+
+.telegram {
+  width: 30px;
+  height: 30px;
 }
 
 .quote {

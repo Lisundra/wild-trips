@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { RootState } from '../../redux/store';
 import { fetchCheckUser } from '../../redux/thunkActions';
+import { Spin } from 'antd';
+import './With.Auth.module.css'
+import { Spinner } from '@chakra-ui/react';
 
 const withAuth = (Component) => {
   const AuthCheck = (props) => {
@@ -29,7 +32,16 @@ const withAuth = (Component) => {
     }, [user]);
     
     if (isLoading) {
-      return <div className='mt-52 ml-20'>Loading...</div>; // или другой компонент загрузки
+      return  ( 
+      <>
+        <br/>  <br/>  <br/><br/>  <br/>  <br/>
+        <div className='flex justify-center'>
+        <h1>Загрузка...</h1>
+        <div className="border-8 border-gray-300 border-t-8 border-t-blue-500 rounded-full w-32 h-32 animate-spin"></div>
+    </div>
+    </>
+    )
+
     }
 
     if (!isAuthenticated) {

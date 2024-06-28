@@ -5,6 +5,7 @@ import axios from 'axios';
 import { fetchCheckUser } from '../../redux/thunkActions';
 import { AsyncThunk, AnyAction } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
+import TestAssistent from '../../components/testAssistent/testAssistent';
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
