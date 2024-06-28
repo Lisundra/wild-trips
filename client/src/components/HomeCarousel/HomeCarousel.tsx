@@ -25,12 +25,13 @@ export default function HomeCarousel({ tours }) {
               <Card
                 className={styles.cardContainer}
                 hoverable
-                cover={tourImage ? <img alt={tour.name} src={tourImage} /> : null}
+                
               >
-                <Link to={`/${tour.id}`} className={styles.link}>
+                <div className={styles.innerPartsContainer}>
+                 <div className={styles.textAndBtnContainer}>
+                 <Link to={`/${tour.id}`} className={styles.link}>
                 <h3 className={`${styles.tourName} text-custom-background`}>{tour.name}</h3>
               </Link>
-                <div>
                   <p className={styles.tourPrice}>
                     {tour.discount !== null ? (
                       <>
@@ -45,6 +46,11 @@ export default function HomeCarousel({ tours }) {
                   <Link to={`/${tour.id}`} >
                     <Button>Посмотреть программу</Button>
                   </Link>
+                 </div>
+                 <div className={styles.imageContainer}>
+                 {tourImage ? <img alt={tour.name} src={tourImage} /> : null}
+                 </div>
+                
                 </div>
               </Card>
             </div>
