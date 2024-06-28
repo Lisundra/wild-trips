@@ -17,7 +17,22 @@ useEffect(() => {
   // Достаём discounted tours
   axios.get(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/tours/discounted`)
     .then((res) => {
-      setDiscountedTours(res.data);
+      // console.log('*_________________*', res.data);
+      let specificTours = res.data;
+
+       // Проверяем туры на наличие изображения и парсим их
+       const dataWithImages = specificTours.map(tour => {
+        if (tour.Images && tour.Images.length > 0) {
+          return {
+            ...tour,
+            Images: tour.Images.map(image => JSON.parse(image.image_path))
+          };
+        }
+        return tour;
+      });
+
+      console.log('Скидочные туры с картинками', dataWithImages);
+      setDiscountedTours(dataWithImages);
     })
     .catch((error) => {
       console.error('Error fetching discounted tours:', error);
@@ -26,7 +41,22 @@ useEffect(() => {
   // Достаём editor's choice tours
   axios.get(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/tours/editors`)
     .then((res) => {
-      setEditorsTours(res.data);
+      // console.log('*_________________*', res.data);
+      let specificTours = res.data;
+
+      // Проверяем туры на наличие изображения и парсим их
+      const dataWithImages = specificTours.map(tour => {
+        if (tour.Images && tour.Images.length > 0) {
+          return {
+            ...tour,
+            Images: tour.Images.map(image => JSON.parse(image.image_path))
+          };
+        }
+        return tour;
+      });
+
+    console.log('Туры от редакции с картинками', dataWithImages);
+      setEditorsTours(dataWithImages);
     })
     .catch((error) => {
       console.error('Error fetching editor\'s choice tours:', error);
@@ -35,7 +65,22 @@ useEffect(() => {
   // Достаём new tours
   axios.get(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/tours/new`)
     .then((res) => {
-      setNewTours(res.data);
+      // console.log('*_________________*', res.data);
+      let specificTours = res.data;
+
+      // Проверяем туры на наличие изображения и парсим их
+      const dataWithImages = specificTours.map(tour => {
+        if (tour.Images && tour.Images.length > 0) {
+          return {
+            ...tour,
+            Images: tour.Images.map(image => JSON.parse(image.image_path))
+          };
+        }
+        return tour;
+      });
+
+      console.log('Новые туры с картинками', dataWithImages);
+      setNewTours(dataWithImages);
     })
     .catch((error) => {
       console.error('Error fetching new tours:', error);
@@ -52,8 +97,8 @@ useEffect(() => {
       <div className={styles.overlay}></div>
     </div>
         <div className="toursContainer">
-        <h2 className="text-5xl font-bold text-center text-gray-800 my-4">Найдите путешествие вашей мечты!</h2>
-        <h3 className='text-4xl font-semibold text-rose-600 ml-24 my-8'>Горящие предложения</h3>
+        <h1 className={styles.mainHeading}>Найдите путешествие вашей мечты!</h1>
+        <h3 className={styles.discountsHeading}>Горящие предложения</h3>
 
         <div className="mt-8"> 
           <HomeCarousel tours={discountedTours}/>
@@ -65,8 +110,8 @@ useEffect(() => {
 
         <EmailSubscription/>
 
-        <h3 className='text-4xl font-bold text-center text-gray-800 ml-8 mt-8'>Наши новинки</h3>
-        <div className="mt-10"> 
+        <h3 className={styles.newToursHeading}>Наши новинки</h3>
+        <div className="mt-8"> 
           <NewCarousel tours={newTours}/>
         </div>
         </div>

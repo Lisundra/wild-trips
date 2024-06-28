@@ -198,7 +198,12 @@ module.exports = {
           discount: {
             [Op.ne]: null
           }
-        }
+        },
+        include:[
+          {
+          model: Image,
+          }
+      ],
       });
       const discountedToursPlain = discountedTours.map((tour) => tour.get({ plain: true }));
       res.json(discountedToursPlain);
@@ -215,7 +220,12 @@ module.exports = {
           editors_choice: {
             [Op.eq]: true
           }
-        }
+        },
+        include:[
+          {
+          model: Image,
+          }
+      ],
       });
       const editorsToursPlain = editorsTours.map((tour) => tour.get({ plain: true }));
       res.json(editorsToursPlain);
@@ -229,6 +239,11 @@ module.exports = {
       const newTours = await Tour.findAll({
         order: [['createdAt', 'DESC']],
         limit: 5,
+        include:[
+          {
+          model: Image,
+          }
+      ],
       });
       const newToursPlain = newTours.map((tour) => tour.get({ plain: true }));
       res.json(newToursPlain);

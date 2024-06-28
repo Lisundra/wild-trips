@@ -1,13 +1,15 @@
 import React from 'react';
-import { Card, Carousel } from 'antd';
+import { Card, Carousel, Button } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import DifficultyClue from '../DifficultyClue/DifficultyClue';
 import OneRatingStar from '../OneRatingStar/OneRatingStar';
 import styles from './MiniCardForCatalog.module.css';
+import { Link } from 'react-router-dom';
 
 function MiniCardForCatalog({
+  id,
   title,
   subtitle,
   start_date,
@@ -69,6 +71,9 @@ function MiniCardForCatalog({
               </div>
               {/* <p>Кол-во заявок: {numberBooking}</p> */}
               <p>От {price} руб.</p>
+              <Link to={`/${id}`} className={styles.link}>
+                <Button>Посмотреть программу</Button>
+              </Link>
             </div>
           }
         />

@@ -1,12 +1,23 @@
 .subscriptionContainer {
     display: flex;
     justify-content: space-around;
-    align-items: baseline;
-    margin-top: 40px;
+    align-items: self-end;
+    margin-top: 50px;
+    padding-left: 200px;
+    padding-right: 200px;
+}
+
+.subscriptionHeading {
+    font-size: 40px;
 }
 
 .submitForm {
     display: flex;
+    margin-bottom: 10px;
+}
+
+.subscriptionInput {
+    margin-right: 7px;
 }
 
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Input } from 'antd';
+import { Button, Input, message } from 'antd';
 import axios from 'axios';
 import styles from './EmailSubscription.module.css';
 
@@ -13,18 +13,24 @@ export default function EmailSubscription() {
         email,
       });
       setEmail(''); // Зачищаем поле
+      message.success('Вы успешно подписались на рассылку!');
     } catch (error) {
       console.log('Sending error on form submit', error);
+      message.error('Ошибка при подписке на рассылку. Попробуйте снова.');
     }
   }
 
   return (
     <div className={styles.subscriptionContainer}>
-      <h3 className='text-4xl font-bold text-gray-800'>Делимся лучшим</h3>
-      <p className='text-lg'>Подпишитесь на рассылку, чтобы увидеть новые туры первым!</p>
-      <div className="signUpContainer flex items-center mt-4">
+      <h3 className={styles.subscriptionHeading}>Делимся лучшим</h3>
+      <div className={styles.descriptionContainer}>
+      <p>Подпишитесь на рассылку и получите промокод на первое путешествие!</p>
+      <p>Раз в неделю мы будем делиться с вами интересными новинками и акциями.</p>
+      </div>
+      <div className={styles.formContainer}>
         <form onSubmit={submitFormHandler} className={styles.submitForm}>
           <Input
+            className={styles.subscriptionInput}
             name="email"
             type='text'
             placeholder="Введите ваш email"
@@ -33,7 +39,7 @@ export default function EmailSubscription() {
             required
           />
           {/* <p>{email}</p> */}
-          <Button htmlType="submit" className="bg-emerald-500 hover:bg-emerald-400 text-white">Подписаться</Button>
+          <Button htmlType="submit" className={styles.subscriptionBtn}>Подписаться</Button>
         </form>
       </div>
     </div>
