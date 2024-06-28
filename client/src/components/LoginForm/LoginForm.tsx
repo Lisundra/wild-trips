@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCheckUser, fetchLoginUser } from '../../redux/thunkActions';
-import { RootState } from '../../redux/store';
+import type { RootState } from '../../redux/store';
+import RegButton from '../RegButton/RegButton';
 
-const LoginForm = () => {
+function LoginForm() {
   const dispatch = useDispatch();
   const[ loginMessage, setLoginMessage ]= useState('')
   const [formData, setFormData] = useState({
@@ -48,13 +49,14 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+    <div>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="login">
-            Login
+            Логин
           </label>
           <input
+            style={{ backgroundColor: '#F2E8CF' }}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="login"
             type="text"
@@ -66,9 +68,10 @@ const LoginForm = () => {
         </div>
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-            Password
+            Пароль
           </label>
           <input
+            style={{ backgroundColor: '#F2E8CF' }}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="password"
             type="password"
@@ -78,19 +81,19 @@ const LoginForm = () => {
             required
           />
         </div>
-        <div className="flex items-center justify-between">
-          <button
+        <div style={{ display: 'flex', flexDirection: 'row-reverse', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+          <RegButton
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
           >
-            Sign In
-          </button>
-          <div className="text-sm m-4 text-gray-600" style={{ minHeight: '40px',minWidth:'60px', visibility: loginMessage ? 'visible' : 'hidden' }}>
+            Войти
+          </RegButton>
+          <div className="text-sm text-gray-600" style={{ minHeight: '40px',minWidth:'60px', visibility: loginMessage ? 'visible' : 'hidden' }}>
             {loginMessage}</div>
         </div>
       </form>
     </div>
   );
-};
+}
 
 export default LoginForm;

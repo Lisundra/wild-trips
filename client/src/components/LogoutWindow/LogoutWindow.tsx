@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { fetchDelete, fetchLogoutUser } from '../../redux/thunkActions';
 import { useDispatch } from 'react-redux';
+import RegButton from '../RegButton/RegButton';
 
 const LoginForm = ({closeModal}) => {
   const dispatch = useDispatch();
@@ -14,15 +15,15 @@ const LoginForm = ({closeModal}) => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <form onSubmit={handleSubmit} className='justify-center flex flex-col'>
-        <h3>Точно хотите выйти из системы?</h3>
-          <button
+    <div>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+        <h3 style={{ marginBottom: '20px' }}>Вы точно хотите выйти из системы?</h3>
+          <RegButton
             className="bg-blue-500 hover:bg-blue-700 mar text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-4"
             type="submit"
           >
             Да
-          </button>
+          </RegButton>
       </form>
     </div>
   );

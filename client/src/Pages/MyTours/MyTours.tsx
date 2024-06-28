@@ -4,7 +4,7 @@ import { AnyAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { Button, Card } from 'antd';
 import { Link } from 'react-router-dom';
-import { ArrowRightOutlined, DeleteOutlined, EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import { ArrowRightOutlined, DeleteOutlined, EditOutlined, EllipsisOutlined, SettingOutlined, UploadOutlined } from '@ant-design/icons';
 import { fetchCheckUser } from '../../redux/thunkActions';
 import type { RootState } from '../../redux/store';
 import DifficultyClue from '../../components/DifficultyClue/DifficultyClue';
@@ -12,6 +12,7 @@ import MiniCardTour from '../../components/MiniCardTour/MiniCardTour';
 import EditTour from '../../components/EditTour/EditTour';
 import MiniCardTourNew from '../../components/MiniCardTour/MiniCardTourNewDesign';
 import styles from './MyTours.module.css';
+import RegButton from '../../components/RegButton/RegButton';
 
 
 
@@ -378,8 +379,13 @@ const filterObjFalse = (obj)=>Object.fromEntries(
                 </select>
               </div>
             <div className="mb-4 flex flex-col">
-                <label htmlFor="imageUpload" className="block text-sm font-bold mb-2">Загрузить фото тура:</label>
-                <input type="file" id="imageUpload" name="imageUpload" accept=".jpg, .jpeg, .png" multiple onChange={handleImageUpload} required />
+              <label htmlFor="imageUpload" className={styles.inputFileButton}>
+                <span className={styles.inputFileIconWrapper}>
+                  <UploadOutlined style={{ fontSize: '25px', color: '#fff' }} />
+                </span>
+                <span className={styles.inputFileButtonText}>Загрузить фото тура:</span>
+              </label>
+              <input type="file" id="imageUpload" name="imageUpload" accept=".jpg, .jpeg, .png" multiple onChange={handleImageUpload} required />
                 <div className="mt-4 px-4 py-2 bg-cyan-500 hover:bg-cyan-700 rounded select-none"
                  onClick={handleClickImages}>{
                   showImages ? 'Скрыть загруженные фотографии' 
@@ -418,15 +424,15 @@ const filterObjFalse = (obj)=>Object.fromEntries(
                 <div className='iframe' />              
         
               <div className='flex flex-col items-center'>
-            <button type='button' className='bg-yellow-500 rounded-md p-2 hover:bg-yellow-400'>
+            <button type='button' className='rounded-md p-2 hover:bg-yellow-400' style={{ backgroundColor: '#FD900A', width: '230px', borderRadius: '8px' }}>
             <a href="https://yandex.ru/map-constructor" target="_blank" rel="noreferrer">Открыть Яндекс.Карты</a>
             </button>
-             <button type='button' className="mt-4 px-4 py-2 bg-cyan-500 hover:bg-cyan-700 rounded select-none" 
+             <RegButton type='button' className="mt-4 px-4 py-2 hover:bg-cyan-700 rounded select-none" 
                  onClick={()=>{ setShowMap(!showMap)}}>{
                   showMap ? 'Скрыть карту' 
                  : 
                  'Показать карту'}
-             </button>
+             </RegButton>
              </div>
              {showMap&&(
                 inputs?.coordinates? (

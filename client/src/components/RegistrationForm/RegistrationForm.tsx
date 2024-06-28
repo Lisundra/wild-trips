@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { InputsTypeAuth } from '../../types';
+import { useSelector } from 'react-redux';
+import type { InputsTypeAuth } from '../../types';
 import { useAppDispatch } from '../../redux/hooks';
 import { fetchCheckUser, fetchCreateUser } from '../../redux/thunkActions';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+import type { RootState } from '../../redux/store';
+import styles from './RegistrationForm.module.css';
+import RegImageUploadButton from '../RegImageUploadButton/RegImageUploadButton';
+import RegButton from '../RegButton/RegButton';
+import { UploadOutlined } from '@ant-design/icons';
 
-const RegistrationForm = ( {setIsUser}) => {
+function RegistrationForm({setIsUser}) {
   const dispatch = useAppDispatch();
   const user = useSelector((state: RootState) => state.user.user);
   const[ registrationMessage, setRegistrationMessage ]= useState('')
@@ -21,6 +25,9 @@ const RegistrationForm = ( {setIsUser}) => {
     profile_picture:null,
     bio:'',
   });
+
+  console.log('консоль формы', formData);
+
   useEffect(() => {
 
     if (isUserCreated) {    
@@ -34,7 +41,7 @@ const RegistrationForm = ( {setIsUser}) => {
  
         // Очистка таймаута при размонтировании компонента или изменении зависимостей
         return () => clearTimeout(timeoutId);
-      }else if(err){
+      }if(err){
         setRegistrationMessage('Такой пользователь уже существует');
         console.error('Error creating user:');
         const timeoutId = setTimeout(() => {
@@ -60,7 +67,7 @@ const RegistrationForm = ( {setIsUser}) => {
   
   }, [user, isUserCreated,err]);
   // const handleChange = (e) => {
-      //? рабочая версия
+      // ? рабочая версия
   //   setFormData({
   //     ...formData,
   //     [e.target.name]: e.target.value
@@ -69,14 +76,18 @@ const RegistrationForm = ( {setIsUser}) => {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
+    console.log('1');
     if (name === 'profile_picture') {
+      console.log('2');
       const file = files[0];
       if (file && (file.type === 'image/png' || file.type === 'image/jpeg') && file.size <= 2 * 1024 * 1024) {
+        console.log('3');
         setFormData({
           ...formData,
           [name]: file,
         });
       } else {
+        console.log('4');
         alert('Please upload a valid PNG or JPG image less than 2MB.');
       }
     } else {
@@ -103,7 +114,7 @@ const RegistrationForm = ( {setIsUser}) => {
     if (formData.profile_picture) {
       formDataToSend.append('profile_picture', formData.profile_picture);
     }
-  
+    console.log('мы здесь');
     dispatch(fetchCreateUser(formDataToSend)).then((res) => {
       console.log("🚀 ~ dispatch ~ res:", res)
       if(res.payload){
@@ -121,28 +132,31 @@ const RegistrationForm = ( {setIsUser}) => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+    <div>
       <form onSubmit={handleSubmit}>
-      <div className="mb-4">
-      <label htmlFor="role">Ваша роль:</label>
-        <select
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="role" 
-        name="role"  
-        value={formData.role}
-        onChange={handleChange}
-        required>
+        <div className="mb-4">
+          <label htmlFor="role">Ваша роль:</label>
+          <select
+            style={{ backgroundColor: '#F2E8CF' }}
+            className="shadow  border rounded w-full px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="role" 
+            name="role"  
+            value={formData.role}
+            onChange={handleChange}
+            required
+          >
             <option value="traveler">Путешественик</option>
             <option value="organizer">Организатор</option>
             <option value="admin">Admin</option>
-        </select>
+          </select>
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+          <label className="block text-gray-700 text-sm font-bold" htmlFor="email">
             Электронная почта (email)
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            style={{ backgroundColor: '#F2E8CF' }}
+            className="shadow border rounded w-full px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="email"
             type="email"
             name="email"
@@ -152,11 +166,12 @@ const RegistrationForm = ( {setIsUser}) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="login">
+          <label className="block text-gray-700 text-sm font-bold" htmlFor="login">
             Логин
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            style={{ backgroundColor: '#F2E8CF' }}
+            className="shadow appearance-none border rounded w-full px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="login"
             type="text"
             name="login"
@@ -166,11 +181,12 @@ const RegistrationForm = ( {setIsUser}) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="full_name">
-          Полное имя
+          <label className="block text-gray-700 text-sm font-bold" htmlFor="full_name">
+            Полное имя
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            style={{ backgroundColor: '#F2E8CF' }}
+            className="shadow appearance-none border rounded w-full px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="full_name"
             type="full_name"
             name="full_name"
@@ -180,11 +196,12 @@ const RegistrationForm = ( {setIsUser}) => {
           />
         </div>
         <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+          <label className="block text-gray-700 text-sm font-bold" htmlFor="password">
             Пароль
           </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          <input 
+            style={{ backgroundColor: '#F2E8CF' }}
+            className="shadow appearance-none border rounded w-full px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="password"
             type="password"
             name="password"
@@ -194,11 +211,12 @@ const RegistrationForm = ( {setIsUser}) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="bio">
-          О себе
+          <label className="block text-gray-700 text-sm font-bold" htmlFor="bio">
+            О себе
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            style={{ backgroundColor: '#F2E8CF' }}
+            className="shadow appearance-none border rounded w-full px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="bio"
             type="bio"
             name="bio"
@@ -206,32 +224,42 @@ const RegistrationForm = ( {setIsUser}) => {
             onChange={handleChange}
           />
         </div>
-        <div className="mb-4">
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }} >
+
+        <div className={styles.inputWrapper} >
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="profile_picture">
             Фото профиля
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className={styles.inputFile}
             id="profile_picture"
             type="file"
             name="profile_picture"
             accept="image/png, image/jpeg"
             onChange={handleChange}
           />
+          <label htmlFor="profile_picture" className={styles.inputFileButton}>
+            <span className={styles.inputFileIconWrapper}>
+              <UploadOutlined style={{ fontSize: '25px', color: '#fff' }} />
+            </span>
+            <span className={styles.inputFileButtonText}>Выберите файл</span>
+          </label>
         </div>
-        <div className="flex items-center justify-between">
-          <button
+
+        <div style={{ display: 'flex', flexDirection: 'column-reverse' }}>
+        <RegButton
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="submit"
           >
-            Register
-          </button>
-          <div className="text-sm m-4 text-gray-600" style={{ minHeight: '40px', visibility: registrationMessage ? 'visible' : 'hidden' }}>
-            {registrationMessage}</div>
+            Зарегистрироваться
+          </RegButton>
+          <div className="text-sm text-gray-600" style={{ width: '230px', height: '50px', display: 'inline-block', visibility: registrationMessage ? 'visible' : 'hidden' }}>
+            {registrationMessage}
+          </div>
+        </div>
         </div>
       </form>
     </div>
   );
-};
+}
 
 export default RegistrationForm;
