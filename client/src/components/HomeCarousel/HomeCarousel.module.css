@@ -1,16 +1,25 @@
+.upperWrapper {
+  margin-left: 200px;
+}
+
 .innerPartsContainer {
-    display: flex;
+  display: flex;
+}
+
+.textAndBtnContainer {
+  position: relative;
+  width: 50%;
+  margin-top: 25px;
+  margin-left: 25px;
 }
 
 .tourName {
-    font-weight: 700;
-    font-size: x-large;
+  font-family: 'ExcentraPro-Bold', sans-serif;
+  font-size: 48px;
 }
 
-.tourPrice,
-.tourDates,
-.tourCountry {
-    font-size: medium;
+.tourPrice, .tourDates, .tourCountry {
+  font-size: medium;
 }
 
 .originalPrice {
@@ -23,24 +32,54 @@
 }
 
 .carouselFromAnt {
-    margin: 0 40px;
-    width: 1400px;
+  margin: 0 40px;
+  width: 1400px;
 }
 
 .carouselContainer {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .imageContainer {
-    width: 600px; /* Ширина изображения */
-    height: 350px; /* Высота изображения */
-    overflow: hidden; /* Обрезать изображение, если оно превышает размер контейнера */
-    margin-left: 20px; /* Пространство между текстом и изображением */
+  display: flex;
+  height: 400px;
+  overflow: hidden;
+  margin-left: 20px;
+  z-index: 5;
+  border-radius: 25px;
+  width: 700px;
 }
 
-.tourImage {
-    width: 100%; /* Сделать изображение полностью заполняющим контейнер */
-    height: auto; /* Автоматически подстраивать высоту */
-    object-fit: cover; /* Заполнение изображения в контейнере без искажений */
+.cardContainer {
+  width: 1000px;
+  height: 400px;
+  border-radius: 25px;
+}
+
+.imageItem {
+  object-fit: cover;
+  z-index: 3;
+}
+
+.originalPrice, .discountedPrice, .tourPrice {
+  font-size: 36px;
+}
+
+.tourPrice {
+  margin-top: 100px;
+}
+
+.tourPriceDateAndButton {
+  position: absolute;
+  bottom: 40px;
+  left: 5px;
+}
+
+.subscriptionContainer {
+  background-color: rgba(0, 0, 0, 0.6); /* Полупрозрачный белый цвет */
+  backdrop-filter: blur(10px); /* Эффект размытия фона */
+  -webkit-backdrop-filter: blur(10px); /* Для поддержки в Safari */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень для эффекта стекла */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Полупрозрачная нижняя граница */
 }

@@ -4,6 +4,7 @@ import HomeCarousel from '../../components/HomeCarousel/HomeCarousel';
 import EmailSubscription from '../../components/EmailSubscription/EmailSubscription';
 import styles from './Home.module.css';
 import NewCarousel from '../../components/HomeCarousel/NewCarousel';
+import EditorsChoiceMark from '../../components/EditorsChoiceMark/EditorsChoiceMark';
 
 export default function Home() {
   //! Создание состояний (useState) для хранения массивов туров, которые будут использоваться в каруселях.
@@ -103,7 +104,21 @@ useEffect(() => {
         <div className="mt-8"> 
           <HomeCarousel tours={discountedTours}/>
         </div>
-
+        <div style={{ position: 'relative' }}>
+        <div style={{ 
+    position: 'absolute', 
+    zIndex: '10', 
+    right: '400px', 
+    top: '75px', 
+    backgroundColor: 'rgba(255, 255, 255, 0.5)', 
+    borderRadius: '50px', 
+    backdropFilter: 'blur(10px)', 
+    WebkitBackdropFilter: 'blur(10px)', 
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', 
+    borderBottom: '1px solid rgba(255, 255, 255, 0.2)' 
+}}>            <EditorsChoiceMark />
+          </div>
+        </div>
         <div className="mt-10"> 
           <HomeCarousel tours={editorsTours}/>
         </div>

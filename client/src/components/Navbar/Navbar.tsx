@@ -104,7 +104,7 @@ function Navbar() {
               </Link>
             </div>
             <div className="flex space-x-9">
-              <button style={{ fontFamily: 'ExcentraPro-Bold', fontSize: '25px', marginTop: '5px', marginLeft: '-5px' }}>
+              <button style={{ fontFamily: 'ExcentraPro-Bold', fontSize: '25px', marginLeft: '-5px' }}>
                 <Link to="/catalog" className="text-white">
                   Каталог туров
                 </Link>
@@ -122,7 +122,7 @@ function Navbar() {
               {(user && !isUserLoading)&& (
                 <>
                   <button className="text-white" onClick={checkedUser}>
-                    <Link to="/MyTours" style={{ fontFamily: 'ExcentraPro-Bold', fontSize: '30px', paddingTop: '10px', marginLeft: '-5px' }} className="text-white">                                    
+                    <Link to="/MyTours" style={{ fontFamily: 'ExcentraPro-Bold', fontSize: '25px', paddingTop: '15px', marginLeft: '-15px' }} className="text-white">                                    
                       {
                         user.role==='organizer'?
                         `Личный кабинет организатора`
@@ -140,7 +140,7 @@ function Navbar() {
                     </Link>
                   </button>
                   <Link to="/profile" className="text-white m-0"> 
-                    <button className="flex items-center" style={{ fontFamily: 'ExcentraPro-Bold', fontSize: '30px', marginLeft: '-5px' }}>
+                    <button className="flex items-center" style={{ display: 'flex', flexDirection: 'row-reverse', fontFamily: 'ExcentraPro-Bold', fontSize: '25px', marginLeft: '-60px' }}>
                       <div className='m-3'>{user.login}</div>
                       <img src={user.src?user.src.replace(/\\/g, '/').replace(/^.*?src\//, 'src/'):'src/assets/avatars/ava.png'} 
                         alt="Avatar" 

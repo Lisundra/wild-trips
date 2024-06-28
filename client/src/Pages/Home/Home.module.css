@@ -19,20 +19,25 @@
     font-size: 60px;
     text-align: center;
     margin-top: 20px;
+    font-family: 'ExcentraPro-Bold', sans-serif;
+    font-size: 48px;
 }
 
 .discountsHeading {
+    text-align: center;
     font-size: 40px;
     font-weight: 500;
     color: rgb(253, 144, 10);
-    padding-left: 180px;
+    font-family: 'ExcentraPro-Bold', sans-serif;
+    font-size: 48px;
 }
 
 .newToursHeading {
-    font-size: 50px;
-    font-weight: 500;
-    text-align: center;
-    margin-top: 30px;
+  font-size: 50px;
+  text-align: center;
+  margin-top: 30px;
+  font-family: 'ExcentraPro-Bold', sans-serif;
+  font-size: 48px;
 }
   
 .overlay {
