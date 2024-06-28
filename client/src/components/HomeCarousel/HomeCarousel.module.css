@@ -1,16 +1,22 @@
+.innerPartsContainer {
+    display: flex;
+}
+
 .tourName {
     font-weight: 700;
     font-size: x-large;
 }
 
-.tourPrice, .tourDates, .tourCountry {
+.tourPrice,
+.tourDates,
+.tourCountry {
     font-size: medium;
 }
 
 .originalPrice {
     color: black;
-  }
-  
+}
+
 .discountedPrice {
     text-decoration: line-through;
     color: red;
@@ -24,4 +30,17 @@
 .carouselContainer {
     display: flex;
     justify-content: center;
+}
+
+.imageContainer {
+    width: 600px; /* Ширина изображения */
+    height: 350px; /* Высота изображения */
+    overflow: hidden; /* Обрезать изображение, если оно превышает размер контейнера */
+    margin-left: 20px; /* Пространство между текстом и изображением */
+}
+
+.tourImage {
+    width: 100%; /* Сделать изображение полностью заполняющим контейнер */
+    height: auto; /* Автоматически подстраивать высоту */
+    object-fit: cover; /* Заполнение изображения в контейнере без искажений */
 }

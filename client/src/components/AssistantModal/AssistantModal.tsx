@@ -1,16 +1,33 @@
 import React, { useState } from 'react';
-import { Modal, Input, Button } from 'antd';
+import { Modal, Input, Button, message } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
+import axios from 'axios';
 
-const AssistantModal = ({ userName, userEmail,visible, setVisible  }) => {
-  const [name, setName] = useState(userName ? userName : '');
+function AssistantModal({ userName, userEmail,visible, setVisible  }) {
+  const [name, setName] = useState(userName || '');
   console.log("🚀 ~ AssistantModal ~ name:", name)
-  const [email, setEmail] = useState(userEmail ? userEmail : '');
+  const [email, setEmail] = useState(userEmail || '');
   console.log("🚀 ~ AssistantModal ~ email:", email)
-  const [isRegistered, setIsRegistered] = useState(userEmail?.length>0)  
-
+  const [isRegistered, setIsRegistered] = useState(userEmail?.length>0);
+  const [messageApi, contextHolder] = message.useMessage();
   
-  const handleOk = () => {
+  const submitFormHandler = async () => {
+    try {
+      await axios.post(`${import.meta.env.VITE_URL}/${import.meta.env.VITE_API}/booking`, {
+        name,
+        email,
+      });
+      setName(''); // Зачищаем поле
+      setEmail(''); // Зачищаем поле
+      message.success('Заявка успешно отправлена!');
+    } catch (error) {
+      console.log('Sending error on form submit', error);
+      message.error('Ошибка при отправке заявки. Попробуйте снова.');
+    }
+  };
+
+  const handleOk = async () => {
+    await submitFormHandler(); // Отправляем данные из формы на сервер
     setVisible(false);
     // Handle form submission logic here
   };
@@ -44,7 +61,6 @@ const AssistantModal = ({ userName, userEmail,visible, setVisible  }) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-
           <Input
             placeholder="Email"
             value={email}
@@ -54,13 +70,11 @@ const AssistantModal = ({ userName, userEmail,visible, setVisible  }) => {
       ) : (
 
         <div className="space-y-4">
-        
           <Input
             placeholder="Имя Фамилия"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-
           <Input
             placeholder="Email"
             value={email}
@@ -72,6 +86,6 @@ const AssistantModal = ({ userName, userEmail,visible, setVisible  }) => {
       )}
     </Modal>
   );
-};
+}
 
 export default AssistantModal;

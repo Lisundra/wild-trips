@@ -167,7 +167,7 @@ function Navbar() {
             </nav>
             {isModalOpen && (
                 <div className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20 transition-opacity duration-300 ${isModalVisible ? 'opacity-100' : 'opacity-0'}`} onClick={handleOutsideClick}>
-                    <div className={`bg-white w-1/3 p-6 rounded-lg shadow-lg relative transition-transform duration-300 ${isModalVisible ? 'translate-y-0' : '-translate-y-10'}`}>
+                    <div className={`bg-white w-1/3 p-6 rounded-lg shadow-lg relative transition-transform duration-300 ${isModalVisible ? 'translate-y-0' : '-translate-y-10'}`} style={{top:'50px', right: '-550px'}}>
                         <button onClick={closeModal} className="absolute top-2 right-2 text-gray-500">
                             &times;
                         </button>
