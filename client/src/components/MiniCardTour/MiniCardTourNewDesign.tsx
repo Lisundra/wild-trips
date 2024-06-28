@@ -21,7 +21,7 @@ const MiniCardTourNew = ({
 
   return (
     <Card
-      style={{ width: 400, border: '1px solid #f0f0f0' }}
+      style={{ height: '500px', width: '350px', border: '1px solid #ffffff', marginLeft: '-25px', marginTop: '25px' }}
       cover={
         <div className="relative">
           <Carousel arrows={true} draggable touchMove={true}>

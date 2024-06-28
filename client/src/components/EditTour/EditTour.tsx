@@ -8,7 +8,7 @@ import FormItem from 'antd/es/form/FormItem';
 const { TextArea } = Input;
 const { Option } = Select;
 
-const EditTourModal = ({ tour, onUpdate, arraysCheckBox, visible, setVisible, isAdmin }) => {
+function EditTourModal({ tour, onUpdate, arraysCheckBox, visible, setVisible, isAdmin }) {
   const [hiddenCheckbox, setHiddenCheckbox]=useState(true)
   const [images, setImages] = useState([]);
   const [form] = Form.useForm();
@@ -27,7 +27,7 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox, visible, setVisible, is
   const [facilitiesFree, setFacilitiesFree] = useState({});
 
   useEffect(() => {
-    setSrcIframe('https://yandex.ru/map-widget/v1/?um=constructor%'+tourCoordinates+'&amp;source=constructor');
+    setSrcIframe(`https://yandex.ru/map-widget/v1/?um=constructor%${tourCoordinates}&amp;source=constructor`);
   }, [tourCoordinates]);
 
   useEffect(() => {
@@ -173,12 +173,13 @@ const EditTourModal = ({ tour, onUpdate, arraysCheckBox, visible, setVisible, is
   };
 console.log(tour)
   return (
-    <>
-      <Modal
+    <Modal
+    
         title="Редактировать тур"
         visible={visible}
         onCancel={handleCancel}
         footer={null}
+        style={{ backgroundImage: 'linear-gradient(116deg, #F2E8CF, #6A994E)' }}
       >
         <Form form={form} layout="vertical" className='' onFinish={handleFinish}>
           <Form.Item label="Название тура" name="title" rules={[{ required: false, message: 'Пожалуйста, введите название тура' }]}>
@@ -188,7 +189,7 @@ console.log(tour)
             <Input />
             </Form.Item>
 
-            <Row  justify={'space-around'}>
+            <Row  justify="space-around">
           <Form.Item label="Начало тура" name="start_date" rules={[{ required: false, message: 'Пожалуйста, выберите дату начала тура' }]}>
             <DatePicker />
           </Form.Item>
@@ -200,7 +201,7 @@ console.log(tour)
                 !isAdmin?(<></>)
                 :
                 (
-                <Row justify={'center'}>
+                <Row justify="center">
                 <Checkbox name='editors_choice' defaultChecked={tour.editors_choice}>Выбор редакции</Checkbox>
                 </Row>)
               }
@@ -209,7 +210,7 @@ console.log(tour)
             <TextArea autoSize={{minRows:'7'}} />
           </Form.Item>
 
-            <Row justify={'space-around'}>
+            <Row justify="space-around">
           <Form.Item label="Цена тура" name="price" rules={[{ required: false, message: 'Пожалуйста, введите цену тура' }]}>
             <Input type="number" />
           </Form.Item>
@@ -226,7 +227,7 @@ console.log(tour)
             <Input style={{width:'220px'}} />
           </Form.Item>
           </Row>
-          <Row justify={'space-around'}>
+          <Row justify="space-around">
           <Form.Item label="Сезон" name="season" rules={[{ required: false, message: 'Пожалуйста, выберите сезон' }]}>
             <Select>
               <Option value="Весна">Весна</Option>
@@ -273,7 +274,7 @@ console.log(tour)
             </Checkbox.Group>
           </Form.Item>
           </Row>
-          <Row justify={'space-around'}>
+          <Row justify="space-around">
             <Col span={9}>
             <label className="block text-sm font-bold mb-2">Оплатить дополнительно</label>
             {arraysCheckBox.facility.map((facility,index) => (
@@ -319,7 +320,7 @@ console.log(tour)
                 ))}
               </Col>
               </Row>
-              <Row justify={'center'}>
+              <Row justify="center">
               <Button onClick={()=>setHiddenCheckbox(!hiddenCheckbox)}>{hiddenCheckbox?'Раскрыть все услуги': 'Скрыть все услуги'}</Button>
               </Row>
           <Form.Item label="Загрузить фото тура" name="images">
@@ -364,7 +365,7 @@ console.log(tour)
           
   <div className='flex flex-col items-center'>
 <button type='button' className='bg-yellow-500 rounded-md p-2 hover:bg-yellow-400'>
-<a href="https://yandex.ru/map-constructor" target="_blank">Открыть Яндекс.Карты</a>
+<a href="https://yandex.ru/map-constructor" target="_blank" rel="noreferrer">Открыть Яндекс.Карты</a>
 </button>
  <button type='button' className="mt-4 px-4 py-2 bg-cyan-500 hover:bg-cyan-700 rounded select-none" 
      onClick={()=>{ setShowMap(!showMap)}}>{
@@ -374,12 +375,11 @@ console.log(tour)
  </button>
  </div>
  {showMap&&(
-    tour?.['coordinates']? (
+    tour?.coordinates? (
  <iframe src={srcIframe}
    width="500"
    height="400"
-   >
-</iframe> 
+    /> 
     )
     :
     (
@@ -398,7 +398,6 @@ console.log(tour)
 
         </Form>
       </Modal>
-    </>
   );
 }
 

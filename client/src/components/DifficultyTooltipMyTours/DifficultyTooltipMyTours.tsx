@@ -2,7 +2,7 @@ import React from 'react';
 import { Tooltip, Button } from 'antd';
 import { QuestionOutlined } from '@ant-design/icons';
 
-function DifficultyTooltip({ placement }) {
+function DifficultyTooltipMyTours({ placement }) {
   const gradient = 'linear-gradient(116deg, #007F5F, #80B918)';
 
   return (
@@ -27,7 +27,8 @@ function DifficultyTooltip({ placement }) {
         shape="circle"
         style={{
           position: 'absolute',
-          bottom: '0px',
+          bottom: '-4px',
+          right: '-40px',
           fontSize: '22px',
           background: gradient,
           borderColor: gradient,
@@ -40,4 +41,4 @@ function DifficultyTooltip({ placement }) {
   );
 }
 
-export default DifficultyTooltip;
+export default DifficultyTooltipMyTours;

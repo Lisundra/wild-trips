@@ -1,17 +1,15 @@
 import React from 'react';
-import { Button, Card, Carousel } from 'antd';
+import { Card, Carousel } from 'antd';
 import Meta from 'antd/es/card/Meta';
-import DifficultyClue from '../DifficultyClue/DifficultyClue';
-import OneRatingStar from '../OneRatingStar/OneRatingStar';
 import styles from './MiniCardTour.module.css';
+import OneRatingStar from '../OneRatingStar/OneRatingStar';
+import OneRatingStarMyTours from '../OneRatingStarMyTours/OneRatingStarMyTours';
 
 function MiniCardTour({
   title,
   subtitle,
   start_date,
   end_date,
-  start=new Date(start_date).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' }).split('.').reverse().join('-'),
-  end=new Date(end_date).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' }).split('.').reverse().join('-'),
   duration,
   difficulty,
   numberBooking,
@@ -19,7 +17,18 @@ function MiniCardTour({
   average_rating,
   Images,
 }) {
-    // console.log("🚀 ~ Images:", Images)
+  const start = new Date(start_date).toLocaleDateString('ru-RU', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  }).replace('.', '');
+  
+  const end = new Date(end_date).toLocaleDateString('ru-RU', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  }).replace('.', '');
+
   let ratingColorClass = '';
   if (average_rating < 6.0) {
     ratingColorClass = styles.redRating;
@@ -31,7 +40,7 @@ function MiniCardTour({
 
   return (
     <Card
-      style={{ width: 350, border: '1px solid #ffffff', marginLeft: -25, marginTop: -25 }}
+      style={{ width: '400px', height: '450px', border: '0px solid #ffffff', marginLeft: '-25px', marginTop: '-25px', position: 'relative', overflow: 'visible' }}
       cover={
         <div className="relative">
           <Carousel arrows draggable touchMove>
@@ -40,39 +49,39 @@ function MiniCardTour({
                 <img
                   src={image}
                   alt={`Slide ${index}`}
-                  style={{ width: '100%', height: '200px', objectFit: 'cover' }}
+                  style={{ width: '99.9%', height: '200px', objectFit: 'cover' }}
                 />
               </div>
             ))}
           </Carousel>
           <div className="absolute top-2 right-2 text-white rounded-full px-2 py-1">
             <div className={styles.avgRatingNumberContainer}>
-              <div className={styles.numberContainer}>
-                <p className={`${styles.avgRatingNumber} ${ratingColorClass}`}>
-                  {average_rating}
-                </p>
+              <div>
+                <OneRatingStarMyTours rating={average_rating} />
               </div>
-              <OneRatingStar rating={average_rating} />
             </div>
           </div>
         </div>
       }
     >
       <Meta
-        title={title}
+        title={<span style={{ fontSize: '22px' }}>{title}</span>}
         description={
-          <div>
-            <p>{subtitle}</p>
-            <p>
-              {start} — {end}
-            </p>
-            <p>Длительность в днях: {duration}</p>
-            <div className='flex ml'>
+          <div style={{ fontSize: '19px', lineHeight: '20px' }}>
+            <div>
+              <p>{subtitle}</p>
+              <p>
+                Даты: с {start} по {end}
+              </p>
+              <p>Длительность тура: {duration} дней</p>
+              <div className='flex ml'>
                 <p>Сложность: {difficulty}</p>  
-                <DifficultyClue difficulty={difficulty} />
+              </div>
             </div>
-            <p>Кол-во заявок: {numberBooking}</p>
-            <p>От {price} руб.</p>
+            <div style={{ position: 'absolute', bottom: '0px', left: '25px' }}>
+              <p>Количество заявок: {numberBooking}</p>
+              <p>Стоимость тура: от {price} руб.</p>
+            </div>
           </div>
         }
       />

@@ -4,15 +4,18 @@ import { AnyAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { Button, Card } from 'antd';
 import { Link } from 'react-router-dom';
-import { ArrowRightOutlined, DeleteOutlined, EditOutlined, EllipsisOutlined, SettingOutlined, UploadOutlined } from '@ant-design/icons';
+import { ArrowRightOutlined, DeleteOutlined, EditOutlined, EllipsisOutlined, SettingOutlined, UploadOutlined , CaretDownOutlined, CaretUpOutlined, DeleteFilled, EditFilled, CaretRightFilled, RightCircleFilled } from '@ant-design/icons';
 import { fetchCheckUser } from '../../redux/thunkActions';
 import type { RootState } from '../../redux/store';
-import DifficultyClue from '../../components/DifficultyClue/DifficultyClue';
+import DifficultyTooltipMyTours from '../../components/DifficultyTooltipMyTours/DifficultyTooltipMyTours';
 import MiniCardTour from '../../components/MiniCardTour/MiniCardTour';
 import EditTour from '../../components/EditTour/EditTour';
 import MiniCardTourNew from '../../components/MiniCardTour/MiniCardTourNewDesign';
 import styles from './MyTours.module.css';
 import RegButton from '../../components/RegButton/RegButton';
+import { flexbox } from '@chakra-ui/react';
+import MyToursButton from '../../components/MyToursButton/MyToursButton';
+
 
 
 
@@ -297,63 +300,72 @@ const filterObjFalse = (obj)=>Object.fromEntries(
 
   return (
     
-    <div className="relative bg-cover bg-center min-h-screen"  style={{ backgroundImage: `url('./src/assets/images/minimalizm-montains-1.jpg')` }} >
-      <div className="absolute inset-0 bg-black opacity-50"  />
+<div className="relative bg-cover bg-center min-h-screen" style={{ backgroundImage: 'linear-gradient(116deg, #F2E8CF, #6A994E)' }}>
      <br /> <br /> <br />
       <div className="relative mt-10 z-9 flex flex-col items-center justify-start min-h-screen text-white">
-        <h1 className="text-4xl font-bold">Личный кабинет {user?.login}</h1>
+        <h1 className="text-4xl font-bold">Личный кабинет пользователя {user?.login}</h1>
 
-        <button
+        <MyToursButton
           className="mt-6 px-4 py-2 bg-blue-600 hover:bg-blue-800 rounded"
           onClick={() => setShowForm(!showForm)}
         >
           { showForm?'Закрыть':'Создать тур'}
-        </button>
+        </MyToursButton>
 
         {showForm && (
-          <form  onSubmit={handleSubmitForm} className="mt-8 bg-white text-black p-6 rounded shadow-md w-4/5 flex flex-wrap justify-center">
+          <form  
+          style={{
+            top: '50px',
+            right: '-550px',
+            background: 'rgba(255, 255, 255, 0.5)', /* Полупрозрачный белый цвет */
+            backdropFilter: 'blur(10px)', /* Эффект размытия */
+            WebkitBackdropFilter: 'blur(10px)', /* Для поддержки в Safari */
+            border: '1px solid rgba(255, 255, 255, 0.3)', /* Полупрозрачная граница для лучшего эффекта */
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' /* Добавление тени для улучшения видимости */
+          }}
+          onSubmit={handleSubmitForm} className="mt-8 bg-white text-black p-6 rounded shadow-md w-4/5 flex flex-wrap justify-center">
             <div className="w-full md:w-1/2 p-2">
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Название тура</label>
-                <input type="text" name='title' onChange={handleInputsChange} className="w-full p-2 border rounded" required />
+                <input  style={{ backgroundColor: '#F9F5ED' }} type="text" name='title' onChange={handleInputsChange} className="w-full p-2 border rounded" required />
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Краткое описание</label>
-                <input type="text" name='subtitle' onChange={handleInputsChange} className="w-full p-2 border rounded" required />
+                <input style={{ backgroundColor: '#F9F5ED' }} type="text" name='subtitle' onChange={handleInputsChange} className="w-full p-2 border rounded" required />
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Начало тура</label>
-                <input type="date" name='start_date' onChange={handleInputsChange} className="w-full p-2 border rounded" required />
+                <input style={{ backgroundColor: '#F9F5ED' }} type="date" name='start_date' onChange={handleInputsChange} className="w-full p-2 border rounded" required />
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Конец тура</label>
-                <input type="date"name='end_date' onChange={handleInputsChange} className="w-full p-2 border rounded" required />
+                <input style={{ backgroundColor: '#F9F5ED' }} type="date"name='end_date' onChange={handleInputsChange} className="w-full p-2 border rounded" required />
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Подробное описание</label>
-                <textarea className="w-full p-2 border rounded" name='description' onChange={handleInputsChange} required />
+                <textarea style={{ height: '250px', backgroundColor: '#F9F5ED' }} className="w-full p-2 border rounded" name='description' onChange={handleInputsChange} required />
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Цена тура</label>
-                <input type="number" name='price' onChange={handleInputsChange} className="w-full p-2 border rounded" required />
+                <input style={{ backgroundColor: '#F9F5ED' }} type="number" name='price' onChange={handleInputsChange} className="w-full p-2 border rounded" required />
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Скидка на тур</label>
-                <input type="number" name='discount' onChange={handleInputsChange} className="w-full p-2 border rounded" />
+                <input style={{ backgroundColor: '#F9F5ED' }} type="number" name='discount' onChange={handleInputsChange} className="w-full p-2 border rounded" />
               </div>
             </div>
             <div className="w-full md:w-1/2 p-2">
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Страна тура</label>
-                <input type="text" name='country' onChange={handleInputsChange} className="w-full p-2 border rounded" required />
+                <input style={{ backgroundColor: '#F9F5ED' }} type="text" name='country' onChange={handleInputsChange} className="w-full p-2 border rounded" required />
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Регион тура</label>
-                <input type="text" name='region' onChange={handleInputsChange} className="w-full p-2 border rounded" required />
+                <input style={{ backgroundColor: '#F9F5ED' }} type="text" name='region' onChange={handleInputsChange} className="w-full p-2 border rounded" required />
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Сезон</label>
-                <select className="w-full p-2 border rounded" name='season' value={inputs.season} onChange={handleInputsChange} required>
+                <select style={{ height: '54px', backgroundColor: '#F9F5ED' }} className="w-full p-2 border rounded" name='season' value={inputs.season} onChange={handleInputsChange} required>
                   <option value="Весна">Весна</option>
                   <option value="Лето">Лето</option>
                   <option value="Осень">Осень</option>
@@ -362,10 +374,12 @@ const filterObjFalse = (obj)=>Object.fromEntries(
               </div>
               <div className="mb-4">
                 <div className='flex'>
-                <label className="block text-sm font-bold mb-2">Сложность</label>
-                <DifficultyClue difficulty={inputs.difficulty?inputs.difficulty:'Низкая' } />
+                <label style={{ position: 'relative' }} className="block text-sm font-bold mb-2">
+                  Сложность
+                  <DifficultyTooltipMyTours placement="rightTop" />
+                </label>
                 </div>
-                <select className="w-full p-2 border rounded" name='difficulty' onChange={handleInputsChange} required>
+                <select style={{ height: '54px', backgroundColor: '#F9F5ED' }} className="w-full p-2 border rounded" name='difficulty' onChange={handleInputsChange} required>
                   <option value="Низкая">Низкая</option>
                   <option value="Средняя">Средняя</option>
                   <option value="Высокая">Высокая</option>
@@ -373,7 +387,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Можно с детьми</label>
-                <select className="w-full p-2 border rounded" name='family_friendly' onChange={handleInputsChange} required>
+                <select style={{ backgroundColor: '#F9F5ED' }} className="w-full p-2 border rounded" name='family_friendly' onChange={handleInputsChange} required>
                   <option value={1}>Да</option>
                   <option value={0}> Нет</option>
                 </select>
@@ -383,15 +397,27 @@ const filterObjFalse = (obj)=>Object.fromEntries(
                 <span className={styles.inputFileIconWrapper}>
                   <UploadOutlined style={{ fontSize: '25px', color: '#fff' }} />
                 </span>
-                <span className={styles.inputFileButtonText}>Загрузить фото тура:</span>
+                <span className={styles.inputFileButtonText}>Загрузить фото тура</span>
               </label>
               <input type="file" id="imageUpload" name="imageUpload" accept=".jpg, .jpeg, .png" multiple onChange={handleImageUpload} required />
-                <div className="mt-4 px-4 py-2 bg-cyan-500 hover:bg-cyan-700 rounded select-none"
-                 onClick={handleClickImages}>{
-                  showImages ? 'Скрыть загруженные фотографии' 
-                 : 
-                 'Показать загруженные фотографии'}
-                 </div>
+              <div className={styles.showFileButton}
+                onClick={handleClickImages}> {
+                  showImages ? (
+                    <>
+                      <span className={styles.inputFileIconWrapper}>
+                        <CaretUpOutlined style={{ fontSize: '25px', color: '#fff' }} />
+                      </span>
+                      <span className={styles.inputFileButtonText}>Скрыть загруженные фотографии</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className={styles.inputFileIconWrapper}>
+                        <CaretDownOutlined style={{ fontSize: '25px', color: '#fff' }} />
+                      </span>
+                      <span className={styles.inputFileButtonText}>Показать загруженные фотографии</span>
+                    </>
+                  )}
+              </div>
                     
                     {showImages && (
                       <div>
@@ -408,31 +434,31 @@ const filterObjFalse = (obj)=>Object.fromEntries(
               </div>
             </div>
                          
-            <div className="map-container min-w-full">
+            <div style={{ padding: '10px' }} className="map-container min-w-full">
 
             <p className="block font-bold mb-2">
             Чтобы добавить карту для вашего тура, следуйте инструкции:
             </p>
-            <ol>
+            <ol style={{ marginBottom: '40px' }} >
                <li>1. Нажмите кнопку "Открыть Яндекс.Карты"</li>           
                <li>2. Создайте маршрут в конструкторе карт</li>           
                <li>3. Нажмите кнопку "Сохранить и продолжить" в конструткоре карт</li>      
                <li>4. Нажмите кнопку "Получить код карты" в конструткоре карт</li>    
                <li>5. Скопируйте код и вставьте в поле ниже:</li> 
                </ol>  
-               <textarea className="w-full p-2 border rounded" name='coordinates' onChange={handleInputsChange} required />
+               <textarea style={{ height: '125px', backgroundColor: '#F9F5ED' }} className="w-full p-2 border rounded" name='coordinates' onChange={handleInputsChange} required />
                 <div className='iframe' />              
         
               <div className='flex flex-col items-center'>
-            <button type='button' className='rounded-md p-2 hover:bg-yellow-400' style={{ backgroundColor: '#FD900A', width: '230px', borderRadius: '8px' }}>
+            <button type='button' className='rounded-md p-2 hover:bg-yellow-400' style={{ backgroundColor: '#FD900A', width: '230px', borderRadius: '8px', marginTop: '15px' }}>
             <a href="https://yandex.ru/map-constructor" target="_blank" rel="noreferrer">Открыть Яндекс.Карты</a>
             </button>
-             <RegButton type='button' className="mt-4 px-4 py-2 hover:bg-cyan-700 rounded select-none" 
+             <MyToursButton type='button' className="mt-4 px-4 py-2 hover:bg-cyan-700 rounded select-none" 
                  onClick={()=>{ setShowMap(!showMap)}}>{
                   showMap ? 'Скрыть карту' 
                  : 
                  'Показать карту'}
-             </RegButton>
+             </MyToursButton>
              </div>
              {showMap&&(
                 inputs?.coordinates? (
@@ -490,22 +516,6 @@ const filterObjFalse = (obj)=>Object.fromEntries(
               </div>
           
               <div className="mb-4">
-                <label className="block text-sm font-bold mb-2">Оплатить дополнительно</label>
-                {[...Array(arraysCheckBox.facility.length).keys()].map(i => (
-                  <div className={!showCheckBox && i>10?'hidden':''} key={i}>
-                    <label>
-                      <input
-                        type="checkbox"
-                        className="mr-2 size-5"
-                        checked={facilitiesPaid[`${i + 1}`] || false}
-                        onChange={() => handleFacilityChange('paid', `${i + 1}`)}
-                      />
-                      { arraysCheckBox.facility[i].name}
-                    </label>
-                  </div>
-                ))}
-              </div>
-              <div className="mb-4">
                 <label className="block text-sm font-bold mb-2">Включено в стоимость</label>
                 {[...Array(arraysCheckBox.facility.length).keys()].map(i => (
                   <div className={!showCheckBox && i>10?'hidden':''} key={i}>
@@ -521,14 +531,33 @@ const filterObjFalse = (obj)=>Object.fromEntries(
                   </div>
                 ))}
               </div>
+              <div className="mb-4">
+                <label className="block text-sm font-bold mb-2">Оплатить дополнительно</label>
+                {[...Array(arraysCheckBox.facility.length).keys()].map(i => (
+                  <div className={!showCheckBox && i>10?'hidden':''} key={i}>
+                    <label>
+                      <input
+                        type="checkbox"
+                        className="mr-2 size-5"
+                        checked={facilitiesPaid[`${i + 1}`] || false}
+                        onChange={() => handleFacilityChange('paid', `${i + 1}`)}
+                      />
+                      { arraysCheckBox.facility[i].name}
+                    </label>
+                  </div>
+                ))}
+              </div>
              </div>
                               
              <div className='flex flex-col'>
               <button type='button' onClick={()=>setShowCheckBox(!showCheckBox)} 
-              className="mt-4 mb-12 px-4 py-2 w-52 h-10 bg-gray-400 hover:bg-gray-800 rounded text-white">
+              className="mt-4 px-4 py-2 w-52 h-10 hover:bg-gray-800 rounded text-black" style={{ backgroundColor: '#FD900A', width: '230px', borderRadius: '8px' }}>
                 {showCheckBox?'Скрыть':'Показать все услуги'}
                 </button> 
-              <button className="mt-4 px-4 py-2 w-52 h-10 bg-blue-600 hover:bg-blue-800 rounded text-white" >Сохранить тур</button>              
+              <MyToursButton 
+                className="mt-4 mb-4 px-4 py-2 w-52 h-10 bg-blue-600 hover:bg-blue-800 rounded text-white" >
+                Сохранить тур
+              </MyToursButton>              
                   <div className={`absolute -mt-5 rounded p-1 bg-green-600 transition-opacity duration-1000
                    ${tourCreated ? 'opacity-100' : 'opacity-0'}`}>
                           Ваш тур успешно создан!
@@ -538,7 +567,7 @@ const filterObjFalse = (obj)=>Object.fromEntries(
           </form>
         )}
         
-        <div className='allTours flex flex-wrap justify-around'>
+        <div style={{ marginTop: '35px', width: '1521px' }} className='allTours flex flex-wrap justify-around'>
                   {
                     dataTours.map(tour=>(
                       <>
@@ -547,15 +576,15 @@ const filterObjFalse = (obj)=>Object.fromEntries(
 
                       <Card
                       key={tour.id}
-                      style={{ width: 350, height: 400 }}
+                      style={{ marginTop: '35px', width: '1521px', width: '400px', marginTop: '-5px' }}
                       hoverable
                       className="mt-20 m-4 -p-3 flex flex-col justify-between"
                       actions={[                      
-                      <EditOutlined key={tour.id} onClick={() => toggleVisibility(tour.id)} />,
-                     <DeleteOutlined key="delete" onClick={() => deleteHandler(tour.id)} />,
+                        <DeleteFilled style={{ fontSize: '32px', color: '#DA2C38' }} key="delete" onClick={() => deleteHandler(tour.id)} />,
+                        <EditFilled style={{ fontSize: '32px', color: '#FD900A' }} key={tour.id} onClick={() => toggleVisibility(tour.id)} />,
                         <Link to={`/${tour.id}`}>  
-                    <ArrowRightOutlined key="setting" />
-                         </Link> 
+                          <RightCircleFilled style={{ fontSize: '32px', color: '#55A630' }} key="setting" />
+                        </Link> 
                       ]}
                     >
 
